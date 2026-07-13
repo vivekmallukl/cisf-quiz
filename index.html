@@ -2,134 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CISF ASTI DELHI - EXAM PORTAL</title>
+    <title>CISF ASTI DELHI EXAM PORTAL</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Modern Login Gateway Layout Extensions */
-        .login-gateway-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            max-width: 420px;
-            margin: 60px auto;
-        }
-
-        .portal-brand-title {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .portal-brand-title h2 {
-            margin: 0;
-            color: #111827;
-            font-size: 22px;
-            letter-spacing: 0.5px;
-        }
-
-        .portal-brand-title p {
-            margin: 4px 0 0 0;
-            color: #6b7280;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
-
-        .tab-nav-header {
-            display: flex;
-            border-bottom: 2px solid #e5e7eb;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-
-        .tab-nav-btn {
-            flex: 1;
-            padding: 10px;
-            background: none;
-            border: none;
-            color: #6b7280;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s ease;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-        }
-
-        .tab-nav-btn.active-tab {
-            color: #111827;
-            border-bottom-color: #fbbf24;
-        }
-
-        .form-view-panel {
-            display: none;
-        }
-
-        .form-view-panel.active-panel {
-            display: block;
-        }
-
-        .input-row-group {
-            margin-bottom: 16px;
-        }
-
-        .input-row-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            color: #374151;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-
-        .input-row-group input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background-color: #f9fafb;
-            transition: border-color 0.2s ease;
-        }
-
-        .input-row-group input:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background-color: #ffffff;
-        }
-
-        .btn-action-trigger {
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #ffffff;
-            background-color: #111827;
-            border: 1px solid #111827;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            text-transform: uppercase;
-        }
-
-        .btn-action-trigger:hover {
-            background-color: #1f2937;
-        }
-
-        .notice-badge-info {
-            background-color: #eff6ff;
-            border-left: 4px solid #3b82f6;
-            padding: 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: #1e40af;
-            margin-top: 15px;
-            line-height: 1.4;
-        }
-    </style>
 </head>
 <body>
 
@@ -137,127 +11,52 @@
         <h1>CISF ASTI DELHI EXAM PORTAL</h1>
     </header>
 
-    <div class="portal-container" style="max-width: 500px;">
-        <div class="login-gateway-card">
-            <div class="portal-brand-title">
-                <h2>Aviation Security Training Institute</h2>
-                <p>Official Testing Gateway</p>
-            </div>
+    <div class="airport-marquee">
+        <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
+    </div>
 
-            <!-- TAB MENU SWITCHER -->
-            <div class="tab-nav-header">
-                <button class="tab-nav-btn active-tab" id="tabBtnStudent" onclick="switchLoginView('student')">Student Portal</button>
-                <button class="tab-nav-btn" id="tabBtnAdmin" onclick="switchLoginView('admin')">Admin Console</button>
-            </div>
-
-            <!-- STUDENT ENTRY COMPONENT VIEW -->
-            <div id="panelStudent" class="form-view-panel active-panel">
-                <div class="input-row-group">
-                    <label for="studentUser">Student Username</label>
-                    <input type="text" id="studentUser" placeholder="Enter your registered username">
-                </div>
-                <div class="input-row-group">
-                    <label for="studentPass">Access Password</label>
-                    <input type="password" id="studentPass" placeholder="Enter security access password">
-                </div>
-                <button class="btn-action-trigger" onclick="authenticateStudentRoute()">Verify Credentials</button>
-                <div class="notice-badge-info">
-                    <strong>Notice:</strong> Your credentials are authorized and synced globally by the cloud database registry. Contact the administrator desk if you encounter access issues.
-                </div>
-            </div>
-
-            <!-- ADMIN ENTRY COMPONENT VIEW -->
-            <div id="panelAdmin" class="form-view-panel">
-                <div class="input-row-group">
-                    <label for="adminUser">Administrator Username</label>
-                    <input type="text" id="adminUser" placeholder="Enter master admin name">
-                </div>
-                <div class="input-row-group">
-                    <label for="adminPass">Master Key Password</label>
-                    <input type="password" id="adminPass" placeholder="Enter master console password">
-                </div>
-                <button class="btn-action-trigger" onclick="routeToAdminVerification()">Request Access Key</button>
-            </div>
+    <div class="portal-container" style="max-width: 450px; margin-top: 60px;">
+        <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
+        <hr><br>
+        
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="studentUser" placeholder="Enter assigned username">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="studentPass" placeholder="Enter password">
+        </div>
+        
+        <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
+        
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
         </div>
     </div>
 
-    <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
+    <footer>
+        created and developed by Vivek R ,ALL RIGHTS RESERVED 2026
+    </footer>
 
     <script>
-        // Central Cloud API Web App Endpoint Link Mapping
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec";
+        function loginStudent() {
+            const usernameInput = document.getElementById('studentUser').value.trim();
+            const passwordInput = document.getElementById('studentPass').value.trim();
 
-        // Toggles visibility between Student and Admin views
-        function switchLoginView(target) {
-            const tabStudent = document.getElementById('tabBtnStudent');
-            const tabAdmin = document.getElementById('tabBtnAdmin');
-            const panelStudent = document.getElementById('panelStudent');
-            const panelAdmin = document.getElementById('panelAdmin');
+            const studentDatabase = JSON.parse(localStorage.getItem('studentDatabase')) || [];
+            const foundStudent = studentDatabase.find(s => s.username === usernameInput && s.password === passwordInput);
 
-            if (target === 'student') {
-                tabStudent.classList.add('active-tab');
-                tabAdmin.classList.remove('active-tab');
-                panelStudent.classList.add('active-panel');
-                panelAdmin.classList.remove('active-panel');
+            if (foundStudent) {
+                localStorage.setItem('currentStudent', usernameInput);
+                
+                // Read the section track constraint assigned by admin CSV config row
+                let assignedSection = foundStudent.section ? foundStudent.section : 'basic';
+                localStorage.setItem('studentSectionContext', assignedSection);
+                
+                window.location.href = "student-dashboard.html";
             } else {
-                tabAdmin.classList.add('active-tab');
-                tabStudent.classList.remove('active-tab');
-                panelAdmin.classList.add('active-panel');
-                panelStudent.classList.remove('active-panel');
-            }
-        }
-
-        // --- GLOBAL STUDENT DATABASE AUTHENTICATION ENGINE ---
-        async function authenticateStudentRoute() {
-            const uInput = document.getElementById('studentUser').value.trim();
-            const pInput = document.getElementById('studentPass').value.trim();
-
-            if (!uInput || !pInput) {
-                alert("Please fill in all security credential slots.");
-                return;
-            }
-
-            try {
-                // Fetch the central live student table directly from Apps Script properties registry
-                let response = await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "loadData", key: "studentDatabase" })
-                });
-
-                const cloudUserDatabase = await response.json() || [];
-
-                // Check for a precise record entry match
-                const verifiedUser = cloudUserDatabase.find(s => s.username === uInput && s.password === pInput);
-
-                if (verifiedUser) {
-                    // Cache the authorized session details locally for UI routing filters
-                    localStorage.setItem('currentStudent', verifiedUser.username);
-                    localStorage.setItem('currentSection', verifiedUser.section); // 'basic' or 'screener' channel route context
-                    
-                    window.location.href = "student-dashboard.html";
-                } else {
-                    alert("Authentication Failure: The entered username or password details do not match records.");
-                }
-            } catch (err) {
-                alert("Database Sync Timeout: Unable to query live properties node down from server. Details: " + err);
-            }
-        }
-
-        // --- ADMINISTRATIVE ROUTING PASSTHROUGH GATEWAY ---
-        function routeToAdminVerification() {
-            const adminUserField = document.getElementById('adminUser').value.trim();
-            const adminPassField = document.getElementById('adminPass').value.trim();
-
-            if (!adminUserField || !adminPassField) {
-                alert("Complete administrative identity vectors first.");
-                return;
-            }
-
-            // High-security control evaluation metrics matching system assets
-            if (adminUserField === "vivek" && adminPassField === "cisfasti") {
-                window.location.href = "admin-login.html";
-            } else {
-                alert("Access Denied: Administrative credential vectors invalid.");
+                alert("Invalid Student Credentials. Please try again.");
             }
         }
     </script>
