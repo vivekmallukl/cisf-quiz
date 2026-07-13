@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - CISF ASTI DELHI</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .loading-spinner {
+            display: none;
+            color: #328cc1;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CISF ASTI DELHI EXAM PORTAL</h1>
+    </header>
+
+    <div class="portal-container" style="max-width: 450px; margin-top: 60px;">
+        <h2 style="text-align: center; color: #0b3c5d;">Admin Authentication Gateway</h2>
+        <hr><br>
+
+        <div id="credentialSection">
+            <div class="form-group">
+                <label>Admin Username</label>
+                <input type="text" id="admUser" value="vivek">
+            </div>
+            <div class="form-group">
+                <label>Admin Password</label>
+                <input type="password" id="admPass" value="vivek@123">
+            </div>
+            <button style="width: 100%;" id="otpBtn" onclick="requestOTP()">Request Secure OTP</button>
+            <div id="loadingStatus" class="loading-spinner">📡 Connecting to Mail Server... Please wait.</div>
+        </div>
+
+        <div id="otpSection" style="display: none;">
+            <div style="background: #e2f0fd; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 13px;">
+                🔐 System Security alert: A dynamic real-time OTP has been routed to **vivekmallukl@gmail.com**. Check your Gmail inbox or spam folder.
+            </div>
+            <div class="form-group">
+                <label>Enter 6-Digit OTP</label>
+                <input type="text" id="otpInput" placeholder="------" style="text-align: center; font-size: 18px; letter-spacing: 5px;">
+            </div>
+            <button style="width: 100%; background-color: #2ecc71; color: white;" onclick="verifyOTP()">Secure Login</button>
+        </div>
+    </div>
+
+    <footer>
+        created and developed by Vivek R ,ALL RIGHTS RESERVED 2026
+    </footer>
+
+    <script>
+        // Integrated Live Apps Script Web App API URL Endpoint
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec"; 
+        
+        let transientOTP = "";
+
+        function requestOTP() {
+            const u = document.getElementById('admUser').value;
+            const p = document.getElementById('admPass').value;
+            const loader = document.getElementById('loadingStatus');
+            const otpBtn = document.getElementById('otpBtn');
+
+            if (u === "vivek" && p === "vivek@123") {
+                // Generate secure standard 6-digit random code block
+                transientOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                
+                // Show interface loading state
+                loader.style.display = "block";
+                otpBtn.disabled = true;
+
+                // Dispatch data payload via standard POST thread to the script endpoint
+                fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors", // Bypasses client cross-origin browser sandbox restrictions
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        action: "sendOTP",
+                        otp: transientOTP
+                    })
+                })
+                .then(() => {
+                    // Update layout view safely upon dispatch execution
+                    loader.style.display = "none";
+                    document.getElementById('credentialSection').style.display = 'none';
+                    document.getElementById('otpSection').style.display = 'block';
+                })
+                .catch(err => {
+                    loader.style.display = "none";
+                    otpBtn.disabled = false;
+                    alert("Email routing pipeline exception detected: " + err);
+                });
+
+            } else {
+                alert("Incorrect username or password combination.");
+            }
+        }
+
+        function verifyOTP() {
+            const entered = document.getElementById('otpInput').value.trim();
+            if (entered === transientOTP && transientOTP !== "") {
+                window.location.href = "admin-dashboard.html";
+            } else {
+                alert("Invalid OTP code entry. Try again.");
+            }
+        }
+    </script>
+</body>
+</html>
