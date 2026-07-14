@@ -32,11 +32,11 @@ body {
     background-color: var(--bg-light);
     color: var(--text-main);
     line-height: 1.5;
-    padding-bottom: 60px; /* Space for footer */
+    padding-bottom: 84px; /* Scaled up padding space */
     -webkit-user-select: none;  
     -moz-user-select: none;     
     -ms-user-select: none;      
-    user-select: none; /* Disables drag-highlighting */
+    user-select: none; 
 }
 
 /* ==========================================
@@ -45,26 +45,26 @@ body {
 header {
     background: linear-gradient(135deg, var(--secondary-color) 0%, #030712 100%);
     color: #ffffff;
-    padding: 24px 40px;
+    padding: 31.6px 52.8px; 
     box-shadow: var(--shadow-md);
-    border-bottom: 4px solid var(--accent-color);
+    border-bottom: 5.2px solid var(--accent-color);
 }
 
 header h1 {
-    font-size: 22px;
+    font-size: 29px; /* Increased to 29px */
     font-weight: 700;
-    letter-spacing: 0.75px;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
 /* Airport Info Marquee */
 .airport-marquee {
-    background-color: #1f2937; /* Lighter charcoal step down */
+    background-color: #1f2937; 
     color: var(--accent-color);
     font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 1px;
-    padding: 8px 0;
+    font-size: 17.1px; /* Increased */
+    letter-spacing: 1.3px;
+    padding: 10.5px 0; 
     text-transform: uppercase;
     overflow: hidden;
     white-space: nowrap;
@@ -90,25 +90,26 @@ header h1 {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
-    margin: 40px auto;
-    padding: 32px;
-    width: 100%;
+    margin: 52px auto; 
+    padding: 42.2px; 
+    width: 90%;
+    max-width: 1200px; 
 }
 
 hr {
     border: 0;
     border-top: 1px solid var(--border-color);
-    margin: 20px 0;
+    margin: 26px 0;
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 26.4px; /* Increased */
     font-weight: 600;
     color: var(--secondary-color);
 }
 
 p {
-    font-size: 14px;
+    font-size: 18.5px; /* Increased */
     color: var(--text-muted);
 }
 
@@ -116,25 +117,25 @@ p {
    FORM COMPONENTS & INPUTS
    ========================================== */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 26px;
 }
 
 .form-group label {
     display: block;
-    font-size: 12px;
+    font-size: 15.8px; /* Increased */
     font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    letter-spacing: 0.7px;
 }
 
 input[type="text"],
 input[type="password"],
 textarea {
     width: 100%;
-    padding: 11px 14px;
-    font-size: 14px;
+    padding: 14.5px 18.5px; 
+    font-size: 18.5px; /* Increased */
     color: var(--text-main);
     background-color: #ffffff;
     border: 1px solid #d1d5db;
@@ -147,11 +148,11 @@ textarea {
 input:focus,
 textarea:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); /* Green Glow */
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15); 
 }
 
 input[type="file"] {
-    font-size: 13px;
+    font-size: 17.1px; 
     color: var(--text-muted);
 }
 
@@ -163,24 +164,20 @@ button {
     color: #ffffff;
     border: none;
     border-radius: var(--radius-md);
-    padding: 12px 20px;
-    font-size: 14px;
+    padding: 15.8px 26.4px; 
+    font-size: 18.5px; /* Increased */
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10.5px;
 }
 
 button:hover {
     background-color: var(--primary-dark);
     transform: translateY(-1px);
-}
-
-button:active {
-    transform: translateY(0);
 }
 
 button:disabled {
@@ -190,59 +187,9 @@ button:disabled {
     transform: none;
 }
 
-/* Danger Button Variation */
 button.btn-danger, 
 .btn-danger {
     background-color: var(--danger) !important;
-}
-button.btn-danger:hover {
-    background-color: #dc2626 !important;
-}
-
-/* Secondary Actions / Neutral Workspace buttons mapping to Slate Black */
-button[style*="background-color: #4a5568"],
-button[style*="background:#718096"] {
-    background-color: #374151 !important;
-}
-button[style*="background-color: #4a5568"]:hover,
-button[style*="background:#718096"]:hover {
-    background-color: var(--secondary-color) !important;
-}
-
-/* Custom Overrides for Login validation flow elements */
-button[style*="background-color: #2ecc71"] {
-    background-color: var(--primary-color) !important;
-}
-button[style*="background-color: #2ecc71"]:hover {
-    background-color: var(--primary-dark) !important;
-}
-
-/* ==========================================
-   WORKSPACE ELEMENT SPECIFICS (Admin Tab Adjustments)
-   ========================================== */
-.workspace-nav-bar {
-    background: #f3f4f6 !important;
-}
-
-.nav-toggle-btn.active-basic {
-    background: var(--secondary-color) !important;
-    color: #ffffff !important;
-    border-color: var(--accent-color) !important;
-}
-
-.nav-toggle-btn.active-screener {
-    background: var(--primary-color) !important;
-    color: #ffffff !important;
-    border-color: var(--accent-color) !important;
-}
-
-.banner-basic { 
-    background-color: var(--secondary-color) !important; 
-    border-left: 5px solid var(--accent-color) !important; 
-}
-.banner-screener { 
-    background-color: var(--primary-color) !important; 
-    border-left: 5px solid var(--secondary-color) !important; 
 }
 
 /* ==========================================
@@ -256,10 +203,41 @@ footer {
     background-color: var(--secondary-color);
     color: #9ca3af;
     text-align: center;
-    padding: 12px;
-    font-size: 11px;
-    letter-spacing: 0.5px;
+    padding: 15.8px; 
+    font-size: 14.5px; /* Increased */
+    letter-spacing: 0.7px;
     text-transform: uppercase;
-    border-top: 2px solid var(--accent-color);
+    border-top: 2.6px solid var(--accent-color);
     z-index: 1000;
+}
+
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE MEDIA QUERIES 📱
+   ========================================== */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 21px 26px;
+    }
+    
+    header h1 {
+        font-size: 23.8px;
+        text-align: center;
+    }
+
+    .portal-container {
+        width: 95%;
+        margin: 26px auto;
+        padding: 26px 21px;
+    }
+
+    .workspace-nav-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 10.5px;
+    }
+
+    button {
+        width: 100%; 
+        padding: 15.8px 21px;
+    }
 }
