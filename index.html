@@ -5,28 +5,19 @@
     <title>CISF ASTI DELHI EXAM PORTAL</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('https://lh3.googleusercontent.com/d/19PpUz4LQ47yarNfpLFk_FX1U4J_VWD4L'); ...">
-
-<body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('asset/asti.jpg.jpeg')                                                                                                                ets/astijpg.jpeg'); ...">
+<body>
     <header>
         <h1>CISF ASTI DELHI EXAM PORTAL</h1>
     </header>
 
-    <div class="airport-marquee">
-        <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
-    </div>
-
-    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
-        <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
-        <hr><br>
-        
+    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95);">
         <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="studentUser" placeholder="Enter assigned username">
+            <label>Student Username</label>
+            <input type="text" id="studentUser">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" id="studentPass" placeholder="Enter password">
+            <input type="password" id="studentPass">
         </div>
         
         <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
@@ -41,23 +32,35 @@
     </footer>
 
     <script>
-        function loginStudent() {
+        async function loginStudent() {
             const usernameInput = document.getElementById('studentUser').value.trim();
             const passwordInput = document.getElementById('studentPass').value.trim();
+            
+            // Loading indicator (optional: add a spinner element in HTML)
+            alert("Logging in, please wait...");
 
-            const studentDatabase = JSON.parse(localStorage.getItem('studentDatabase')) || [];
-            const foundStudent = studentDatabase.find(s => s.username === usernameInput && s.password === passwordInput);
+            try {
+                // 1. Fetch the user database from your Google Apps Script Web App
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwAa3Zpx7dJqLgrXYCNJrv96PxOoO2cOM-hdgaVLAc4IJ3hA0CQK-0yrKvCFUPrebkgzQ/exec');
+                const studentDatabase = await response.json();
 
-            if (foundStudent) {
-                localStorage.setItem('currentStudent', usernameInput);
-                
-                // Read the section track constraint assigned by admin CSV config row
-                let assignedSection = foundStudent.section ? foundStudent.section : 'basic';
-                localStorage.setItem('studentSectionContext', assignedSection);
-                
-                window.location.href = "student-dashboard.html";
-            } else {
-                alert("Invalid Student Credentials. Please try again.");
+                // 2. Validate credentials
+                const foundStudent = studentDatabase.find(s => 
+                    s.username === usernameInput && s.password === passwordInput
+                );
+
+                if (foundStudent) {
+                    // 3. Save session info locally so the dashboard knows who is logged in
+                    localStorage.setItem('currentStudent', usernameInput);
+                    localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
+                    
+                    window.location.href = "student-dashboard.html";
+                } else {
+                    alert("Invalid Student Credentials. Please try again.");
+                }
+            } catch (error) {
+                console.error("Connection error:", error);
+                alert("Unable to connect to the central server. Please check your internet connection.");
             }
         }
     </script>
