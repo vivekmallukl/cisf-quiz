@@ -296,11 +296,6 @@
             })
             .then(() => {
                 alert("Results saved securely to Google Spreadsheet!");
-                if (currentActiveQuizWindow && !currentActiveQuizWindow.closed) {
-                    currentActiveQuizWindow.close();
-                } else {
-                    window.location.reload();
-                }
             })
             .catch(err => {
                 console.error("Submission trace error: ", err);
