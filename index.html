@@ -2,24 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CISF ASTI DELHI EXAM PORTAL</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Dedicated styles for background handling */
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            /* Ensures image covers full screen, stays centered, and doesn't repeat */
-            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), 
-                        url('assets/astijpg.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
-        }
-    </style>
 </head>
-<body>
+<body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/astijpg.jpeg');">
     <header>
         <h1>CISF ASTI DELHI EXAM PORTAL</h1>
     </header>
@@ -28,31 +14,32 @@
         <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
     </div>
 
-    <div class="portal-container" style="max-width: 450px; margin: 60px auto; background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 8px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
+    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
         <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
         <hr><br>
         
         <div class="form-group">
             <label>Username</label>
-            <input type="text" id="studentUser" placeholder="Enter assigned username" style="width: 100%; padding: 8px; margin: 8px 0; box-sizing: border-box;">
+            <input type="text" id="studentUser" placeholder="Enter assigned username">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" id="studentPass" placeholder="Enter password" style="width: 100%; padding: 8px; margin: 8px 0; box-sizing: border-box;">
+            <input type="password" id="studentPass" placeholder="Enter password">
         </div>
         
-        <button style="width: 100%; padding: 10px; background-color: #0b3c5d; color: white; border: none; cursor: pointer;" onclick="loginStudent()">Access Dashboard</button>
+        <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
         
         <div style="text-align: center; margin-top: 25px;">
             <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
         </div>
     </div>
 
-    <footer style="text-align: center; margin-top: 20px; font-size: 0.8em;">
+    <footer>
         created and developed by Vivek R ,ALL RIGHTS RESERVED 2026
     </footer>
 
     <script>
+        // Central Cloud API Endpoint matched to your admin console
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec";
 
         async function loginStudent() {
@@ -65,19 +52,24 @@
             }
 
             try {
+                // Fetch the student database from the cloud registry
                 const res = await fetch(APPS_SCRIPT_URL, {
                     method: "POST",
                     body: JSON.stringify({ action: "loadData", key: "studentDatabase" })
                 });
                 
                 const studentDatabase = await res.json();
+                
+                // Validate credentials against the central registry
                 const foundStudent = studentDatabase.find(s => 
                     s.username === usernameInput && s.password === passwordInput
                 );
 
                 if (foundStudent) {
+                    // Cache the session locally for the current device navigation
                     localStorage.setItem('currentStudent', usernameInput);
                     localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
+                    
                     window.location.href = "student-dashboard.html";
                 } else {
                     alert("Invalid Student Credentials. Please try again.");
