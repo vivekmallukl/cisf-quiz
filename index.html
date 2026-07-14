@@ -5,19 +5,26 @@
     <title>CISF ASTI DELHI EXAM PORTAL</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/astijpg.jpeg');">
     <header>
         <h1>CISF ASTI DELHI EXAM PORTAL</h1>
     </header>
 
-    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95);">
+    <div class="airport-marquee">
+        <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
+    </div>
+
+    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
+        <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
+        <hr><br>
+        
         <div class="form-group">
-            <label>Student Username</label>
-            <input type="text" id="studentUser">
+            <label>Username</label>
+            <input type="text" id="studentUser" placeholder="Enter assigned username">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" id="studentPass">
+            <input type="password" id="studentPass" placeholder="Enter password">
         </div>
         
         <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
@@ -32,25 +39,30 @@
     </footer>
 
     <script>
+        // REPLACE THIS WITH YOUR ACTUAL DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwAa3Zpx7dJqLgrXYCNJrv96PxOoO2cOM-hdgaVLAc4IJ3hA0CQK-0yrKvCFUPrebkgzQ/exec';
+
         async function loginStudent() {
             const usernameInput = document.getElementById('studentUser').value.trim();
             const passwordInput = document.getElementById('studentPass').value.trim();
-            
-            // Loading indicator (optional: add a spinner element in HTML)
-            alert("Logging in, please wait...");
+
+            if (!usernameInput || !passwordInput) {
+                alert("Please enter both username and password.");
+                return;
+            }
 
             try {
-                // 1. Fetch the user database from your Google Apps Script Web App
-                const response = await fetch('https://script.google.com/macros/s/AKfycbwAa3Zpx7dJqLgrXYCNJrv96PxOoO2cOM-hdgaVLAc4IJ3hA0CQK-0yrKvCFUPrebkgzQ/exec');
+                // Fetch user data from the central Google Sheet via Apps Script
+                const response = await fetch(API_URL);
                 const studentDatabase = await response.json();
 
-                // 2. Validate credentials
+                // Validate credentials against the central data
                 const foundStudent = studentDatabase.find(s => 
                     s.username === usernameInput && s.password === passwordInput
                 );
 
                 if (foundStudent) {
-                    // 3. Save session info locally so the dashboard knows who is logged in
+                    // Store session context for dashboard access
                     localStorage.setItem('currentStudent', usernameInput);
                     localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
                     
@@ -59,8 +71,8 @@
                     alert("Invalid Student Credentials. Please try again.");
                 }
             } catch (error) {
-                console.error("Connection error:", error);
-                alert("Unable to connect to the central server. Please check your internet connection.");
+                console.error("Login Error:", error);
+                alert("Unable to connect to the login server. Please check your internet connection.");
             }
         }
     </script>
