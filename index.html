@@ -2,11 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CISF ASTI DELHI EXAM PORTAL</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            /* 1. Use a linear gradient for readability */
+            /* 2. Use your local asset path */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/astijpg.jpeg');
+            
+            /* THESE SETTINGS FIX THE REPEATING/CUT-OFF ISSUE */
+            background-size: cover;          /* Scales image to fill entire screen */
+            background-position: center;     /* Centers the image */
+            background-repeat: no-repeat;    /* STOPS the image from repeating/tiling */
+            background-attachment: scroll;   /* Prevents mobile-specific clipping */
+        }
+    </style>
 </head>
+<body>
 
-<body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('ass                                                                                                                ets/astijpg.jpeg'); ...">
     <header>
         <h1>CISF ASTI DELHI EXAM PORTAL</h1>
     </header>
@@ -15,45 +32,41 @@
         <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
     </div>
 
-    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
+    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); width: 90%; margin-left: auto; margin-right: auto; padding: 20px; border-radius: 8px;">
         <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
         <hr><br>
         
         <div class="form-group">
             <label>Username</label>
-            <input type="text" id="studentUser" placeholder="Enter assigned username">
+            <input type="text" id="studentUser" placeholder="Enter assigned username" style="width: 100%; box-sizing: border-box;">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" id="studentPass" placeholder="Enter password">
+            <input type="password" id="studentPass" placeholder="Enter password" style="width: 100%; box-sizing: border-box;">
         </div>
         
-        <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
+        <button style="width: 100%; margin-top: 15px;" onclick="loginStudent()">Access Dashboard</button>
         
         <div style="text-align: center; margin-top: 25px;">
             <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
         </div>
     </div>
 
-    <footer>
-        created and developed by Vivek R ,ALL RIGHTS RESERVED 2026
+    <footer style="margin-top: 50px; text-align: center; padding: 20px;">
+        CREATED AND DEVELOPED BY VIVEK R, ALL RIGHTS RESERVED 2026
     </footer>
 
     <script>
         function loginStudent() {
             const usernameInput = document.getElementById('studentUser').value.trim();
             const passwordInput = document.getElementById('studentPass').value.trim();
-
             const studentDatabase = JSON.parse(localStorage.getItem('studentDatabase')) || [];
             const foundStudent = studentDatabase.find(s => s.username === usernameInput && s.password === passwordInput);
 
             if (foundStudent) {
                 localStorage.setItem('currentStudent', usernameInput);
-                
-                // Read the section track constraint assigned by admin CSV config row
                 let assignedSection = foundStudent.section ? foundStudent.section : 'basic';
                 localStorage.setItem('studentSectionContext', assignedSection);
-                
                 window.location.href = "student-dashboard.html";
             } else {
                 alert("Invalid Student Credentials. Please try again.");
