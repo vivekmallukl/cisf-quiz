@@ -39,30 +39,34 @@
     </footer>
 
     <script>
-        // REPLACE THIS WITH YOUR ACTUAL DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwAa3Zpx7dJqLgrXYCNJrv96PxOoO2cOM-hdgaVLAc4IJ3hA0CQK-0yrKvCFUPrebkgzQ/exec';
+        // Central Cloud API Endpoint matched to your admin console
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec";
 
         async function loginStudent() {
             const usernameInput = document.getElementById('studentUser').value.trim();
             const passwordInput = document.getElementById('studentPass').value.trim();
 
             if (!usernameInput || !passwordInput) {
-                alert("Please enter both username and password.");
+                alert("Please enter credentials.");
                 return;
             }
 
             try {
-                // Fetch user data from the central Google Sheet via Apps Script
-                const response = await fetch(API_URL);
-                const studentDatabase = await response.json();
-
-                // Validate credentials against the central data
+                // Fetch the student database from the cloud registry
+                const res = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "loadData", key: "studentDatabase" })
+                });
+                
+                const studentDatabase = await res.json();
+                
+                // Validate credentials against the central registry
                 const foundStudent = studentDatabase.find(s => 
                     s.username === usernameInput && s.password === passwordInput
                 );
 
                 if (foundStudent) {
-                    // Store session context for dashboard access
+                    // Cache the session locally for the current device navigation
                     localStorage.setItem('currentStudent', usernameInput);
                     localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
                     
@@ -71,8 +75,8 @@
                     alert("Invalid Student Credentials. Please try again.");
                 }
             } catch (error) {
-                console.error("Login Error:", error);
-                alert("Unable to connect to the login server. Please check your internet connection.");
+                console.error("Cloud synchronization error:", error);
+                alert("Login failed: Unable to reach the central authentication server.");
             }
         }
     </script>
