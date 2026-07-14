@@ -1,66 +1,318 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CISF ASTI DELHI EXAM PORTAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - CISF ASTI DELHI</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .search-container {
+            margin-bottom: 33px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2.6px 13px rgba(0,0,0,0.05);
+        }
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 21px; /* Increased by an additional 10% */
+            border: 2.6px solid #328cc1;
+            border-radius: 5px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .broadcast-container {
+            background-color: #fffaf0;
+            border-left: 6.5px solid #dd6b20;
+            padding: 20px 26px;
+            border-radius: 8px;
+            margin-bottom: 33px;
+            display: none;
+        }
+        .broadcast-title { font-weight: bold; color: #dd6b20; margin-bottom: 7px; font-size: 18.5px; text-transform: uppercase; } /* Increased by an additional 10% */
+        .broadcast-text { font-size: 20px; color: #2d3748; white-space: pre-line; } /* Increased by an additional 10% */
+        
+        .master-dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 33px;
+            align-items: start;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 992px) {
+            .master-dashboard-grid { grid-template-columns: 1fr; }
+        }
+        .grid-column-panel {
+            background: #fdfdfd;
+            border: 1.3px solid #e2e8f0;
+            border-radius: 10.5px;
+            padding: 26px;
+            min-height: 520px;
+        }
+        .section-heading {
+            color: #0b3c5d;
+            border-bottom: 4px solid #328cc1;
+            padding-bottom: 10.5px;
+            margin-top: 0;
+            margin-bottom: 26px;
+            font-size: 23.8px; /* Increased by an additional 10% */
+            text-transform: uppercase;
+        }
+        .tile-card {
+            background: white;
+            border-radius: 8px;
+            padding: 21px;
+            box-shadow: 0 4px 13px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            border-top: 5.3px solid #ccc;
+            display: flex;
+            flex-direction: column;
+        }
+        .tile-card h4 {
+            font-size: 21px; /* Increased by an additional 10% */
+            margin-bottom: 11px;
+        }
+        .tile-card p {
+            font-size: 18.5px; /* Increased by an additional 10% */
+            margin-bottom: 13px;
+        }
+        .tile-card button { width: 100%; padding: 11px; font-size: 17.2px; cursor: pointer; font-weight: bold; } /* Increased by an additional 10% */
+        .loading-overlay {
+            color: #718096;
+            font-style: italic;
+            text-align: center;
+            padding: 26px;
+            font-size: 18.5px;
+        }
+    </style>
 </head>
 <body>
+    <header><h1>CISF ASTI DELHI EXAM PORTAL</h1></header>
+    <div class="airport-marquee"><div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI QUIZ PORTAL ✈️</div></div>
 
-    <header>
-        <h1>CISF ASTI DELHI EXAM PORTAL</h1>
-    </header>
+    <div class="portal-container">
+        <div style="margin-bottom: 20px; font-weight: bold; color: #4a5568; font-size: 18.5px;"> Active Session: <span id="welcomeUser" style="color:#2ecc71; font-size:21px;">Verifying...</span> 
+            | Course Stream Assignment: <span id="trackLabel" style="color:#0b3c5d; text-transform:uppercase;">...</span>
+        </div>
 
-    <div class="airport-marquee">
-        <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
+        <div id="broadcastBox" class="broadcast-container">
+            <div class="broadcast-title">📢 Notice From Admin Panel</div>
+            <div id="broadcastText" class="broadcast-text"></div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="dashboardSearch" class="search-input" placeholder="🔍 Live search current section contents..." oninput="filterDashboard()">
+        </div>
+
+        <div class="master-dashboard-grid">
+            <div class="grid-column-panel">
+                <h3 class="section-heading">📋 Exam Packages</h3>
+                <div id="studentQuizList"><div class="loading-overlay">Syncing with cloud database...</div></div>
+            </div>
+            <div class="grid-column-panel">
+                <h3 class="section-heading">📝 Google Forms</h3>
+                <div id="studentFormList"><div class="loading-overlay">Syncing with cloud database...</div></div>
+            </div>
+            <div class="grid-column-panel">
+                <h3 class="section-heading">📚 Study Materials</h3>
+                <div id="studentMaterialList"><div class="loading-overlay">Syncing with cloud database...</div></div>
+            </div>
+        </div>
+        <hr>
+        <div style="text-align: right; margin-top: 26px;">
+            <button style="background-color: #4a5568; color: white; font-size: 18.5px;" onclick="logoutStudent()">Log Out / Exit</button>
+        </div>
     </div>
-
-    <div class="portal-container" style="max-width: 450px; margin-top: 60px;">
-        <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
-        <hr><br>
-        
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="studentUser" placeholder="Enter assigned username">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="studentPass" placeholder="Enter password">
-        </div>
-        
-        <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
-        
-        <div style="text-align: center; margin-top: 25px;">
-            <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Portal →</a>
-        </div>
-    </div>
-
-    <footer>
-        created and developed by Vivek R ,ALL RIGHTS RESERVED 2026
-    </footer>
+    <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
 
     <script>
-        function loginStudent() {
-    const usernameInput = document.getElementById('studentUser').value.trim();
-    const passwordInput = document.getElementById('studentPass').value.trim();
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec"; 
 
-    // Pull the CSV provisioned student database
-    const studentDatabase = JSON.parse(localStorage.getItem('studentDatabase')) || [];
+        let studentSectionContext = 'basic';
+        let systemQuizzes = [];
+        let systemForms = [];
+        let systemMaterials = [];
+        let currentStudent = "";
+        let currentActiveQuizWindow = null;
+        let currentActiveQuizName = "";
 
-    // Verify if student credentials match
-    const foundStudent = studentDatabase.find(s => s.username === usernameInput && s.password === passwordInput);
+        async function cloudFetch(key) {
+            try {
+                let res = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "loadData", key: key })
+                });
+                return await res.json();
+            } catch(e) { 
+                return JSON.parse(localStorage.getItem(key)) || null; 
+            }
+        }
 
-    if (foundStudent) {
-        // 🌟 CRUCIAL: This line saves the exact username into browser memory!
-        localStorage.setItem('currentStudent', usernameInput);
-        
-        // Redirect to dashboard
-        window.location.href = "student-dashboard.html";
-    } else {
-        alert("Invalid Student Credentials. Please try again.");
-    }
-}
+        window.onload = async function() {
+            currentStudent = localStorage.getItem('currentStudent') || "";
+            studentSectionContext = localStorage.getItem('studentSectionContext') || "basic";
+
+            if (!currentStudent) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            document.getElementById('welcomeUser').innerText = currentStudent;
+            document.getElementById('trackLabel').innerText = studentSectionContext === 'basic' ? 'Basic AVSEC' : 'Screener';
+            
+            await loadAndRenderSection();
+        };
+
+        async function loadAndRenderSection() {
+            const broadcastMessage = await cloudFetch('adminBroadcast_' + studentSectionContext);
+            const broadcastBox = document.getElementById('broadcastBox');
+            if (broadcastMessage && broadcastMessage.trim() !== "") {
+                document.getElementById('broadcastText').innerText = broadcastMessage;
+                broadcastBox.style.display = "block";
+            } else {
+                broadcastBox.style.display = "none";
+            }
+
+            systemQuizzes = await cloudFetch('quizRegistry_' + studentSectionContext) || [];
+            systemForms = await cloudFetch('googleFormsRegistry_' + studentSectionContext) || [];
+            systemMaterials = await cloudFetch('studyMaterials_' + studentSectionContext) || [];
+
+            renderGrid(systemQuizzes, systemForms, systemMaterials);
+        }
+
+        function renderGrid(quizzes, forms, materials) {
+            const quizContainer = document.getElementById('studentQuizList');
+            const formContainer = document.getElementById('studentFormList');
+            const matContainer = document.getElementById('studentMaterialList');
+
+            quizContainer.innerHTML = quizzes.length === 0 ? '<p style="color:#aaa; font-size:18.5px;">No quiz configurations found.</p>' : '';
+            quizzes.forEach((quiz) => {
+                quizContainer.innerHTML += `
+                    <div class="tile-card" style="border-top-color: #d9b310;">
+                        <h4>📋 ${quiz.description}</h4>
+                        <p>Package: ${quiz.filename}</p>
+                        <button onclick="startQuiz('${quiz.description.replace(/'/g, "\\'")}')">Launch Quiz</button>
+                    </div>`;
+            });
+
+            formContainer.innerHTML = forms.length === 0 ? '<p style="color:#aaa; font-size:18.5px;">No active form structures linked.</p>' : '';
+            forms.forEach((form) => {
+                formContainer.innerHTML += `
+                    <div class="tile-card" style="border-top-color: #673ab7;">
+                        <h4>📝 ${form.title}</h4>
+                        <button style="background-color: #673ab7; color: white;" onclick="window.open('${form.url}', '_blank')">Open Form</button>
+                    </div>`;
+            });
+
+            matContainer.innerHTML = materials.length === 0 ? '<p style="color:#aaa; font-size:18.5px;">No study guides available.</p>' : '';
+            materials.forEach((mat) => {
+                matContainer.innerHTML += `
+                    <div class="tile-card" style="border-top-color: #328cc1;">
+                        <h4>📚 ${mat.description}</h4>
+                        <button style="background-color: #328cc1; color: white;" onclick="window.open('${mat.url}', '_blank')">Open Library</button>
+                    </div>`;
+            });
+        }
+
+        function filterDashboard() {
+            const query = document.getElementById('dashboardSearch').value.toLowerCase().trim();
+            const filteredQuizzes = systemQuizzes.filter(q => q.description.toLowerCase().includes(query));
+            const filteredForms = systemForms.filter(f => f.title.toLowerCase().includes(query));
+            const filteredMaterials = systemMaterials.filter(m => m.description.toLowerCase().includes(query));
+            renderGrid(filteredQuizzes, filteredForms, filteredMaterials);
+        }
+
+        async function startQuiz(quizName) {
+            const targetQuiz = systemQuizzes.find(q => q.description === quizName);
+            const scriptUrl = await cloudFetch('scriptUrl_' + studentSectionContext);
+            const sheetUrl = await cloudFetch('sheetUrl_' + studentSectionContext);
+
+            if (!scriptUrl || !sheetUrl) { 
+                alert("Spreadsheet configurations for this section are missing on the admin console."); 
+                return; 
+            }
+
+            if (targetQuiz && targetQuiz.content) {
+                currentActiveQuizName = quizName;
+                currentActiveQuizWindow = window.open("", "_blank");
+                
+                if (!currentActiveQuizWindow || currentActiveQuizWindow.closed || typeof currentActiveQuizWindow.document === 'undefined') {
+                    localStorage.setItem('activeQuizContent', targetQuiz.content);
+                    localStorage.setItem('activeQuizTitle', quizName);
+                    alert("Pop-up window blocked by mobile browser. Opening exam in this window instead.");
+                    
+                    document.body.innerHTML = targetQuiz.content;
+                    window.userName = currentStudent;
+                    window.currentActiveQuizName = quizName;
+                    return;
+                }
+
+                currentActiveQuizWindow.document.open();
+                currentActiveQuizWindow.document.write(targetQuiz.content);
+                currentActiveQuizWindow.userName = currentStudent;
+                currentActiveQuizWindow.currentActiveQuizName = quizName; 
+                currentActiveQuizWindow.document.close();
+            } else {
+                alert("Failed to pull quiz data content.");
+            }
+        }
+
+        window.addEventListener("message", function(event) {
+            if (event.data && event.data.type === "QUIZ_SUBMISSION") {
+                console.log("Captured submission payload:", event.data);
+                const derivedTitle = event.data.quizTitle || currentActiveQuizName || "Assessment Evaluation Run";
+                if (typeof window.submitExamResults === 'function') {
+                    window.submitExamResults(event.data.score, derivedTitle);
+                }
+            }
+        });
+
+        window.submitExamResults = async function(scoreString, customTitle) {
+            const scriptUrl = await cloudFetch('scriptUrl_' + studentSectionContext);
+            const sheetUrl = await cloudFetch('sheetUrl_' + studentSectionContext);
+            
+            if (!scriptUrl || !sheetUrl) {
+                alert("Critical Configuration Error: Script URL or Sheet URL is unassigned!");
+                return;
+            }
+
+            const sheetId = sheetUrl.match(/\1d\/([a-zA-Z0-9-_]+)/)?.[1] || sheetUrl;
+            const finalQuizTitle = customTitle || currentActiveQuizName || "Assessment Pack";
+
+            const payload = {
+                action: "submitScore",
+                sheetId: sheetId,
+                username: currentStudent,
+                quizTitle: finalQuizTitle,
+                score: scoreString
+            };
+
+            fetch(scriptUrl, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                alert("Results saved securely to Google Spreadsheet!");
+                if (currentActiveQuizWindow && !currentActiveQuizWindow.closed) {
+                    currentActiveQuizWindow.close();
+                } else {
+                    window.location.reload();
+                }
+            })
+            .catch(err => {
+                console.error("Submission trace error: ", err);
+                alert("Error while sending score data downstream to spreadsheet layout.");
+            });
+        };
+
+        function logoutStudent() {
+            localStorage.removeItem('currentStudent');
+            localStorage.removeItem('studentSectionContext');
+            window.location.href = "index.html";
+        }
     </script>
 </body>
 </html>
