@@ -5,29 +5,73 @@
     <title>CISF ASTI DELHI EXAM PORTAL</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Force page to fit in one screen */
         body, html { height: 100%; margin: 0; overflow: hidden; }
         
-        /* Ensure the wrapper sits below header elements */
-        .page-wrapper { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            height: calc(100vh - 120px); 
-            padding: 0 50px;
-            margin-top: 20px;
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            height: calc(100vh - 200px);
+            gap: 40px;
+        }
+
+        /* Professional Glassmorphism Styling */
+        .org-section {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            flex: 1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
-        .org-structure-section { flex: 2; text-align: center; color: #fff; }
-        .photos-container { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
-        .photo-item { text-align: center; color: white; }
-        .photo-item img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid white; }
+        .org-title { 
+            background: linear-gradient(90deg, #0b3c5d, #1a5f8d); 
+            padding: 10px 25px; 
+            display: inline-block; 
+            margin-bottom: 30px; 
+            border-radius: 5px;
+            letter-spacing: 1px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
         
-        /* Ensure panel respects layout */
-        .portal-container { flex: 1; max-width: 350px !important; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); margin-top: 0; }
+        .photo-grid { display: flex; gap: 30px; justify-content: center; }
+        
+        .photo-item { text-align: center; transition: transform 0.3s ease; }
+        .photo-item:hover { transform: translateY(-5px); }
+        
+        .photo-item img { 
+            width: 110px; 
+            height: 110px; 
+            border-radius: 50%; 
+            border: 4px solid #fff; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            object-fit: cover; 
+        }
+        
+        .photo-item p { 
+            font-size: 13px; 
+            margin-top: 12px; 
+            font-weight: 600; 
+            color: #e0e0e0;
+        }
+
+        .portal-container { 
+            flex: 0 0 320px; 
+            background: rgba(255, 255, 255, 0.98); 
+            padding: 25px; 
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); 
+        }
     </style>
 </head>
 <body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/asti.jpg.jpeg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
+    
     <header>
         <h1>CISF ASTI DELHI EXAM PORTAL</h1>
     </header>
@@ -36,38 +80,29 @@
         <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
     </div>
 
-    <div class="page-wrapper">
-        
-        <div class="org-structure-section">
-            <h2>ORGANIZATIONAL STRUCTURE OF ASTI</h2>
-            <div class="photos-container">
-                <div class="photo-item">
-                    <img src="assets/digsir.png" alt="DIG SH.BABU RAM IPS">
-                    <p><strong>SH.BABURAM IPS</strong><br>DIG/CASO</p>
-                </div>
-                <div class="photo-item">
-                    <img src="assets/person2.jpg" alt="Officer 2">
-                    <p><strong>SH.HARISH KUMAR SAHU</strong><br>COMMANDANT/ASTI</p>
-                </div>
-                <div class="photo-item">
-                    <img src="assets/person3.jpg" alt="Officer 3">
-                    <p><strong>SMT.PARMINDER KAUR</strong><br>DEPUTY COMMANDANT/ASTI</p>
-                </div>
+    <div class="content-wrapper">
+        <div class="org-section">
+            <div class="org-title">Organizational Structure</div>
+            <div class="photo-grid">
+                <div class="photo-item"><img src="assets/p1.jpg" alt="Officer"><p>Director</p></div>
+                <div class="photo-item"><img src="assets/p2.jpg" alt="Officer"><p>Chief Instructor</p></div>
+                <div class="photo-item"><img src="assets/p3.jpg" alt="Officer"><p>Admin Officer</p></div>
+                <div class="photo-item"><img src="assets/p4.jpg" alt="Officer"><p>Exam Controller</p></div>
             </div>
         </div>
 
         <div class="portal-container">
-            <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
+            <h2 style="text-align: center; color: #0b3c5d; margin-top: 0;">Student Access Panel</h2>
             <hr><br>
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="studentUser" placeholder="Enter assigned username">
+                <input type="text" id="studentUser" style="width: 100%;" placeholder="Enter username">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="studentPass" placeholder="Enter password">
+                <input type="password" id="studentPass" style="width: 100%;" placeholder="Enter password">
             </div>
-            <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
+            <button style="width: 100%; margin-top: 15px; cursor: pointer;" onclick="loginStudent()">Access Dashboard</button>
             <div style="text-align: center; margin-top: 15px;">
                 <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
             </div>
@@ -92,8 +127,8 @@
                     localStorage.setItem('currentStudent', usernameInput);
                     localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
                     window.location.href = "student-dashboard.html";
-                } else { alert("Invalid Student Credentials."); }
-            } catch (error) { alert("Login failed: Unable to reach server."); }
+                } else { alert("Invalid Credentials."); }
+            } catch (error) { alert("Login failed."); }
         }
     </script>
 </body>
