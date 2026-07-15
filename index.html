@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <title>CISF ASTI DELHI EXAM PORTAL</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Force page to fit in one screen */
+        body, html { height: 100%; margin: 0; overflow: hidden; }
+        
+        /* Ensure the wrapper sits below header elements */
+        .page-wrapper { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            height: calc(100vh - 120px); 
+            padding: 0 50px;
+            margin-top: 20px;
+        }
+        
+        .org-structure-section { flex: 2; text-align: center; color: #fff; }
+        .photos-container { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
+        .photo-item { text-align: center; color: white; }
+        .photo-item img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid white; }
+        
+        /* Ensure panel respects layout */
+        .portal-container { flex: 1; max-width: 350px !important; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); margin-top: 0; }
+    </style>
 </head>
 <body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/asti.jpg.jpeg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
     <header>
@@ -14,23 +36,41 @@
         <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
     </div>
 
-    <div class="portal-container" style="max-width: 450px; margin-top: 60px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
-        <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
-        <hr><br>
+    <div class="page-wrapper">
         
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="studentUser" placeholder="Enter assigned username">
+        <div class="org-structure-section">
+            <h2>ORGANIZATIONAL STRUCTURE OF ASTI</h2>
+            <div class="photos-container">
+                <div class="photo-item">
+                    <img src="assets/person1.jpg" alt="Officer 1">
+                    <p><strong>Name 1</strong><br>Designation 1</p>
+                </div>
+                <div class="photo-item">
+                    <img src="assets/person2.jpg" alt="Officer 2">
+                    <p><strong>Name 2</strong><br>Designation 2</p>
+                </div>
+                <div class="photo-item">
+                    <img src="assets/person3.jpg" alt="Officer 3">
+                    <p><strong>Name 3</strong><br>Designation 3</p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="studentPass" placeholder="Enter password">
-        </div>
-        
-        <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
-        
-        <div style="text-align: center; margin-top: 25px;">
-            <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
+
+        <div class="portal-container">
+            <h2 style="text-align: center; color: #0b3c5d;">Student Access Panel</h2>
+            <hr><br>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="studentUser" placeholder="Enter assigned username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="studentPass" placeholder="Enter password">
+            </div>
+            <button style="width: 100%;" onclick="loginStudent()">Access Dashboard</button>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
+            </div>
         </div>
     </div>
 
@@ -39,45 +79,21 @@
     </footer>
 
     <script>
-        // Central Cloud API Endpoint matched to your admin console
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec";
-
         async function loginStudent() {
             const usernameInput = document.getElementById('studentUser').value.trim();
             const passwordInput = document.getElementById('studentPass').value.trim();
-
-            if (!usernameInput || !passwordInput) {
-                alert("Please enter credentials.");
-                return;
-            }
-
+            if (!usernameInput || !passwordInput) { alert("Please enter credentials."); return; }
             try {
-                // Fetch the student database from the cloud registry
-                const res = await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "loadData", key: "studentDatabase" })
-                });
-                
+                const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "loadData", key: "studentDatabase" }) });
                 const studentDatabase = await res.json();
-                
-                // Validate credentials against the central registry
-                const foundStudent = studentDatabase.find(s => 
-                    s.username === usernameInput && s.password === passwordInput
-                );
-
+                const foundStudent = studentDatabase.find(s => s.username === usernameInput && s.password === passwordInput);
                 if (foundStudent) {
-                    // Cache the session locally for the current device navigation
                     localStorage.setItem('currentStudent', usernameInput);
                     localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
-                    
                     window.location.href = "student-dashboard.html";
-                } else {
-                    alert("Invalid Student Credentials. Please try again.");
-                }
-            } catch (error) {
-                console.error("Cloud synchronization error:", error);
-                alert("Login failed: Unable to reach the central authentication server.");
-            }
+                } else { alert("Invalid Student Credentials."); }
+            } catch (error) { alert("Login failed: Unable to reach server."); }
         }
     </script>
 </body>
