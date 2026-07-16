@@ -1,155 +1,228 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>CISF ASTI DELHI EXAM PORTAL</title>
-        <link rel="stylesheet" href="style.css">
-        <style>
-            body, html { height: 100%; margin: 0; overflow: hidden; }
-            
-            .content-wrapper {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 20px 50px;
-                height: calc(100vh - 200px);
-                gap: 40px;
-            }
-
-            .org-section {
-                background: rgba(0, 0, 0, 0.5);
-                backdrop-filter: blur(10px);
-                padding: 30px;
-                border-radius: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                color: white;
-                text-align: center;
-                flex: 1;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            }
-            
-            .org-title { 
-                background: linear-gradient(90deg, #0b3c5d, #1a5f8d); 
-                padding: 10px 25px; 
-                display: inline-block; 
-                margin-bottom: 30px; 
-                border-radius: 5px;
-                letter-spacing: 1px;
-                font-size: 1.1em;
-                text-transform: uppercase;
-            }
-            
-            .photo-grid { display: flex; gap: 30px; justify-content: center; }
-            
-            .photo-item { text-align: center; transition: transform 0.3s ease; }
-            .photo-item:hover { transform: translateY(-5px); }
-            
-            .photo-item img { 
-                width: 130px; 
-                height: 130px; 
-                border-radius: 50%; 
-                border: 4px solid #fff; 
-                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-                object-fit: cover; 
-            }
-            
-            .photo-item p { 
-                font-size: 18px; 
-                margin-top: 12px; 
-                font-weight: 600; 
-                color: #e0e0e0;
-            }
-
-            .portal-container { 
-                flex: 0 0 320px; 
-                background: rgba(255, 255, 255, 0.98); 
-                padding: 25px; 
-                border-radius: 10px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); 
-            }
-
-            /* Permanent Instructions Styling */
-            #instructionsBox {
-                margin-top: 20px; 
-                padding: 15px; 
-                background: #f9f9f9; 
-                border: 1px solid #328cc1; 
-                border-radius: 5px;
-            }
-        </style>
-    </head>
-    <body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/asti.jpg.jpeg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CISF ASTI DELHI EXAM PORTAL</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body, html { min-height: 100%; margin: 0; font-family: sans-serif; }
         
-        <header>
-            <h1>CISF ASTI DELHI EXAM PORTAL</h1>
-        </header>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
 
-        <div class="airport-marquee">
-            <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
-        </div>
+        .header-btn {
+            background-color: var(--primary-color, #10b981);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 10px 15px;
+            border-radius: var(--radius-md, 8px);
+            border: 2px solid transparent;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
 
-        <div class="content-wrapper">
-            <div class="org-section">
-                <div class="org-title">Organizational Structure</div>
-                <div class="photo-grid">
-                    <div class="photo-item"><img src="assets/digsir.jpg" alt="Officer"><p>DIG/CASO SH.BABU RAM IPS</p></div>
-                    <div class="photo-item"><img src="assets/sahusir.jpg" alt="Officer"><p>SH.HARISH KUMAR SAHU CO/ASTI</p></div>
-                    <div class="photo-item"><img src="assets/kaurmadam.jpeg" alt="Officer"><p>SMT PARMINDER KAUR DC/EXE</p></div>
-                    <div class="photo-item"><img src="assets/bharatsir.jpg" alt="Officer"><p>INSP/EXE BHARAT SINGH RAVI IC/ASTI</p></div>
-                </div>
-            </div>
+        .header-btn:hover {
+            background-color: var(--primary-dark, #059669);
+            transform: translateY(-1px);
+            border-color: var(--accent-color, #fbbf24);
+        }
+        
+        /* Changed align-items to center to bring components vertically to the middle */
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: calc(100vh - 180px);
+            gap: 30px;
+            box-sizing: border-box;
+        }
 
-            <div class="portal-container">
-                <h2 style="text-align: center; color: #0b3c5d; margin-top: 0;">Student Access Panel</h2>
-                <hr><br>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="studentUser" style="width: 100%;" placeholder="Enter username">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="studentPass" style="width: 100%;" placeholder="Enter password">
-                </div>
-                <button style="width: 100%; margin-top: 15px; cursor: pointer;" onclick="loginStudent()">Access Dashboard</button>
-                
-                <div style="text-align: center; margin-top: 15px;">
-                    <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
-                </div>
+        .org-section {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin: auto 0; /* Ensures proper middle anchoring on large layouts */
+        }
+        
+        .org-title { 
+            background: linear-gradient(90deg, #0b3c5d, #1a5f8d); 
+            padding: 10px 25px; 
+            display: inline-block; 
+            margin-bottom: 25px; 
+            border-radius: 5px;
+            letter-spacing: 1px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+        
+        .photo-grid { 
+            display: flex; 
+            gap: 20px; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+        }
+        
+        .photo-item { text-align: center; transition: transform 0.3s ease; width: 140px; }
+        .photo-item:hover { transform: translateY(-5px); }
+        
+        .photo-item img { 
+            width: 110px; 
+            height: 110px; 
+            border-radius: 50%; 
+            border: 4px solid #fff; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            object-fit: cover; 
+        }
+        
+        .photo-item p { 
+            font-size: 14px; 
+            margin-top: 10px; 
+            font-weight: 600; 
+            color: #e0e0e0;
+            line-height: 1.3;
+        }
 
-                <!-- Permanent Instructions Box -->
-                <div id="instructionsBox">
-                    <h4 style="margin: 0 0 10px 0; color: #328cc1;">📋 Instructions</h4>
-                    <p style="margin: 0; font-size: 20px; color: #333;">
-                        - Attempt all the question.<br>
-                        - Your answers will be saved automatically.<br>
-                        - Dont open another quiz window at a time with your id,it will quit your exam.
-                    </p>
-                </div>
-            </div>
-        </div>
+        .portal-container { 
+            flex: 0 1 340px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98); 
+            padding: 25px; 
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); 
+            box-sizing: border-box;
+            margin: auto 0; /* Ensures panel centers vertically with the org chart */
+        }
 
-        <footer>
-            created and developed by Vivek R ,ALL RIGHTS RESERVED 2026
-        </footer>
+        #instructionsBox {
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #f9f9f9; 
+            border: 1px solid #328cc1; 
+            border-radius: 5px;
+        }
 
-        <script>
-            const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec";
-            
-            async function loginStudent() {
-                const usernameInput = document.getElementById('studentUser').value.trim();
-                const passwordInput = document.getElementById('studentPass').value.trim();
-                if (!usernameInput || !passwordInput) { alert("Please enter credentials."); return; }
-                try {
-                    const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "loadData", key: "studentDatabase" }) });
-                    const studentDatabase = await res.json();
-                    const foundStudent = studentDatabase.find(s => s.username === usernameInput && s.password === passwordInput);
-                    if (foundStudent) {
-                        localStorage.setItem('currentStudent', usernameInput);
-                        localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
-                        window.location.href = "student-dashboard.html";
-                    } else { alert("Invalid Credentials."); }
-                } catch (error) { alert("Login failed."); }
+        footer {
+            text-align: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
             }
-        </script>
-    </body>
-    </html>
+            header h1 {
+                font-size: 20px;
+                margin: 5px 0;
+            }
+            .content-wrapper {
+                padding: 10px;
+                align-items: stretch; /* Stretches nicely when stacked vertically */
+            }
+            .org-section, .portal-container {
+                margin: 0;
+            }
+            #instructionsBox p {
+                font-size: 16px; 
+            }
+        }
+    </style>
+</head>
+<body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/asti.jpg.jpeg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
+    
+    <header>
+        <h1>CISF ASTI DELHI EXAM PORTAL</h1>
+        <a href="toppers.html" target="_blank" class="header-btn">🏆 Toppers of the Month</a>
+    </header>
+
+    <div class="airport-marquee">
+        <div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI ✈️</div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="org-section">
+            <div class="org-title">Organizational Structure</div>
+            <div class="photo-grid">
+                <div class="photo-item"><img src="assets/digsir.jpg" alt="Officer"><p>DIG/CASO SH.BABU RAM IPS</p></div>
+                <div class="photo-item"><img src="assets/cosir.jpg" alt="Officer"><p>SH.HARISH KUMAR SAHU CO/ASTI</p></div>
+                <div class="photo-item"><img src="assets/kaurmadam.jpeg" alt="Officer"><p>SMT PARMINDER KAUR DC/EXE</p></div>
+                <div class="photo-item"><img src="assets/bharatsir.jpg" alt="Officer"><p>INSP/EXE BHARAT SINGH RAVI IC/ASTI</p></div>
+            </div>
+        </div>
+
+        <div class="portal-container">
+            <h2 style="text-align: center; color: #0b3c5d; margin-top: 0; font-size: 22px;">Student Access Panel</h2>
+            <hr><br>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="studentUser" style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;" placeholder="Enter username">
+            </div>
+            <br>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="studentPass" style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;" placeholder="Enter password">
+            </div>
+            <button style="width: 100%; margin-top: 15px; padding: 12px; background-color: #0b3c5d; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;" onclick="loginStudent()">Access Dashboard</button>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="admin-login.html" style="color: #328cc1; font-weight: bold; text-decoration: none;">Go to Admin Panel →</a>
+            </div>
+
+            <!-- Permanent Instructions Box -->
+            <div id="instructionsBox">
+                <h4 style="margin: 0 0 10px 0; color: #328cc1;">📋 Instructions</h4>
+                <p style="margin: 0; font-size: 16px; color: #333; line-height: 1.4;">
+                    - Attempt all the questions.<br>
+                    - Your answers will be saved automatically.<br>
+                    - Don't open another quiz window at a time with your ID, it will quit your exam.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        created and developed by Vivek R ,ALL RIGHTS RESERVED 2026
+    </footer>
+
+    <script>
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec";
+        
+        async function loginStudent() {
+            const usernameInput = document.getElementById('studentUser').value.trim();
+            const passwordInput = document.getElementById('studentPass').value.trim();
+            if (!usernameInput || !passwordInput) { alert("Please enter credentials."); return; }
+            try {
+                const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "loadData", key: "studentDatabase" }) });
+                const studentDatabase = await res.json();
+                const foundStudent = studentDatabase.find(s => s.username === usernameInput && s.password === passwordInput);
+                if (foundStudent) {
+                    localStorage.setItem('currentStudent', usernameInput);
+                    localStorage.setItem('studentSectionContext', foundStudent.section || 'basic');
+                    window.location.href = "student-dashboard.html";
+                } else { alert("Invalid Credentials."); }
+            } catch (error) { alert("Login failed."); }
+        }
+    </script>
+</body>
+</html>
