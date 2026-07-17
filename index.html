@@ -8,12 +8,54 @@
     <style>
         body, html { min-height: 100%; margin: 0; font-family: sans-serif; }
         
-        header {
+        /* Positioning container for top corner photos */
+        .top-photos-container {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
             display: flex;
             justify-content: space-between;
+            pointer-events: none; /* Prevents overlapping issues with header interactions */
+            z-index: 10;
+        }
+
+        /* Photo size increased by 30% (from 100px to 130px) */
+        .top-photo-item {
+            pointer-events: auto; /* Re-enables interaction for the actual photos */
+            text-align: center;
+            width: 130px;
+        }
+
+        /* Image dimensions increased by 30% (from 80px to 104px) */
+        .top-photo-item img {
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            object-fit: cover;
+        }
+
+        .top-photo-item p {
+            font-size: 11px;
+            margin-top: 6px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.2;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column; 
             align-items: center;
-            padding: 10px 20px;
+            /* Added wider side padding to clear the 30% larger photos */
+            padding: 20px 160px; 
             box-sizing: border-box;
+            gap: 10px;
         }
 
         .header-btn {
@@ -37,79 +79,27 @@
             border-color: var(--accent-color, #fbbf24);
         }
         
-        /* Changed align-items to center to bring components vertically to the middle */
+        /* content-wrapper displays elements to the right side on desktop layout */
         .content-wrapper {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-end; /* Aligns the login panel to the right */
             align-items: center;
-            padding: 20px;
-            min-height: calc(100vh - 180px);
+            padding: 20px 80px; /* Added right-padding buffer */
+            min-height: calc(100vh - 220px);
             gap: 30px;
             box-sizing: border-box;
         }
 
-        .org-section {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            text-align: center;
-            flex: 1;
-            min-width: 300px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin: auto 0; /* Ensures proper middle anchoring on large layouts */
-        }
-        
-        .org-title { 
-            background: linear-gradient(90deg, #0b3c5d, #1a5f8d); 
-            padding: 10px 25px; 
-            display: inline-block; 
-            margin-bottom: 25px; 
-            border-radius: 5px;
-            letter-spacing: 1px;
-            font-size: 1.1em;
-            text-transform: uppercase;
-        }
-        
-        .photo-grid { 
-            display: flex; 
-            gap: 20px; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-        }
-        
-        .photo-item { text-align: center; transition: transform 0.3s ease; width: 140px; }
-        .photo-item:hover { transform: translateY(-5px); }
-        
-        .photo-item img { 
-            width: 110px; 
-            height: 110px; 
-            border-radius: 50%; 
-            border: 4px solid #fff; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            object-fit: cover; 
-        }
-        
-        .photo-item p { 
-            font-size: 14px; 
-            margin-top: 10px; 
-            font-weight: 600; 
-            color: #e0e0e0;
-            line-height: 1.3;
-        }
-
         .portal-container { 
-            flex: 0 1 340px;
+            flex: 0 1 360px;
             width: 100%;
             background: rgba(255, 255, 255, 0.98); 
             padding: 25px; 
             border-radius: 10px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); 
             box-sizing: border-box;
-            margin: auto 0; /* Ensures panel centers vertically with the org chart */
+            margin: auto 0;
         }
 
         #instructionsBox {
@@ -126,22 +116,23 @@
             box-sizing: border-box;
         }
 
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
+        @media (max-width: 768px) {
+            .top-photos-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                right: 0;
+                justify-content: center;
+                gap: 20px;
+                margin-top: 15px;
             }
-            header h1 {
-                font-size: 20px;
-                margin: 5px 0;
+            header {
+                padding: 15px;
             }
             .content-wrapper {
                 padding: 10px;
-                align-items: stretch; /* Stretches nicely when stacked vertically */
-            }
-            .org-section, .portal-container {
-                margin: 0;
+                justify-content: center; /* Center horizontally on smaller devices */
+                align-items: stretch;
             }
             #instructionsBox p {
                 font-size: 16px; 
@@ -151,8 +142,22 @@
 </head>
 <body style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('assets/asti.jpg.jpeg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
     
+    <!-- Top Corner Photos Container -->
+    <div class="top-photos-container">
+        <!-- Top Left Photo -->
+        <div class="top-photo-item">
+            <img src="assets/digsir.jpg" alt="Officer Left">
+            <p>DIG/CASO SH.BABU RAM IPS</p>
+        </div>
+        <!-- Top Right Photo -->
+        <div class="top-photo-item">
+            <img src="assets/cosir.jpg" alt="Officer Right">
+            <p>SH.HARISH KUMAR SAHU CO/ASTI</p>
+        </div>
+    </div>
+
     <header>
-        <h1>CISF ASTI DELHI EXAM PORTAL</h1>
+        <h1 style="margin: 0; text-align: center;">CISF ASTI DELHI EXAM PORTAL</h1>
         <a href="toppers.html" target="_blank" class="header-btn">🏆 Toppers of the Month</a>
     </header>
 
@@ -161,16 +166,6 @@
     </div>
 
     <div class="content-wrapper">
-        <div class="org-section">
-            <div class="org-title">Organizational Structure</div>
-            <div class="photo-grid">
-                <div class="photo-item"><img src="assets/digsir.jpg" alt="Officer"><p>DIG/CASO SH.BABU RAM IPS</p></div>
-                <div class="photo-item"><img src="assets/sahusir.jpg" alt="Officer"><p>SH.HARISH KUMAR SAHU CO/ASTI</p></div>
-                <div class="photo-item"><img src="assets/kaurmadam.jpeg" alt="Officer"><p>SMT PARMINDER KAUR DC/EXE</p></div>
-                <div class="photo-item"><img src="assets/bharatsir.jpg" alt="Officer"><p>INSP/EXE BHARAT SINGH RAVI IC/ASTI</p></div>
-            </div>
-        </div>
-
         <div class="portal-container">
             <h2 style="text-align: center; color: #0b3c5d; margin-top: 0; font-size: 22px;">Student Access Panel</h2>
             <hr><br>
@@ -200,12 +195,12 @@
             </div>
             <div class="loader" id="loader"></div>
     
-    <!-- Add the button here, just before the closing </div> of the container -->
-    <div style="margin-top: 30px; text-align: center;">
-      <button class="btn" onclick="window.location.href='index_2.html'" style="background-color: #34495e; width: 100%;">
-        CASO ASG DELHI ACCESS
-      </button>
-    </div>
+            <!-- CASO Access button -->
+            <div style="margin-top: 30px; text-align: center;">
+                <button class="btn" onclick="window.location.href='index_2.html'" style="background-color: #34495e; width: 100%; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                    CASO ACCESS
+                </button>
+            </div>
         </div>
     </div>
 
