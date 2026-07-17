@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASO ASTI Interface</title>
+  <style>
+    :root {
+      --primary-red: #b31b1b;
+      --light-red: #ffebeb;
+      --accent-yellow: #f1c40f;
+      --dark-yellow: #d4ac0d;
+      --text-dark: #2c3e50;
+      --text-light: #7f8c8d;
+      --border-color: #f1948a;
+      --shadow: 0 8px 30px rgba(179, 27, 27, 0.15);
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-dark);
+      box-sizing: border-box;
+    }
+
+    /* Professional Glassmorphism & Card Styles */
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 550px;
+      border: 2px solid var(--border-color);
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    /* Auth Screen styling */
+    #authScreen {
+      max-width: 450px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--primary-red);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 3px solid var(--accent-yellow);
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+
+    .header p {
+      margin: 10px 0 0 0;
+      font-size: 14px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    /* ================= NOTICE BOARD STYLING ================= */
+    .notice-board {
+      background: #fffdf0;
+      border: 2px solid var(--accent-yellow);
+      border-left: 6px solid var(--primary-red);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(241, 196, 15, 0.15);
+    }
+
+    .notice-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary-red);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notice-content {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1c2833;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Flashing highlight effect */
+    .highlight-badge {
+      background-color: var(--accent-yellow);
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      animation: flash 1.5s infinite;
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--primary-red);
+      font-size: 14px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: all 0.2s;
+      background: #fffafa;
+    }
+
+    /* Password wrapper for positioning the toggle button */
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Make sure the password input leaves room on the right for the button */
+    .password-wrapper input[type="password"],
+    .password-wrapper input[type="text"] {
+      padding-right: 60px; 
+    }
+
+    /* Style for the Show/Hide toggle button */
+    .toggle-password-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--primary-red);
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      padding: 5px;
+    }
+
+    .toggle-password-btn:hover {
+      color: #901212;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus {
+      outline: none;
+      border-color: var(--primary-red);
+      box-shadow: 0 0 0 3px rgba(179, 27, 27, 0.15);
+      background: #fff;
+    }
+
+    /* Buttons */
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-red) 0%, #901212 100%);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(179, 27, 27, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(179, 27, 27, 0.3);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, var(--accent-yellow) 0%, var(--dark-yellow) 100%);
+      color: #1c2833;
+      margin-top: 12px;
+      border: 1.5px solid var(--dark-yellow);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 6px 12px rgba(241, 196, 15, 0.3);
+    }
+
+    /* Course Summary Button styling */
+    .btn-summary {
+      background: #ffffff;
+      color: var(--primary-red);
+      border: 2px solid var(--primary-red);
+      margin-top: 15px;
+    }
+
+    .btn-summary:hover {
+      background: var(--light-red);
+      color: #901212;
+    }
+
+    /* Exit Button Style */
+    .btn-exit {
+      background: #34495e;
+      color: white;
+      margin-top: 25px;
+      border: 1px solid #2c3e50;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    .btn-exit:hover {
+      background: #2c3e50;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    }
+
+    /* Main Dashboard Layout */
+    #mainDashboard {
+      display: none;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .search-box input {
+      flex: 1;
+    }
+
+    .search-box .btn {
+      width: auto;
+      padding: 0 24px;
+    }
+
+    /* Action Deck for Batches */
+    .batch-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 2px dashed var(--border-color);
+    }
+
+    .summary-section {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(179, 27, 27, 0.15);
+    }
+
+    /* ================= FULL SCREEN DETAILS CONTAINER ================= */
+    #detailsScreen {
+      display: none;
+      width: 95%;          
+      max-width: 1400px;   
+      padding: 40px;
+    }
+
+    .profile-card {
+      background: var(--light-red);
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 30px;
+      margin-top: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Grid for standard profile fields (Columns A-F, etc.) */
+    .profile-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 40px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1.5px solid rgba(179, 27, 27, 0.1);
+    }
+
+    .label { 
+      font-weight: bold; 
+      color: var(--primary-red); 
+      margin-right: 20px; 
+      font-size: 15px; 
+    }
+    
+    .value { 
+      color: var(--text-dark); 
+      font-weight: 600; 
+      text-align: right; 
+      font-size: 15px; 
+    }
+
+    /* Horizontal Tables layout */
+    .tables-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+      #detailsScreen {
+        width: 100%;
+        padding: 20px;
+      }
+      .profile-info-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .profile-card {
+        padding: 15px;
+      }
+    }
+
+    /* Horizontal Table Styling */
+    .table-section {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      overflow-x: auto;
+    }
+
+    .section-table-heading {
+      color: var(--primary-red);
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      border-left: 4px solid var(--accent-yellow);
+      padding-left: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 500px;
+    }
+
+    .detail-table th, .detail-table td {
+      padding: 12px 15px;
+      text-align: center;
+      border: 1px solid rgba(179, 27, 27, 0.15);
+    }
+
+    .detail-table td {
+      color: var(--text-dark);
+      font-weight: 600;
+      white-space: pre-line; /* Keeps manual line breaks (Alt+Enter) active */
+      vertical-align: middle; /* Keeps text visually centered vertically */
+    }
+
+    .detail-table td {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .detail-table tbody tr {
+      background-color: #fff;
+    }
+    
+    /* Bottom Bar Styling */
+    .bottom-bar {
+      width: 100%;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border-top: 1px solid rgba(179, 27, 27, 0.1);
+    }
+    
+    /* System Feedback Messages */
+    .error-msg { color: #d93025; text-align: center; display: none; font-weight: 600; margin-top: 15px; }
+    .loader { text-align: center; display: none; color: var(--primary-red); font-weight: 600; margin-top: 15px; }
+
+    /* ================= NEW LAST UPDATED STYLING ================= */
+    .update-banner {
+      background-color: #fcf3cf;
+      border: 1px solid var(--accent-yellow);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 20px;
+      font-size: 12.5px;
+      font-weight: bold;
+      color: #7d6608;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= AUTHENTICATION SCREEN ================= -->
+  <div class="container" id="authScreen">
+    <div class="header">
+      <h1>ADMIN PANEL FOR CASO</h1>
+      <p>Secure Portal Login</p>
+    </div>
+
+    <!-- ================= NOTICE BOARD SECTION (ON LOGIN PAGE) ================= -->
+    <div class="notice-board">
+      <div class="notice-title">📢 Latest Updates</div>
+      <div class="notice-content">
+        <span class="highlight-badge">New</span> 
+        Screener Certification-Special Batch-July result published
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="username">Login ID</label>
+      <input type="text" id="username" placeholder="Enter Login ID">
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input type="password" id="password" placeholder="Enter Password">
+        <button type="button" id="togglePassword" class="toggle-password-btn" onclick="togglePasswordVisibility()">Show</button>
+      </div>
+    </div>
+
+    <button class="btn" onclick="handleLogin()">Log In Securely</button>
+    <div class="error-msg" id="authError">Invalid credentials. Please try again.</div>
+  </div>
+
+
+  <!-- ================= MAIN DASHBOARD SCREEN ================= -->
+  <div class="container" id="mainDashboard">
+    <div class="header">
+      <h1>TRAINEE DATA PANEL</h1>
+      <p>CISF ASTI DELHI Course Database</p>
+    </div>
+
+    <!-- ================= NEW LAST UPDATED CONTAINER ================= -->
+    <div id="lastUpdatedBanner" class="update-banner">
+      ⏳ Checking last spreadsheet database update...
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="cisfInput" placeholder="Enter CISF Number">
+      <button class="btn" id="searchBtn">Search</button>
+    </div>
+
+    <div class="loader" id="loader">Accessing secure database...</div>
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- Batch Actions -->
+    <div class="batch-actions">
+      <button class="btn btn-secondary" onclick="openBatchWindow('avsec')">
+         Current Basic AVSEC Batch performance report
+      </button>
+      <button class="btn btn-secondary" onclick="openBatchWindow('screener')">
+         Current Screener Certification Batch performance report
+      </button>
+    </div>
+
+    <!-- Course Summary Area -->
+    <div class="summary-section">
+      <button class="btn btn-summary" onclick="openSummaryWindow()">
+         📊 ANNUAL COURSE SCHEDULE OF CISF ASTI DELHI
+      </button>
+    </div>
+
+    <!-- Dedicated Exit Button -->
+    <button class="btn btn-exit" onclick="handleExit()">
+      Log Out
+    </button>
+  </div>
+
+
+  <!-- ================= EXPANDED FULL SCREEN DETAILS ================= -->
+  <div class="container" id="detailsScreen">
+    <div class="header">
+      <h1>Personnel Details</h1>
+      <p id="detailsSubheader">CISF Personnel Record Details</p>
+    </div>
+
+    <!-- Dynamically populated card -->
+    <div class="profile-card" id="profileCard"></div>
+
+    <!-- Close Details / Exit back to Dashboard -->
+    <button class="btn btn-exit" onclick="closeDetails()">
+      ← Close & Exit to Search
+    </button>
+  </div>
+
+
+  <!-- ================= BOTTOM BAR FOOTER ================= -->
+  <div class="bottom-bar">
+    Created and developed by Vivek R. All rights reserved 2026
+  </div>
+
+
+  <!-- ================= LOGIC & SYSTEM INTEGRATION ================= -->
+  <script>
+    const SPREADSHEETS = {
+      avsec: "https://docs.google.com/spreadsheets/d/1oXLk_WotJo6WF7SrDyrXJ2HSA0ifriuIuR_3_XGS2Jo/edit?usp=sharing", 
+      screener: "https://docs.google.com/spreadsheets/d/1EDV8pBnPrpfDM1Hqi1kdqk4E_IwycyXleBIGyKxsOtk/edit?usp=sharing"
+    };
+
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzuRwYYfKeazYsU-DfQyYuubxcYkwakQZNHrLGJV8HokHkw-7ifEkKb9JnnK90eFeo_gw/exec";
+
+    function handleLogin() {
+      const idVal = document.getElementById('username').value.trim();
+      const passVal = document.getElementById('password').value;
+      const authError = document.getElementById('authError');
+
+      if (idVal === "caso" && passVal === "casoigi") {
+        authError.style.display = 'none';
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('mainDashboard').style.display = 'block';
+        
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        
+        document.getElementById('cisfInput').focus();
+
+        // Fetch last updated time right when the user successfully logs in
+        fetchLastUpdatedTime();
+      } else {
+        authError.style.display = 'block';
+      }
+    }
+
+    // ================= NEW: CALL THE WEB APP TO RETRIEVE THE TIMESTAMP =================
+    async function fetchLastUpdatedTime() {
+      const banner = document.getElementById('lastUpdatedBanner');
+      try {
+        // Querying the URL with the special parameter getTimestamp=true we added to Code.gs
+        const response = await fetch(`${WEB_APP_URL}?getTimestamp=true`);
+        const result = await response.json();
+        
+        if (result.status === "success" && result.timestamp) {
+          banner.innerHTML = `📅 <strong>Last Updated:</strong> ${result.timestamp}`;
+        } else {
+          banner.innerText = "📅 Last Updated: No updates recorded yet";
+        }
+      } catch (error) {
+        console.error("Failed to fetch timestamp:", error);
+        banner.innerText = "📅 Last Updated: Unable to load date";
+      }
+    }
+
+
+    function handleExit() {
+      document.getElementById('cisfInput').value = '';
+      document.getElementById('profileCard').innerHTML = '';
+      document.getElementById('errorMsg').style.display = 'none';
+      
+      document.getElementById('mainDashboard').style.display = 'none';
+      document.getElementById('detailsScreen').style.display = 'none';
+      document.getElementById('authScreen').style.display = 'block';
+    }
+
+    document.getElementById('password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    const searchBtn = document.getElementById('searchBtn');
+    const cisfInput = document.getElementById('cisfInput');
+    const errorMsg = document.getElementById('errorMsg');
+    const loader = document.getElementById('loader');
+    const profileCard = document.getElementById('profileCard');
+
+    searchBtn.addEventListener('click', performSearch);
+    cisfInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') performSearch();
+    });
+
+    async function performSearch() {
+      const query = cisfInput.value.trim();
+      if (!query) return;
+
+      errorMsg.style.display = 'none';
+      loader.style.display = 'block';
+
+      try {
+        const response = await fetch(`${WEB_APP_URL}?cisf=${encodeURIComponent(query)}`);
+        const result = await response.json();
+
+        loader.style.display = 'none';
+
+        if (result.status === "success") {
+          document.getElementById('mainDashboard').style.display = 'none';
+          document.getElementById('detailsScreen').style.display = 'block';
+          document.getElementById('detailsSubheader').textContent = `Showing Profile details for ${query.toUpperCase()}`;
+          
+          displayProfile(result.data);
+        } else {
+          showError(result.message);
+        }
+      } catch (error) {
+        loader.style.display = 'none';
+        showError("Could not connect to the database. Verify your Script Web App URL.");
+        console.error(error);
+      }
+    }
+
+    function displayProfile(data) {
+      profileCard.innerHTML = '';
+      
+      const keys = Object.keys(data);
+      
+      // Standard Profile Info (A-F: indices 0 to 5) and other columns (index 16 onwards)
+      const profileGrid = document.createElement('div');
+      profileGrid.className = 'profile-info-grid';
+      
+      keys.forEach((key, index) => {
+        if (index < 6 || index >= 16) {
+          const row = document.createElement('div');
+          row.className = 'info-row';
+          row.innerHTML = `
+            <span class="label">${key}:</span>
+            <span class="value">${data[key] || 'N/A'}</span>
+          `;
+          profileGrid.appendChild(row);
+        }
+      });
+
+      // --- DYNAMIC MATCHING LOGIC FOR AVSEC & SCREENER DATA ---
+      const getDynamicKey = (keyword, occurrenceIndex, fallbackIndex) => {
+        const matched = keys.filter(k => k.toLowerCase().includes(keyword.toLowerCase()));
+        return matched[occurrenceIndex] || keys[fallbackIndex];
+      };
+
+      const avsec_from    = getDynamicKey('from', 0, 6);
+      const avsec_to      = getDynamicKey('to', 0, 7);
+      const avsec_venue   = getDynamicKey('venue', 0, 8);
+      const avsec_marks   = getDynamicKey('marks', 0, 9);
+      const avsec_result  = getDynamicKey('result', 0, 10);
+
+      const screener_from   = getDynamicKey('from', 1, 11);
+      const screener_to     = getDynamicKey('to', 1, 12);
+      const screener_venue  = getDynamicKey('venue', 1, 13);
+      const screener_marks  = getDynamicKey('marks', 1, 14);
+      const screener_result = getDynamicKey('result', 1, 15);
+
+      // Create Tables Container
+      const tablesContainer = document.createElement('div');
+      tablesContainer.className = 'tables-container';
+
+      // 1. Basic AVSEC Section (Arranged Horizontally)
+      const avsecContainer = document.createElement('div');
+      avsecContainer.className = 'table-section';
+      avsecContainer.innerHTML = `
+        <h3 class="section-table-heading">Basic AVSEC</h3>
+        <table class="detail-table">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Venue</th>
+              <th>Marks</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${data[avsec_from] || 'N/A'}</td>
+              <td>${data[avsec_to] || 'N/A'}</td>
+              <td>${data[avsec_venue] || 'N/A'}</td>
+              <td>${data[avsec_marks] || 'N/A'}</td>
+              <td>${data[avsec_result] || 'N/A'}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+
+      // 2. Details of Screener Section (Arranged Horizontally)
+      const screenerContainer = document.createElement('div');
+      screenerContainer.className = 'table-section';
+      screenerContainer.innerHTML = `
+        <h3 class="section-table-heading">Details of Screener</h3>
+        <table class="detail-table">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Venue</th>
+              <th>Marks</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${data[screener_from] || 'N/A'}</td>
+              <td>${data[screener_to] || 'N/A'}</td>
+              <td>${data[screener_venue] || 'N/A'}</td>
+              <td>${data[screener_marks] || 'N/A'}</td>
+              <td>${data[screener_result] || 'N/A'}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+
+      tablesContainer.appendChild(avsecContainer);
+      tablesContainer.appendChild(screenerContainer);
+
+      // Append standard grid and the tables structure to the profile card
+      profileCard.appendChild(profileGrid);
+      profileCard.appendChild(tablesContainer);
+    }
+    
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const toggleBtn = document.getElementById('togglePassword');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.textContent = 'Hide';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.textContent = 'Show';
+      }
+    }
+
+    // Return back to the dashboard from the details page
+    function closeDetails() {
+      document.getElementById('detailsScreen').style.display = 'none';
+      document.getElementById('mainDashboard').style.display = 'block';
+      cisfInput.value = '';
+      cisfInput.focus();
+      
+      // Re-fetch updated time upon coming back to the search dashboard
+      fetchLastUpdatedTime();
+    }
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+    }
+
+    function openBatchWindow(batchType) {
+      if (batchType === 'avsec') {
+        window.open(SPREADSHEETS.avsec, '_blank');
+      } else if (batchType === 'screener') {
+        window.open(SPREADSHEETS.screener, '_blank');
+      }
+    }
+
+    function openSummaryWindow() {
+      window.open('summary.html', '_blank');
+    }
+  </script>
+</body>
+</html>
