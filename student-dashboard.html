@@ -1,6 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+  // 1. Disable Right-Click
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  }, false);
+
+  // 2. Disable Keyboard Shortcuts (F12, Ctrl+U, etc.)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || 
+       (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j'))) {
+      e.preventDefault();
+    }
+  });
+
+  // 3. Prevent Multiple Tabs Detection
+  const QUIZ_KEY = "my_active_quiz_session";
+  if (localStorage.getItem(QUIZ_KEY)) {
+      alert("This quiz is already open in another tab. This window will now close.");
+      window.close();
+      // Fallback if window.close() is blocked
+      window.location.href = "about:blank";
+  } else {
+      localStorage.setItem(QUIZ_KEY, "true");
+      window.addEventListener("beforeunload", () => localStorage.removeItem(QUIZ_KEY));
+  }
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - CISF ASTI DELHI</title>
