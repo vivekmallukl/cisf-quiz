@@ -36,6 +36,7 @@
 
     <div class="portal-container">
         <div style="margin-bottom: 20px; font-weight: bold; color: #4a5568; font-size: 18.5px;"> Active Session: <span id="welcomeUser" style="color:#2ecc71; font-size:21px;">Verifying...</span> 
+            | Designation: <span id="designationLabel" style="color:#e67e22; font-size:21px;">...</span>
             | Course Stream Assignment: <span id="trackLabel" style="color:#0b3c5d; text-transform:uppercase;">...</span>
         </div>
 
@@ -70,14 +71,16 @@
     <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
 
     <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDhNKt5cDdDMLVy8MFaeyBtNySt2VB2P-pTUCZ7Duqe3EzTJmAnWzwkwkm3HggWbKx/exec"; 
-        const SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; // <-- PUT YOUR REAL SPREADSHEET ID HERE
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCe-nfGll1J-jHye_G88a0f5ysE_OXqM1wBm34B2PaNAg9dDXOEnIxgRqLyIn-psk8/exec"; 
+        const SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; 
 
         let studentSectionContext = 'basic';
         let systemQuizzes = [];
         let systemForms = [];
         let systemMaterials = [];
         let currentStudent = "";
+        let currentUsername = "";
+        let currentDesignation = "";
         let currentActiveQuizName = "";
 
         async function cloudFetch(key) {
@@ -94,6 +97,8 @@
 
         window.onload = async function() {
             currentStudent = localStorage.getItem('currentStudent') || "";
+            currentUsername = localStorage.getItem('currentUsername') || "";
+            currentDesignation = localStorage.getItem('currentDesignation') || "Not Assigned";
             studentSectionContext = localStorage.getItem('studentSectionContext') || "basic";
 
             if (!currentStudent) {
@@ -102,6 +107,7 @@
             }
 
             document.getElementById('welcomeUser').innerText = currentStudent;
+            document.getElementById('designationLabel').innerText = currentDesignation;
             document.getElementById('trackLabel').innerText = studentSectionContext === 'basic' ? 'Basic AVSEC' : 'Screener';
             
             await loadAndRenderSection();
@@ -109,7 +115,6 @@
 
         async function loadAndRenderSection() {
             try {
-                // Fetch the values directly out of the targeted spreadsheet tabs
                 const notices = await cloudFetch("Notices");
                 const matchingNotice = notices.find(n => n.targetSection.toLowerCase() === studentSectionContext || n.targetSection === "All Streams");
                 
@@ -122,13 +127,13 @@
                 }
 
                 let allQuizzes = await cloudFetch("Quizzes");
-                systemQuizzes = allQuizzes.filter(q => q.quizId.includes(studentSectionContext));
+                systemQuizzes = allQuizzes.filter(q => q.quizId && q.quizId.includes(studentSectionContext));
 
                 let allForms = await cloudFetch("Forms");
-                systemForms = allForms.filter(f => f.targetSection.toLowerCase() === studentSectionContext);
+                systemForms = allForms.filter(f => f.targetSection && f.targetSection.toLowerCase() === studentSectionContext);
 
                 let allMaterials = await cloudFetch("Materials");
-                systemMaterials = allMaterials.filter(m => m.targetSection.toLowerCase() === studentSectionContext);
+                systemMaterials = allMaterials.filter(m => m.targetSection && m.targetSection.toLowerCase() === studentSectionContext);
 
                 renderGrid(systemQuizzes, systemForms, systemMaterials);
             } catch (err) {
@@ -183,7 +188,6 @@
         async function launchQuiz(driveFileId, quizTitle) {
             currentActiveQuizName = quizTitle; 
             
-            // Fetch structural HTML payload from Google Drive file system seamlessly
             let res = await fetch(APPS_SCRIPT_URL, {
                 method: "POST",
                 body: JSON.stringify({ action: "fetchDriveFile", spreadsheetId: SPREADSHEET_ID, fileId: driveFileId })
@@ -201,7 +205,6 @@
                 newWindow.document.write(data.htmlContent);
                 newWindow.document.close();
 
-                // Explicitly bind the dashboard handler down to the newly spawned window execution workspace
                 newWindow.submitExamResults = function(scoreString) {
                     window.submitExamResults(scoreString, quizTitle);
                 };
@@ -217,8 +220,10 @@
                 action: "submitScore",
                 spreadsheetId: SPREADSHEET_ID,
                 studentName: currentStudent,
+                username: currentUsername,
                 studentSection: studentSectionContext.toUpperCase(),
                 quizName: finalQuizTitle,
+                designation: currentDesignation,
                 score: scoreString,
                 timestamp: new Date().toLocaleString()
             };
@@ -236,6 +241,8 @@
 
         function logoutStudent() {
             localStorage.removeItem('currentStudent');
+            localStorage.removeItem('currentUsername');
+            localStorage.removeItem('currentDesignation');
             localStorage.removeItem('studentSectionContext');
             window.location.href = "index.html";
         }

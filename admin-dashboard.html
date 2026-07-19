@@ -38,7 +38,6 @@
             <button class="nav-toggle-btn" id="tab-screener" onclick="toggleMainWorkspace('screener')">🛡️ Screener Channel</button>
         </div>
 
-        <!-- SHARED CONFIG TRACK FOR DATA RETRIEVAL -->
         <div class="tile-card-box" style="margin-bottom:20px; flex-direction:row; gap:20px;">
            <div style="flex:1;">
                <label style="font-size:12px; font-weight:bold;">Core Target Spreadsheet ID:</label>
@@ -65,10 +64,11 @@
                 <div class="tile-card-box">
                     <div>
                         <h4>2. Provision Student Users</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:10px;">
-                            <input type="text" id="user_basic" placeholder="Username" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="password" id="pass_basic" placeholder="Password" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="text" id="name_basic" placeholder="Real Name" style="padding:5px; font-size:12px; flex:1;">
+                        <div style="display:flex; gap:5px; margin-bottom:10px; flex-direction: column;">
+                            <input type="text" id="user_basic" placeholder="Username" style="padding:5px; font-size:12px;">
+                            <input type="password" id="pass_basic" placeholder="Password" style="padding:5px; font-size:12px;">
+                            <input type="text" id="desig_basic" placeholder="Designation (e.g. ASTI Inspector)" style="padding:5px; font-size:12px;">
+                            <input type="text" id="name_basic" placeholder="Real Name" style="padding:5px; font-size:12px;">
                         </div>
                     </div>
                     <button onclick="addStudentManual('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Save Account</button>
@@ -130,10 +130,11 @@
                 <div class="tile-card-box">
                     <div>
                         <h4>2. Provision Student Users</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:10px;">
-                            <input type="text" id="user_screener" placeholder="Username" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="password" id="pass_screener" placeholder="Password" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="text" id="name_screener" placeholder="Real Name" style="padding:5px; font-size:12px; flex:1;">
+                        <div style="display:flex; gap:5px; margin-bottom:10px; flex-direction: column;">
+                            <input type="text" id="user_screener" placeholder="Username" style="padding:5px; font-size:12px;">
+                            <input type="password" id="pass_screener" placeholder="Password" style="padding:5px; font-size:12px;">
+                            <input type="text" id="desig_screener" placeholder="Designation (e.g. ASTI Inspector)" style="padding:5px; font-size:12px;">
+                            <input type="text" id="name_screener" placeholder="Real Name" style="padding:5px; font-size:12px;">
                         </div>
                     </div>
                     <button onclick="addStudentManual('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Save Account</button>
@@ -185,13 +186,10 @@
     <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
 
    <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDhNKt5cDdDMLVy8MFaeyBtNySt2VB2P-pTUCZ7Duqe3EzTJmAnWzwkwkm3HggWbKx/exec"; 
-        
-        // FIX: Hardcoding your absolute Spreadsheet ID so saving never drops or breaks
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCe-nfGll1J-jHye_G88a0f5ysE_OXqM1wBm34B2PaNAg9dDXOEnIxgRqLyIn-psk8/exec"; 
         let SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; 
 
         window.onload = async function() {
-            // Set the value in the UI input box so it looks visually correct on launch
             document.getElementById('globalSpreadsheetId').value = SPREADSHEET_ID;
             await refreshAllViews();
         };
@@ -254,7 +252,6 @@
         }
 
         async function renderSectionData(sec) {
-            // Quizzes
             const qList = document.getElementById(`quizList_${sec}`);
             let allQuizzes = await cloudFetch("Quizzes");
             let filteredQuizzes = allQuizzes.filter(q => q.quizId && q.quizId.includes(sec));
@@ -263,16 +260,14 @@
                 qList.innerHTML += `<div class="management-item"><span>${q.quizTitle}</span><button class="btn-small btn-danger" onclick="deleteItem('Quizzes', 'quizId', '${q.quizId}', '${sec}')">✕</button></div>`;
             });
 
-            // Students
             const sList = document.getElementById(`studentList_${sec}`);
             let allUsers = await cloudFetch("Users");
             let filteredUsers = allUsers.filter(u => u.section === sec && u.role === "student");
             sList.innerHTML = filteredUsers.length === 0 ? "<small style='color:#aaa;'>No users provisioned.</small>" : "";
             filteredUsers.forEach((u) => {
-                sList.innerHTML += `<div class="management-item"><span>👤 <strong>${u.username}</strong> (${u.name})</span><button class="btn-small btn-danger" onclick="deleteItem('Users', 'username', '${u.username}', '${sec}')">✕</button></div>`;
+                sList.innerHTML += `<div class="management-item"><span>👤 <strong>${u.username}</strong> - ${u.designation || 'No Desig'} (${u.name})</span><button class="btn-small btn-danger" onclick="deleteItem('Users', 'username', '${u.username}', '${sec}')">✕</button></div>`;
             });
 
-            // Forms
             const fList = document.getElementById(`formList_${sec}`);
             let allForms = await cloudFetch("Forms");
             let filteredForms = allForms.filter(f => f.targetSection === sec);
@@ -281,7 +276,6 @@
                 fList.innerHTML += `<div class="management-item"><span>📝 ${f.title}</span><button class="btn-small btn-danger" onclick="deleteItem('Forms', 'title', '${f.title}', '${sec}')">✕</button></div>`;
             });
 
-            // Materials
             const mList = document.getElementById(`materialList_${sec}`);
             let allMats = await cloudFetch("Materials");
             let filteredMats = allMats.filter(m => m.targetSection === sec);
@@ -290,7 +284,6 @@
                 mList.innerHTML += `<div class="management-item"><span>📚 ${m.title}</span><button class="btn-small btn-danger" onclick="deleteItem('Materials', 'title', '${m.title}', '${sec}')">✕</button></div>`;
             });
 
-            // Broadcast Notice Input Field Loading
             let notices = await cloudFetch("Notices");
             let secNotice = notices.find(n => n.targetSection === sec);
             if(secNotice) document.getElementById(`broadcast_${sec}`).value = secNotice.details;
@@ -315,17 +308,19 @@
         async function addStudentManual(sec) {
             const user = document.getElementById(`user_${sec}`).value.trim();
             const pass = document.getElementById(`pass_${sec}`).value.trim();
+            const desig = document.getElementById(`desig_${sec}`).value.trim();
             const realName = document.getElementById(`name_${sec}`).value.trim();
-            if(!user || !pass || !realName) { alert("Fill all user form slots."); return; }
+            if(!user || !pass || !realName || !desig) { alert("Fill all user form slots including designation."); return; }
 
             let users = await cloudFetch("Users");
             if(users.some(u => u.username && u.username.toLowerCase() === user.toLowerCase())) { alert("Username already active mapping."); return; }
 
-            users.push({ username: user.toLowerCase(), password: pass, name: realName, section: sec, role: "student" });
+            users.push({ username: user.toLowerCase(), password: pass, designation: desig, name: realName, section: sec, role: "student" });
             await cloudSave("Users", users);
             
             document.getElementById(`user_${sec}`).value = "";
             document.getElementById(`pass_${sec}`).value = "";
+            document.getElementById(`desig_${sec}`).value = "";
             document.getElementById(`name_${sec}`).value = "";
             await renderSectionData(sec);
         }
@@ -340,7 +335,7 @@
             await cloudSave("Forms", forms);
             
             document.getElementById(`formTitle_${sec}`).value = "";
-            document.getElementById(`formUrl_${sec}`).value = "";
+            document.getElementById('formUrl_' + sec).value = "";
             await renderSectionData(sec);
         }
 
@@ -373,11 +368,41 @@
         }
 
         async function deleteItem(tabName, matchKey, matchVal, sec) {
-            let list = await cloudFetch(tabName);
-            list = list.filter(item => item[matchKey] !== matchVal);
-            await cloudSave(tabName, list);
-            await renderSectionData(sec);
-        }
+    // 1. Ask for confirmation so users don't delete accounts by accident
+    if(!confirm(`Are you sure you want to delete this item?`)) return;
+
+    // 2. Fetch current list from the database
+    let list = await cloudFetch(tabName);
+    
+    // 3. Filter out the item safely (Handling case-insensitivity and whitespace)
+    list = list.filter(item => {
+        // Find the actual key in the object regardless of casing (e.g., 'username' vs 'Username')
+        const actualKey = Object.keys(item).find(k => k.toLowerCase().trim() === matchKey.toLowerCase().trim());
+        
+        if (!actualKey) return true; // Keep the item if the key doesn't exist
+        
+        // Compare values cleanly by converting to lowercase strings and trimming spaces
+        const itemVal = String(item[actualKey]).toLowerCase().trim();
+        const searchVal = String(matchVal).toLowerCase().trim();
+        
+        return itemVal !== searchVal;
+    });
+    
+    // 4. OPTIMISTIC UI UPDATE: Instantly clear the list and show a "Syncing..." message 
+    // so the admin knows the system is working.
+    const containerId = tabName === 'Users' ? `studentList_${sec}` : 
+                        tabName === 'Quizzes' ? `quizList_${sec}` : 
+                        tabName === 'Forms' ? `formList_${sec}` : `materialList_${sec}`;
+    
+    const container = document.getElementById(containerId);
+    if(container) {
+        container.innerHTML = "<small style='color:#3b82f6; font-weight:bold;'>🔄 Syncing deletion with cloud...</small>";
+    }
+
+    // 5. Save back to Google Sheets and refresh the view once confirmed
+    await cloudSave(tabName, list);
+    await renderSectionData(sec);
+}
 
         function saveAndExit() { window.location.href = "index.html"; }
     </script>

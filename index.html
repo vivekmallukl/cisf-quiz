@@ -83,7 +83,7 @@
 
     <script>
         // PASTING DEPLOYMENT INFO
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDhNKt5cDdDMLVy8MFaeyBtNySt2VB2P-pTUCZ7Duqe3EzTJmAnWzwkwkm3HggWbKx/exec"; 
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCe-nfGll1J-jHye_G88a0f5ysE_OXqM1wBm34B2PaNAg9dDXOEnIxgRqLyIn-psk8/exec"; 
         const SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; // <-- PUT YOUR REAL SPREADSHEET ID HERE
 
         async function loginStudent() {
@@ -103,13 +103,19 @@
                 });
                 let result = await res.json();
                 
-                if (result.status === "success") {
-                    localStorage.setItem('currentStudent', result.profile.name);
-                    localStorage.setItem('studentSectionContext', result.profile.section.toLowerCase());
-                    window.location.href = "student-dashboard.html";
-                } else { 
-                    alert(result.message || "Invalid Credentials."); 
-                }
+                // Locate this block inside index.html
+if (result.status === "success") {
+    localStorage.setItem('currentStudent', result.profile.name);
+    
+    // 🔴 ADD THESE TWO LINES TO FIX THE BUG:
+    localStorage.setItem('currentUsername', result.profile.username);
+    localStorage.setItem('currentDesignation', result.profile.designation);
+    
+    localStorage.setItem('studentSectionContext', result.profile.section.toLowerCase());
+    window.location.href = "student-dashboard.html";
+} else { 
+    alert(result.message || "Invalid Credentials."); 
+}
             } catch (error) { 
                 alert("Login communication failed. Confirm your Web App Deployment configurations."); 
             }
