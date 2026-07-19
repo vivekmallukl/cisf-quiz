@@ -2,103 +2,32 @@
 <html lang="en">
 <head>
     <script>
-  // 1. Disable Right-Click
-  document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-  }, false);
-
-  // 2. Disable Keyboard Shortcuts (F12, Ctrl+U, etc.)
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12' || 
-       (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j'))) {
-      e.preventDefault();
-    }
-  });
-</script>
+      document.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false);
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j'))) {
+          e.preventDefault();
+        }
+      });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - CISF ASTI DELHI</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .search-container {
-            margin-bottom: 33px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2.6px 13px rgba(0,0,0,0.05);
-        }
-        .search-input {
-            width: 100%;
-            padding: 16px 20px;
-            font-size: 21px; /* Increased by an additional 10% */
-            border: 2.6px solid #328cc1;
-            border-radius: 5px;
-            box-sizing: border-box;
-            outline: none;
-        }
-        .broadcast-container {
-            background-color: #fffaf0;
-            border-left: 6.5px solid #dd6b20;
-            padding: 20px 26px;
-            border-radius: 8px;
-            margin-bottom: 33px;
-            display: none;
-        }
-        .broadcast-title { font-weight: bold; color: #dd6b20; margin-bottom: 7px; font-size: 18.5px; text-transform: uppercase; } /* Increased by an additional 10% */
-        .broadcast-text { font-size: 20px; color: #2d3748; white-space: pre-line; } /* Increased by an additional 10% */
-        
-        .master-dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 33px;
-            align-items: start;
-            margin-bottom: 40px;
-        }
-        @media (max-width: 992px) {
-            .master-dashboard-grid { grid-template-columns: 1fr; }
-        }
-        .grid-column-panel {
-            background: #fdfdfd;
-            border: 1.3px solid #e2e8f0;
-            border-radius: 10.5px;
-            padding: 26px;
-            min-height: 520px;
-        }
-        .section-heading {
-            color: #0b3c5d;
-            border-bottom: 4px solid #328cc1;
-            padding-bottom: 10.5px;
-            margin-top: 0;
-            margin-bottom: 26px;
-            font-size: 23.8px; /* Increased by an additional 10% */
-            text-transform: uppercase;
-        }
-        .tile-card {
-            background: white;
-            border-radius: 8px;
-            padding: 21px;
-            box-shadow: 0 4px 13px rgba(0,0,0,0.06);
-            margin-bottom: 20px;
-            border-top: 5.3px solid #ccc;
-            display: flex;
-            flex-direction: column;
-        }
-        .tile-card h4 {
-            font-size: 21px; /* Increased by an additional 10% */
-            margin-bottom: 11px;
-        }
-        .tile-card p {
-            font-size: 18.5px; /* Increased by an additional 10% */
-            margin-bottom: 13px;
-        }
-        .tile-card button { width: 100%; padding: 11px; font-size: 17.2px; cursor: pointer; font-weight: bold; } /* Increased by an additional 10% */
-        .loading-overlay {
-            color: #718096;
-            font-style: italic;
-            text-align: center;
-            padding: 26px;
-            font-size: 18.5px;
-        }
+        .search-container { margin-bottom: 33px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2.6px 13px rgba(0,0,0,0.05); }
+        .search-input { width: 100%; padding: 16px 20px; font-size: 21px; border: 2.6px solid #328cc1; border-radius: 5px; box-sizing: border-box; outline: none; }
+        .broadcast-container { background-color: #fffaf0; border-left: 6.5px solid #dd6b20; padding: 20px 26px; border-radius: 8px; margin-bottom: 33px; display: none; }
+        .broadcast-title { font-weight: bold; color: #dd6b20; margin-bottom: 7px; font-size: 18.5px; text-transform: uppercase; }
+        .broadcast-text { font-size: 20px; color: #2d3748; white-space: pre-line; }
+        .master-dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 33px; align-items: start; margin-bottom: 40px; }
+        @media (max-width: 992px) { .master-dashboard-grid { grid-template-columns: 1fr; } }
+        .grid-column-panel { background: #fdfdfd; border: 1.3px solid #e2e8f0; border-radius: 10.5px; padding: 26px; min-height: 520px; }
+        .section-heading { color: #0b3c5d; border-bottom: 4px solid #328cc1; padding-bottom: 10.5px; margin-top: 0; margin-bottom: 26px; font-size: 23.8px; text-transform: uppercase; }
+        .tile-card { background: white; border-radius: 8px; padding: 21px; box-shadow: 0 4px 13px rgba(0,0,0,0.06); margin-bottom: 20px; border-top: 5.3px solid #ccc; display: flex; flex-direction: column; }
+        .tile-card h4 { font-size: 21px; margin-bottom: 11px; }
+        .tile-card p { font-size: 18.5px; margin-bottom: 13px; }
+        .tile-card button { width: 100%; padding: 11px; font-size: 17.2px; cursor: pointer; font-weight: bold; }
+        .loading-overlay { color: #718096; font-style: italic; text-align: center; padding: 26px; font-size: 18.5px; }
     </style>
 </head>
 <body>
@@ -141,25 +70,25 @@
     <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
 
     <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec"; 
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDhNKt5cDdDMLVy8MFaeyBtNySt2VB2P-pTUCZ7Duqe3EzTJmAnWzwkwkm3HggWbKx/exec"; 
+        const SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; // <-- PUT YOUR REAL SPREADSHEET ID HERE
 
         let studentSectionContext = 'basic';
         let systemQuizzes = [];
         let systemForms = [];
         let systemMaterials = [];
         let currentStudent = "";
-        let currentActiveQuizWindow = null;
         let currentActiveQuizName = "";
 
         async function cloudFetch(key) {
             try {
                 let res = await fetch(APPS_SCRIPT_URL, {
                     method: "POST",
-                    body: JSON.stringify({ action: "loadData", key: key })
+                    body: JSON.stringify({ action: "loadData", spreadsheetId: SPREADSHEET_ID, key: key })
                 });
                 return await res.json();
             } catch(e) { 
-                return JSON.parse(localStorage.getItem(key)) || null; 
+                return [];
             }
         }
 
@@ -179,20 +108,33 @@
         };
 
         async function loadAndRenderSection() {
-            const broadcastMessage = await cloudFetch('adminBroadcast_' + studentSectionContext);
-            const broadcastBox = document.getElementById('broadcastBox');
-            if (broadcastMessage && broadcastMessage.trim() !== "") {
-                document.getElementById('broadcastText').innerText = broadcastMessage;
-                broadcastBox.style.display = "block";
-            } else {
-                broadcastBox.style.display = "none";
+            try {
+                // Fetch the values directly out of the targeted spreadsheet tabs
+                const notices = await cloudFetch("Notices");
+                const matchingNotice = notices.find(n => n.targetSection.toLowerCase() === studentSectionContext || n.targetSection === "All Streams");
+                
+                const broadcastBox = document.getElementById('broadcastBox');
+                if (matchingNotice && matchingNotice.details) {
+                    document.getElementById('broadcastText').innerText = matchingNotice.details;
+                    broadcastBox.style.display = "block";
+                } else {
+                    broadcastBox.style.display = "none";
+                }
+
+                let allQuizzes = await cloudFetch("Quizzes");
+                systemQuizzes = allQuizzes.filter(q => q.quizId.includes(studentSectionContext));
+
+                let allForms = await cloudFetch("Forms");
+                systemForms = allForms.filter(f => f.targetSection.toLowerCase() === studentSectionContext);
+
+                let allMaterials = await cloudFetch("Materials");
+                systemMaterials = allMaterials.filter(m => m.targetSection.toLowerCase() === studentSectionContext);
+
+                renderGrid(systemQuizzes, systemForms, systemMaterials);
+            } catch (err) {
+                console.error("Dashboard error:", err);
+                renderGrid([], [], []);
             }
-
-            systemQuizzes = await cloudFetch('quizRegistry_' + studentSectionContext) || [];
-            systemForms = await cloudFetch('googleFormsRegistry_' + studentSectionContext) || [];
-            systemMaterials = await cloudFetch('studyMaterials_' + studentSectionContext) || [];
-
-            renderGrid(systemQuizzes, systemForms, systemMaterials);
         }
 
         function renderGrid(quizzes, forms, materials) {
@@ -204,9 +146,9 @@
             quizzes.forEach((quiz) => {
                 quizContainer.innerHTML += `
                     <div class="tile-card" style="border-top-color: #d9b310;">
-                        <h4>📋 ${quiz.description}</h4>
-                        <p>Package: ${quiz.filename}</p>
-                        <button onclick="startQuiz('${quiz.description.replace(/'/g, "\\'")}')">Launch Quiz</button>
+                        <h4>📋 ${quiz.quizTitle}</h4>
+                        <p>Duration: ${quiz.durationMinutes} mins</p>
+                        <button onclick="launchQuiz('${quiz.fileId}', '${quiz.quizTitle}')">Launch Quiz</button>
                     </div>`;
             });
 
@@ -215,7 +157,7 @@
                 formContainer.innerHTML += `
                     <div class="tile-card" style="border-top-color: #673ab7;">
                         <h4>📝 ${form.title}</h4>
-                        <button style="background-color: #673ab7; color: white;" onclick="window.open('${form.url}', '_blank')">Open Form</button>
+                        <button style="background-color: #673ab7; color: white;" onclick="window.open('${form.urlLink}', '_blank')">Open Form</button>
                     </div>`;
             });
 
@@ -223,98 +165,72 @@
             materials.forEach((mat) => {
                 matContainer.innerHTML += `
                     <div class="tile-card" style="border-top-color: #328cc1;">
-                        <h4>📚 ${mat.description}</h4>
-                        <button style="background-color: #328cc1; color: white;" onclick="window.open('${mat.url}', '_blank')">Open Library</button>
+                        <h4>📚 ${mat.title}</h4>
+                        <p>${mat.description}</p>
+                        <button style="background-color: #328cc1; color: white;" onclick="window.open('${mat.urlLink}', '_blank')">Open Library</button>
                     </div>`;
             });
         }
 
         function filterDashboard() {
             const query = document.getElementById('dashboardSearch').value.toLowerCase().trim();
-            const filteredQuizzes = systemQuizzes.filter(q => q.description.toLowerCase().includes(query));
+            const filteredQuizzes = systemQuizzes.filter(q => q.quizTitle.toLowerCase().includes(query));
             const filteredForms = systemForms.filter(f => f.title.toLowerCase().includes(query));
-            const filteredMaterials = systemMaterials.filter(m => m.description.toLowerCase().includes(query));
+            const filteredMaterials = systemMaterials.filter(m => m.title.toLowerCase().includes(query));
             renderGrid(filteredQuizzes, filteredForms, filteredMaterials);
         }
 
-        async function startQuiz(quizName) {
-            const targetQuiz = systemQuizzes.find(q => q.description === quizName);
-            const scriptUrl = await cloudFetch('scriptUrl_' + studentSectionContext);
-            const sheetUrl = await cloudFetch('sheetUrl_' + studentSectionContext);
-
-            if (!scriptUrl || !sheetUrl) { 
-                alert("Spreadsheet configurations for this section are missing on the admin console."); 
-                return; 
+        async function launchQuiz(driveFileId, quizTitle) {
+            currentActiveQuizName = quizTitle; 
+            
+            // Fetch structural HTML payload from Google Drive file system seamlessly
+            let res = await fetch(APPS_SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "fetchDriveFile", spreadsheetId: SPREADSHEET_ID, fileId: driveFileId })
+            });
+            let data = await res.json();
+            
+            if (!data || data.status !== "success" || !data.htmlContent) {
+                alert("Unable to fetch quiz data from Drive storage. Verify file mapping settings.");
+                return;
             }
+            
+            const newWindow = window.open("about:blank", "_blank");
+            if (newWindow) {
+                newWindow.document.open();
+                newWindow.document.write(data.htmlContent);
+                newWindow.document.close();
 
-            if (targetQuiz && targetQuiz.content) {
-                currentActiveQuizName = quizName;
-                currentActiveQuizWindow = window.open("", "_blank");
-                
-                if (!currentActiveQuizWindow || currentActiveQuizWindow.closed || typeof currentActiveQuizWindow.document === 'undefined') {
-                    localStorage.setItem('activeQuizContent', targetQuiz.content);
-                    localStorage.setItem('activeQuizTitle', quizName);
-                    alert("Pop-up window blocked by mobile browser. Opening exam in this window instead.");
-                    
-                    document.body.innerHTML = targetQuiz.content;
-                    window.userName = currentStudent;
-                    window.currentActiveQuizName = quizName;
-                    return;
-                }
-
-                currentActiveQuizWindow.document.open();
-                currentActiveQuizWindow.document.write(targetQuiz.content);
-                currentActiveQuizWindow.userName = currentStudent;
-                currentActiveQuizWindow.currentActiveQuizName = quizName; 
-                currentActiveQuizWindow.document.close();
+                newWindow.submitExamResults = function(scoreString, title) {
+                    window.submitExamResults(scoreString, title);
+                };
             } else {
-                alert("Failed to pull quiz data content.");
+                alert("Popup blocked! Please allow popups for this portal site.");
             }
         }
 
-        window.addEventListener("message", function(event) {
-            if (event.data && event.data.type === "QUIZ_SUBMISSION") {
-                console.log("Captured submission payload:", event.data);
-                const derivedTitle = event.data.quizTitle || currentActiveQuizName || "Assessment Evaluation Run";
-                if (typeof window.submitExamResults === 'function') {
-                    window.submitExamResults(event.data.score, derivedTitle);
-                }
-            }
-        });
-
         window.submitExamResults = async function(scoreString, customTitle) {
-            const scriptUrl = await cloudFetch('scriptUrl_' + studentSectionContext);
-            const sheetUrl = await cloudFetch('sheetUrl_' + studentSectionContext);
-            
-            if (!scriptUrl || !sheetUrl) {
-                alert("Critical Configuration Error: Script URL or Sheet URL is unassigned!");
-                return;
-            }
-
-            const sheetId = sheetUrl.match(/\1d\/([a-zA-Z0-9-_]+)/)?.[1] || sheetUrl;
             const finalQuizTitle = customTitle || currentActiveQuizName || "Assessment Pack";
 
             const payload = {
                 action: "submitScore",
-                sheetId: sheetId,
-                username: currentStudent,
-                quizTitle: finalQuizTitle,
-                score: scoreString
+                spreadsheetId: SPREADSHEET_ID,
+                studentName: currentStudent,
+                studentSection: studentSectionContext.toUpperCase(),
+                quizName: finalQuizTitle,
+                score: scoreString,
+                timestamp: new Date().toLocaleString()
             };
 
-            fetch(scriptUrl, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify(payload)
-            })
-            .then(() => {
+            try {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                });
                 alert("Results saved securely to Google Spreadsheet!");
-            })
-            .catch(err => {
-                console.error("Submission trace error: ", err);
-                alert("Error while sending score data downstream to spreadsheet layout.");
-            });
+            } catch (err) {
+                alert("Error sending score telemetry data down to spreadsheet grid.");
+            }
         };
 
         function logoutStudent() {

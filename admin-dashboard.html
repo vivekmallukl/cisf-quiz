@@ -5,143 +5,28 @@
     <title>Admin Workspace - CISF ASTI DELHI</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Top Navigation Workspace Toggle */
-        .workspace-nav-bar {
-            display: flex;
-            background: #e2e8f0;
-            padding: 8px;
-            border-radius: 8px;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .nav-toggle-btn {
-            flex: 1;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: bold;
-            background: #fff;
-            color: #4a5568;
-            border: 2px solid transparent;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .nav-toggle-btn.active-basic {
-            background: #111827;
-            color: white;
-            border-color: #fbbf24;
-        }
-
-        .nav-toggle-btn.active-screener {
-            background: #10b981;
-            color: white;
-            border-color: #fbbf24;
-        }
-
-        /* Section Visibility Controllers */
-        .admin-section-wrapper {
-            display: none;
-        }
-        
-        .admin-section-wrapper.active {
-            display: block;
-        }
-
-        /* Sub-sections Tiles Responsive Grid Layout */
-        .tiles-container-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        .tile-card-box {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 18px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .tile-card-box h4 {
-            margin-top: 0;
-            margin-bottom: 12px;
-            color: #111827;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 6px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .management-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f9fafb;
-            padding: 6px 10px;
-            margin-top: 6px;
-            border-radius: 4px;
-            border: 1px solid #e5e7eb;
-            font-size: 13px;
-        }
-
-        .btn-small {
-            padding: 2px 6px;
-            font-size: 11px;
-            cursor: pointer;
-        }
-
+        .workspace-nav-bar { display: flex; background: #e2e8f0; padding: 8px; border-radius: 8px; gap: 15px; margin-bottom: 25px; }
+        .nav-toggle-btn { flex: 1; padding: 16px; font-size: 16px; font-weight: bold; background: #fff; color: #4a5568; border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; text-transform: uppercase; }
+        .nav-toggle-btn.active-basic { background: #111827; color: white; border-color: #fbbf24; }
+        .nav-toggle-btn.active-screener { background: #10b981; color: white; border-color: #fbbf24; }
+        .admin-section-wrapper { display: none; }
+        .admin-section-wrapper.active { display: block; }
+        .tiles-container-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 15px; }
+        .tile-card-box { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        .tile-card-box h4 { margin-top: 0; margin-bottom: 12px; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .management-item { display: flex; justify-content: space-between; align-items: center; background: #f9fafb; padding: 6px 10px; margin-top: 6px; border-radius: 4px; border: 1px solid #e5e7eb; font-size: 13px; }
+        .btn-small { padding: 2px 6px; font-size: 11px; cursor: pointer; }
         .btn-danger { background-color: #ef4444; color: white; border: none; border-radius: 3px; }
-
-        .scrollable-list {
-            max-height: 250px;
-            overflow-y: auto;
-            border: 1px solid #e5e7eb;
-            padding: 5px;
-            border-radius: 4px;
-            background: #fff;
-            margin-top: 8px;
-        }
-
-        textarea.broadcast-input {
-            width: 100%;
-            height: 65px;
-            padding: 8px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            resize: none;
-            box-sizing: border-box;
-            font-family: inherit;
-            font-size: 13px;
-        }
-
-        .section-header-banner {
-            padding: 12px;
-            color: white;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 18px;
-            text-align: center;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
+        .scrollable-list { max-height: 250px; overflow-y: auto; border: 1px solid #e5e7eb; padding: 5px; border-radius: 4px; background: #fff; margin-top: 8px; }
+        textarea.broadcast-input { width: 100%; height: 65px; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; resize: none; box-sizing: border-box; font-family: inherit; font-size: 13px; }
+        .section-header-banner { padding: 12px; color: white; border-radius: 6px; font-weight: bold; font-size: 18px; text-align: center; text-transform: uppercase; margin-bottom: 15px; }
         .banner-basic { background-color: #111827; border-left: 5px solid #fbbf24; }
         .banner-screener { background-color: #10b981; border-left: 5px solid #111827; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>CISF ASTI DELHI EXAM PORTAL - ADMINISTRATIVE CONSOLE</h1>
-    </header>
+    <header><h1>CISF ASTI DELHI EXAM PORTAL - ADMINISTRATIVE CONSOLE</h1></header>
 
     <div class="portal-container" style="max-width: 96%;">
         <h2>Control Panel Workspace</h2>
@@ -153,15 +38,25 @@
             <button class="nav-toggle-btn" id="tab-screener" onclick="toggleMainWorkspace('screener')">🛡️ Screener Channel</button>
         </div>
 
+        <!-- SHARED CONFIG TRACK FOR DATA RETRIEVAL -->
+        <div class="tile-card-box" style="margin-bottom:20px; flex-direction:row; gap:20px;">
+           <div style="flex:1;">
+               <label style="font-size:12px; font-weight:bold;">Core Target Spreadsheet ID:</label>
+               <input type="text" id="globalSpreadsheetId" placeholder="Paste your Google Spreadsheet ID string here..." style="width:100%; padding:6px; margin-top:4px;" onchange="saveSpreadsheetIdContext(this.value)">
+           </div>
+        </div>
+
+        <!-- BASIC MODULE VIEW -->
         <div id="workspace-basic" class="admin-section-wrapper active">
             <div class="section-header-banner banner-basic">Active Module View: Basic AVSEC Operations</div>
-            
             <div class="tiles-container-grid">
+                
                 <div class="tile-card-box">
                     <div>
-                        <h4>1. Upload HTML Quizzes</h4>
-                        <div class="form-group"><input type="text" id="quizDesc_basic" placeholder="Quiz Title Description" style="padding:6px; font-size:13px;"></div>
-                        <div class="form-group"><input type="file" id="quizFile_basic" accept=".html" style="font-size:13px;"></div>
+                        <h4>1. Link Drive HTML Quizzes</h4>
+                        <div class="form-group"><input type="text" id="quizDesc_basic" placeholder="Quiz Title" style="padding:6px; font-size:13px; width:100%;"></div>
+                        <div class="form-group"><input type="text" id="quizFileId_basic" placeholder="Google Drive HTML File ID" style="padding:6px; font-size:13px; width:100%;"></div>
+                        <div class="form-group"><input type="number" id="quizTime_basic" placeholder="Duration (Minutes)" style="padding:6px; font-size:13px; width:100%;"></div>
                     </div>
                     <button onclick="publishQuiz('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Publish Quiz</button>
                     <div id="quizList_basic" class="scrollable-list"></div>
@@ -169,30 +64,23 @@
 
                 <div class="tile-card-box">
                     <div>
-                        <h4>2. Student User Provisioning</h4>
+                        <h4>2. Provision Student Users</h4>
                         <div style="display:flex; gap:5px; margin-bottom:10px;">
                             <input type="text" id="user_basic" placeholder="Username" style="padding:5px; font-size:12px; flex:1;">
                             <input type="password" id="pass_basic" placeholder="Password" style="padding:5px; font-size:12px; flex:1;">
-                            <button onclick="addStudentManual('basic')" style="padding:5px 10px; font-size:12px;">Add</button>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 5px;">
-                            <label style="font-size:11px; color:#555;">Import CSV (username,password)</label>
-                            <input type="file" id="csv_basic" accept=".csv" style="font-size:12px;">
+                            <input type="text" id="name_basic" placeholder="Real Name" style="padding:5px; font-size:12px; flex:1;">
                         </div>
                     </div>
-                    <div style="display:flex; gap:5px;">
-                        <button onclick="addStudentCSV('basic')" style="padding:5px 10px; font-size:12px; flex:2;">Add Users</button>
-                        <button onclick="purgeStudentsBySection('basic')" style="background:#ef4444; color:white; padding:5px 10px; font-size:12px; flex:1;">Clear All</button>
-                    </div>
+                    <button onclick="addStudentManual('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Save Account</button>
                     <div id="studentList_basic" class="scrollable-list"></div>
                 </div>
 
                 <div class="tile-card-box">
                     <div>
                         <h4>3. Link Google Forms</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px;">
-                            <input type="text" id="formTitle_basic" placeholder="Form Title" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="text" id="formUrl_basic" placeholder="Google Form URL" style="padding:5px; font-size:12px; flex:2;">
+                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
+                            <input type="text" id="formTitle_basic" placeholder="Form Title" style="padding:5px; font-size:12px;">
+                            <input type="text" id="formUrl_basic" placeholder="Google Form Link URL" style="padding:5px; font-size:12px;">
                         </div>
                     </div>
                     <button onclick="saveForm('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Link Form</button>
@@ -202,9 +90,10 @@
                 <div class="tile-card-box">
                     <div>
                         <h4>4. Reference Materials</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px;">
-                            <input type="text" id="matTitle_basic" placeholder="Document Label" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="text" id="matUrl_basic" placeholder="Resource/Drive URL" style="padding:5px; font-size:12px; flex:2;">
+                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
+                            <input type="text" id="matTitle_basic" placeholder="Document Label" style="padding:5px; font-size:12px;">
+                            <input type="text" id="matUrl_basic" placeholder="Resource/Drive Link URL" style="padding:5px; font-size:12px;">
+                            <input type="text" id="matDesc_basic" placeholder="Short Description" style="padding:5px; font-size:12px;">
                         </div>
                     </div>
                     <button onclick="saveMaterial('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Save Material</button>
@@ -213,35 +102,26 @@
 
                 <div class="tile-card-box">
                     <div>
-                        <h4>5. Spreadsheet & Script Sync</h4>
-                        <div class="form-group"><input type="text" id="sheetUrl_basic" placeholder="Google Sheet Target URL" style="padding:6px; font-size:12px;"></div>
-                        <div class="form-group"><input type="text" id="scriptUrl_basic" placeholder="Apps Script Web API URL" style="padding:6px; font-size:12px;"></div>
+                        <h4>5. Notice Bulletin Broadcast</h4>
+                        <textarea id="broadcast_basic" class="broadcast-input" placeholder="Enter instructions for Basic students..."></textarea>
                     </div>
-                    <button onclick="saveTelemetry('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Lock Telemetry Links</button>
+                    <button onclick="saveBroadcast('basic')" style="padding:6px 10px; font-size:12px; width:100%; margin-top:8px;">Publish Notice</button>
                 </div>
 
-                <div class="tile-card-box">
-                    <div>
-                        <h4>6. Notice Bulletin Broadcast</h4>
-                        <textarea id="broadcast_basic" class="broadcast-input" placeholder="Enter dashboard instructions for Basic students..."></textarea>
-                    </div>
-                    <div style="display:flex; gap:5px; margin-top:8px;">
-                        <button onclick="saveBroadcast('basic')" style="padding:6px 10px; font-size:12px; flex:1;">Publish Notice</button>
-                        <button onclick="clearBroadcast('basic')" style="background:#374151; color:white; padding:6px 10px; font-size:12px;">Clear</button>
-                    </div>
-                </div>
             </div>
         </div>
 
+        <!-- SCREENER MODULE VIEW -->
         <div id="workspace-screener" class="admin-section-wrapper">
             <div class="section-header-banner banner-screener">Active Module View: Screener Operations</div>
-            
             <div class="tiles-container-grid">
+                
                 <div class="tile-card-box">
                     <div>
-                        <h4>1. Upload HTML Quizzes</h4>
-                        <div class="form-group"><input type="text" id="quizDesc_screener" placeholder="Quiz Title Description" style="padding:6px; font-size:13px;"></div>
-                        <div class="form-group"><input type="file" id="quizFile_screener" accept=".html" style="font-size:13px;"></div>
+                        <h4>1. Link Drive HTML Quizzes</h4>
+                        <div class="form-group"><input type="text" id="quizDesc_screener" placeholder="Quiz Title" style="padding:6px; font-size:13px; width:100%;"></div>
+                        <div class="form-group"><input type="text" id="quizFileId_screener" placeholder="Google Drive HTML File ID" style="padding:6px; font-size:13px; width:100%;"></div>
+                        <div class="form-group"><input type="number" id="quizTime_screener" placeholder="Duration (Minutes)" style="padding:6px; font-size:13px; width:100%;"></div>
                     </div>
                     <button onclick="publishQuiz('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Publish Quiz</button>
                     <div id="quizList_screener" class="scrollable-list"></div>
@@ -249,30 +129,23 @@
 
                 <div class="tile-card-box">
                     <div>
-                        <h4>2. Student User Provisioning</h4>
+                        <h4>2. Provision Student Users</h4>
                         <div style="display:flex; gap:5px; margin-bottom:10px;">
                             <input type="text" id="user_screener" placeholder="Username" style="padding:5px; font-size:12px; flex:1;">
                             <input type="password" id="pass_screener" placeholder="Password" style="padding:5px; font-size:12px; flex:1;">
-                            <button onclick="addStudentManual('screener')" style="padding:5px 10px; font-size:12px;">Add</button>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 5px;">
-                            <label style="font-size:11px; color:#555;">Import CSV (username,password)</label>
-                            <input type="file" id="csv_screener" accept=".csv" style="font-size:12px;">
+                            <input type="text" id="name_screener" placeholder="Real Name" style="padding:5px; font-size:12px; flex:1;">
                         </div>
                     </div>
-                    <div style="display:flex; gap:5px;">
-                        <button onclick="addStudentCSV('screener')" style="padding:5px 10px; font-size:12px; flex:2;">Add Users</button>
-                        <button onclick="purgeStudentsBySection('screener')" style="background:#ef4444; color:white; padding:5px 10px; font-size:12px; flex:1;">Clear All</button>
-                    </div>
+                    <button onclick="addStudentManual('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Save Account</button>
                     <div id="studentList_screener" class="scrollable-list"></div>
                 </div>
 
                 <div class="tile-card-box">
                     <div>
                         <h4>3. Link Google Forms</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px;">
-                            <input type="text" id="formTitle_screener" placeholder="Form Title" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="text" id="formUrl_screener" placeholder="Google Form URL" style="padding:5px; font-size:12px; flex:2;">
+                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
+                            <input type="text" id="formTitle_screener" placeholder="Form Title" style="padding:5px; font-size:12px;">
+                            <input type="text" id="formUrl_screener" placeholder="Google Form Link URL" style="padding:5px; font-size:12px;">
                         </div>
                     </div>
                     <button onclick="saveForm('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Link Form</button>
@@ -282,9 +155,10 @@
                 <div class="tile-card-box">
                     <div>
                         <h4>4. Reference Materials</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px;">
-                            <input type="text" id="matTitle_screener" placeholder="Document Label" style="padding:5px; font-size:12px; flex:1;">
-                            <input type="text" id="matUrl_screener" placeholder="Resource/Drive URL" style="padding:5px; font-size:12px; flex:2;">
+                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
+                            <input type="text" id="matTitle_screener" placeholder="Document Label" style="padding:5px; font-size:12px;">
+                            <input type="text" id="matUrl_screener" placeholder="Resource/Drive Link URL" style="padding:5px; font-size:12px;">
+                            <input type="text" id="matDesc_screener" placeholder="Short Description" style="padding:5px; font-size:12px;">
                         </div>
                     </div>
                     <button onclick="saveMaterial('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Save Material</button>
@@ -293,23 +167,12 @@
 
                 <div class="tile-card-box">
                     <div>
-                        <h4>5. Spreadsheet & Script Sync</h4>
-                        <div class="form-group"><input type="text" id="sheetUrl_screener" placeholder="Google Sheet Target URL" style="padding:6px; font-size:12px;"></div>
-                        <div class="form-group"><input type="text" id="scriptUrl_screener" placeholder="Apps Script Web API URL" style="padding:6px; font-size:12px;"></div>
+                        <h4>5. Notice Bulletin Broadcast</h4>
+                        <textarea id="broadcast_screener" class="broadcast-input" placeholder="Enter instructions for Screener students..."></textarea>
                     </div>
-                    <button onclick="saveTelemetry('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Lock Telemetry Links</button>
+                    <button onclick="saveBroadcast('screener')" style="padding:6px 10px; font-size:12px; width:100%; margin-top:8px;">Publish Notice</button>
                 </div>
 
-                <div class="tile-card-box">
-                    <div>
-                        <h4>6. Notice Bulletin Broadcast</h4>
-                        <textarea id="broadcast_screener" class="broadcast-input" placeholder="Enter dashboard instructions for Screener students..."></textarea>
-                    </div>
-                    <div style="display:flex; gap:5px; margin-top:8px;">
-                        <button onclick="saveBroadcast('screener')" style="padding:6px 10px; font-size:12px; flex:1;">Publish Notice</button>
-                        <button onclick="clearBroadcast('screener')" style="background:#374151; color:white; padding:6px 10px; font-size:12px;">Clear</button>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -321,44 +184,56 @@
 
     <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
 
-    <script>
-        // Central Cloud API Endpoint
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1Do7A1tTwtHDjATM3R6o7nv9tAbEP6uajX32vWOEvk62HgPBc2PIgroWR8kRq66kcwQ/exec"; 
+   <script>
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDhNKt5cDdDMLVy8MFaeyBtNySt2VB2P-pTUCZ7Duqe3EzTJmAnWzwkwkm3HggWbKx/exec"; 
+        
+        // FIX: Hardcoding your absolute Spreadsheet ID so saving never drops or breaks
+        let SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; 
 
-        let studentDatabase = [];
+        window.onload = async function() {
+            // Set the value in the UI input box so it looks visually correct on launch
+            document.getElementById('globalSpreadsheetId').value = SPREADSHEET_ID;
+            await refreshAllViews();
+        };
 
-        // Pulls structured objects dynamically from database
-        async function cloudFetch(key) {
-            try {
-                let res = await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "loadData", key: key })
-                });
-                return await res.json();
-            } catch(e) { 
-                return JSON.parse(localStorage.getItem(key)) || []; 
+        function saveSpreadsheetIdContext(val) {
+            if(val.trim()) {
+                SPREADSHEET_ID = val.trim();
+                localStorage.setItem('globalSpreadsheetId', SPREADSHEET_ID);
+                refreshAllViews();
             }
         }
 
-        // Saves data to cloud server properties
-        async function cloudSave(key, data) {
-            localStorage.setItem(key, JSON.stringify(data)); // Backup
-            try {
-                await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "saveData", key: key, data: data })
-                });
-            } catch(e) { console.error("Cloud engine database exception:", e); }
-        }
-
-        window.onload = async function() {
-            // Pull the central user registry upon initialization
-            studentDatabase = await cloudFetch('studentDatabase') || [];
+        async function refreshAllViews() {
             await renderSectionData('basic');
             await renderSectionData('screener');
-        };
+        }
 
-        // Handles workspace toggle display and styling updates
+        async function cloudFetch(tabName) {
+            if(!SPREADSHEET_ID) return [];
+            try {
+                let res = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "loadData", spreadsheetId: SPREADSHEET_ID, key: tabName })
+                });
+                return await res.json();
+            } catch(e) { return []; }
+        }
+
+        async function cloudSave(tabName, updatedArray) {
+            if(!SPREADSHEET_ID) return;
+            try {
+                let res = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "saveData", spreadsheetId: SPREADSHEET_ID, key: tabName, data: updatedArray })
+                });
+                alert(`Successfully updated ${tabName} configuration!`);
+            } catch(e) { 
+                console.error("Sync Failure:", e); 
+                alert("Cloud transmission failed. Verify your Google Sheet connection permissions.");
+            }
+        }
+
         function toggleMainWorkspace(targetSection) {
             const basicWrapper = document.getElementById('workspace-basic');
             const screenerWrapper = document.getElementById('workspace-screener');
@@ -379,188 +254,129 @@
         }
 
         async function renderSectionData(sec) {
-            // Render Quizzes
+            // Quizzes
             const qList = document.getElementById(`quizList_${sec}`);
-            const quizzes = await cloudFetch(`quizRegistry_${sec}`);
-            qList.innerHTML = quizzes.length === 0 ? "<small style='color:#aaa;'>No quizzes published.</small>" : "";
-            quizzes.forEach((q, idx) => {
-                qList.innerHTML += `<div class="management-item"><span>${q.description}</span><button class="btn-small btn-danger" onclick="deleteQuiz('${sec}', ${idx})">✕</button></div>`;
+            let allQuizzes = await cloudFetch("Quizzes");
+            let filteredQuizzes = allQuizzes.filter(q => q.quizId && q.quizId.includes(sec));
+            qList.innerHTML = filteredQuizzes.length === 0 ? "<small style='color:#aaa;'>No quizzes published.</small>" : "";
+            filteredQuizzes.forEach((q) => {
+                qList.innerHTML += `<div class="management-item"><span>${q.quizTitle}</span><button class="btn-small btn-danger" onclick="deleteItem('Quizzes', 'quizId', '${q.quizId}', '${sec}')">✕</button></div>`;
             });
 
-            // Render Students
+            // Students
             const sList = document.getElementById(`studentList_${sec}`);
-            const filteredStudents = studentDatabase.filter(s => s.section === sec);
-            sList.innerHTML = filteredStudents.length === 0 ? "<small style='color:#aaa;'>No users provisioned.</small>" : "";
-            filteredStudents.forEach((s) => {
-                sList.innerHTML += `<div class="management-item"><span>👤 <strong>${s.username}</strong></span><button class="btn-small btn-danger" onclick="deleteStudent('${s.username}', '${sec}')">✕</button></div>`;
+            let allUsers = await cloudFetch("Users");
+            let filteredUsers = allUsers.filter(u => u.section === sec && u.role === "student");
+            sList.innerHTML = filteredUsers.length === 0 ? "<small style='color:#aaa;'>No users provisioned.</small>" : "";
+            filteredUsers.forEach((u) => {
+                sList.innerHTML += `<div class="management-item"><span>👤 <strong>${u.username}</strong> (${u.name})</span><button class="btn-small btn-danger" onclick="deleteItem('Users', 'username', '${u.username}', '${sec}')">✕</button></div>`;
             });
 
-            // Render Forms
+            // Forms
             const fList = document.getElementById(`formList_${sec}`);
-            const forms = await cloudFetch(`googleFormsRegistry_${sec}`);
-            fList.innerHTML = forms.length === 0 ? "<small style='color:#aaa;'>No forms linked.</small>" : "";
-            forms.forEach((f, idx) => {
-                fList.innerHTML += `<div class="management-item"><span>📝 ${f.title}</span><button class="btn-small btn-danger" onclick="deleteForm('${sec}', ${idx})">✕</button></div>`;
+            let allForms = await cloudFetch("Forms");
+            let filteredForms = allForms.filter(f => f.targetSection === sec);
+            fList.innerHTML = filteredForms.length === 0 ? "<small style='color:#aaa;'>No forms linked.</small>" : "";
+            filteredForms.forEach((f) => {
+                fList.innerHTML += `<div class="management-item"><span>📝 ${f.title}</span><button class="btn-small btn-danger" onclick="deleteItem('Forms', 'title', '${f.title}', '${sec}')">✕</button></div>`;
             });
 
-            // Render Materials
+            // Materials
             const mList = document.getElementById(`materialList_${sec}`);
-            const mats = await cloudFetch(`studyMaterials_${sec}`);
-            mList.innerHTML = mats.length === 0 ? "<small style='color:#aaa;'>No reference assets.</small>" : "";
-            mats.forEach((m, idx) => {
-                mList.innerHTML += `<div class="management-item"><span>📚 ${m.description}</span><button class="btn-small btn-danger" onclick="deleteMaterial('${sec}', ${idx})">✕</button></div>`;
+            let allMats = await cloudFetch("Materials");
+            let filteredMats = allMats.filter(m => m.targetSection === sec);
+            mList.innerHTML = filteredMats.length === 0 ? "<small style='color:#aaa;'>No reference assets.</small>" : "";
+            filteredMats.forEach((m) => {
+                mList.innerHTML += `<div class="management-item"><span>📚 ${m.title}</span><button class="btn-small btn-danger" onclick="deleteItem('Materials', 'title', '${m.title}', '${sec}')">✕</button></div>`;
             });
 
-            // Load Configuration Inputs from individual Cloud Keys
-            const sUrl = await cloudFetch(`sheetUrl_${sec}`);
-            const scUrl = await cloudFetch(`scriptUrl_${sec}`);
-            const broadcastMsg = await cloudFetch(`adminBroadcast_${sec}`);
-
-            if(typeof sUrl === 'string') document.getElementById(`sheetUrl_${sec}`).value = sUrl;
-            if(typeof scUrl === 'string') document.getElementById(`scriptUrl_${sec}`).value = scUrl;
-            if(typeof broadcastMsg === 'string') document.getElementById(`broadcast_${sec}`).value = broadcastMsg;
+            // Broadcast Notice Input Field Loading
+            let notices = await cloudFetch("Notices");
+            let secNotice = notices.find(n => n.targetSection === sec);
+            if(secNotice) document.getElementById(`broadcast_${sec}`).value = secNotice.details;
         }
 
-        // --- Quizzes ---
         async function publishQuiz(sec) {
-            const desc = document.getElementById(`quizDesc_${sec}`).value.trim();
-            const fileEl = document.getElementById(`quizFile_${sec}`);
-            if(!desc || !fileEl.files[0]) { alert("Complete all fields."); return; }
+            const title = document.getElementById(`quizDesc_${sec}`).value.trim();
+            const fId = document.getElementById(`quizFileId_${sec}`).value.trim();
+            const duration = document.getElementById(`quizTime_${sec}`).value.trim();
+            if(!title || !fId || !duration) { alert("Fill all elements."); return; }
 
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                let quizzes = await cloudFetch(`quizRegistry_${sec}`);
-                quizzes.push({ description: desc, filename: fileEl.files[0].name, content: e.target.result });
-                await cloudSave(`quizRegistry_${sec}`, quizzes);
-                document.getElementById(`quizDesc_${sec}`).value = "";
-                fileEl.value = "";
-                renderSectionData(sec);
-                alert("Quiz Published to Central Database Environment.");
-            };
-            reader.readAsText(fileEl.files[0]);
-        }
-        
-        async function deleteQuiz(sec, idx) {
-            let quizzes = await cloudFetch(`quizRegistry_${sec}`);
-            quizzes.splice(idx, 1);
-            await cloudSave(`quizRegistry_${sec}`, quizzes);
-            renderSectionData(sec);
+            let quizzes = await cloudFetch("Quizzes");
+            quizzes.push({ quizId: `quiz_${sec}_${Date.now()}`, quizTitle: title, fileId: fId, durationMinutes: parseInt(duration) });
+            await cloudSave("Quizzes", quizzes);
+            
+            document.getElementById(`quizDesc_${sec}`).value = "";
+            document.getElementById(`quizFileId_${sec}`).value = "";
+            document.getElementById(`quizTime_${sec}`).value = "";
+            await renderSectionData(sec);
         }
 
-        // --- Students ---
         async function addStudentManual(sec) {
             const user = document.getElementById(`user_${sec}`).value.trim();
             const pass = document.getElementById(`pass_${sec}`).value.trim();
-            if(!user || !pass) return;
-            if(studentDatabase.some(s => s.username === user)) { alert("Username exists globally."); return; }
+            const realName = document.getElementById(`name_${sec}`).value.trim();
+            if(!user || !pass || !realName) { alert("Fill all user form slots."); return; }
 
-            studentDatabase.push({ username: user, password: pass, section: sec });
-            await cloudSave('studentDatabase', studentDatabase);
+            let users = await cloudFetch("Users");
+            if(users.some(u => u.username && u.username.toLowerCase() === user.toLowerCase())) { alert("Username already active mapping."); return; }
+
+            users.push({ username: user.toLowerCase(), password: pass, name: realName, section: sec, role: "student" });
+            await cloudSave("Users", users);
+            
             document.getElementById(`user_${sec}`).value = "";
             document.getElementById(`pass_${sec}`).value = "";
-            renderSectionData(sec);
+            document.getElementById(`name_${sec}`).value = "";
+            await renderSectionData(sec);
         }
 
-        async function addStudentCSV(sec) {
-            const fileEl = document.getElementById(`csv_${sec}`);
-            if(!fileEl.files[0]) { alert("Select valid dataset CSV asset."); return; }
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const lines = e.target.result.split('\n');
-                lines.forEach(line => {
-                    if(line.trim()) {
-                        const parts = line.split(',');
-                        if(parts.length >= 2) {
-                            const u = parts[0].trim();
-                            const p = parts[1].trim();
-                            if(!studentDatabase.some(s => s.username === u)) {
-                                studentDatabase.push({ username: u, password: p, section: sec });
-                            }
-                        }
-                    }
-                });
-                await cloudSave('studentDatabase', studentDatabase);
-                fileEl.value = "";
-                renderSectionData(sec);
-                alert("Database entries synchronized successfully.");
-            };
-            reader.readAsText(fileEl.files[0]);
-        }
-
-        async function deleteStudent(username, sec) {
-            studentDatabase = studentDatabase.filter(s => s.username !== username);
-            await cloudSave('studentDatabase', studentDatabase);
-            renderSectionData(sec);
-        }
-
-        async function purgeStudentsBySection(sec) {
-            if(confirm(`Erase all users in ${sec.toUpperCase()} globally?`)) {
-                studentDatabase = studentDatabase.filter(s => s.section !== sec);
-                await cloudSave('studentDatabase', studentDatabase);
-                renderSectionData(sec);
-            }
-        }
-
-        // --- Forms ---
         async function saveForm(sec) {
             const title = document.getElementById(`formTitle_${sec}`).value.trim();
             const url = document.getElementById(`formUrl_${sec}`).value.trim();
             if(!title || !url) return;
-            let forms = await cloudFetch(`googleFormsRegistry_${sec}`);
-            forms.push({ title, url });
-            await cloudSave(`googleFormsRegistry_${sec}`, forms);
+
+            let forms = await cloudFetch("Forms");
+            forms.push({ title: title, urlLink: url, targetSection: sec });
+            await cloudSave("Forms", forms);
+            
             document.getElementById(`formTitle_${sec}`).value = "";
             document.getElementById(`formUrl_${sec}`).value = "";
-            renderSectionData(sec);
+            await renderSectionData(sec);
         }
 
-        async function deleteForm(sec, idx) {
-            let forms = await cloudFetch(`googleFormsRegistry_${sec}`);
-            forms.splice(idx, 1);
-            await cloudSave(`googleFormsRegistry_${sec}`, forms);
-            renderSectionData(sec);
-        }
-
-        // --- Materials ---
         async function saveMaterial(sec) {
-            const desc = document.getElementById(`matTitle_${sec}`).value.trim();
+            const title = document.getElementById(`matTitle_${sec}`).value.trim();
             const url = document.getElementById(`matUrl_${sec}`).value.trim();
-            if(!desc || !url) return;
-            let mats = await cloudFetch(`studyMaterials_${sec}`);
-            mats.push({ description: desc, url });
-            await cloudSave(`studyMaterials_${sec}`, mats);
+            const desc = document.getElementById(`matDesc_${sec}`).value.trim();
+            if(!title || !url || !desc) return;
+
+            let mats = await cloudFetch("Materials");
+            mats.push({ title: title, urlLink: url, description: desc, targetSection: sec });
+            await cloudSave("Materials", mats);
+            
             document.getElementById(`matTitle_${sec}`).value = "";
             document.getElementById(`matUrl_${sec}`).value = "";
-            renderSectionData(sec);
+            document.getElementById(`matDesc_${sec}`).value = "";
+            await renderSectionData(sec);
         }
 
-        async function deleteMaterial(sec, idx) {
-            let mats = await cloudFetch(`studyMaterials_${sec}`);
-            mats.splice(idx, 1);
-            await cloudSave(`studyMaterials_${sec}`, mats);
-            renderSectionData(sec);
-        }
-
-        // --- Telemetry Sync ---
-        async function saveTelemetry(sec) {
-            const sUrl = document.getElementById(`sheetUrl_${sec}`).value.trim();
-            const scUrl = document.getElementById(`scriptUrl_${sec}`).value.trim();
-            await cloudSave(`sheetUrl_${sec}`, sUrl);
-            await cloudSave(`scriptUrl_${sec}`, scUrl);
-            alert(`Telemetry links mapped over to server for ${sec.toUpperCase()}.`);
-        }
-
-        // --- Notices / Broadcast ---
         async function saveBroadcast(sec) {
-            const msg = document.getElementById(`broadcast_${sec}`).value.trim();
-            await cloudSave(`adminBroadcast_${sec}`, msg);
-            alert(`Notice state pushed onto live cloud registry.`);
+            const text = document.getElementById(`broadcast_${sec}`).value.trim();
+            let notices = await cloudFetch("Notices");
+            notices = notices.filter(n => n.targetSection !== sec); 
+            
+            if(text) {
+                notices.push({ date: new Date().toLocaleDateString(), title: `Notice for ${sec}`, details: text, targetSection: sec });
+            }
+            await cloudSave("Notices", notices);
+            await renderSectionData(sec);
         }
 
-        async function clearBroadcast(sec) {
-            document.getElementById(`broadcast_${sec}`).value = "";
-            await cloudSave(`adminBroadcast_${sec}`, "");
-            alert("Notice board data reset.");
+        async function deleteItem(tabName, matchKey, matchVal, sec) {
+            let list = await cloudFetch(tabName);
+            list = list.filter(item => item[matchKey] !== matchVal);
+            await cloudSave(tabName, list);
+            await renderSectionData(sec);
         }
 
         function saveAndExit() { window.location.href = "index.html"; }
