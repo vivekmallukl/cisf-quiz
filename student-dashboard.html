@@ -201,8 +201,9 @@
                 newWindow.document.write(data.htmlContent);
                 newWindow.document.close();
 
-                newWindow.submitExamResults = function(scoreString, title) {
-                    window.submitExamResults(scoreString, title);
+                // Explicitly bind the dashboard handler down to the newly spawned window execution workspace
+                newWindow.submitExamResults = function(scoreString) {
+                    window.submitExamResults(scoreString, quizTitle);
                 };
             } else {
                 alert("Popup blocked! Please allow popups for this portal site.");
