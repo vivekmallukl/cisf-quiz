@@ -212,7 +212,7 @@
     <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
 
    <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCe-nfGll1J-jHye_G88a0f5ysE_OXqM1wBm34B2PaNAg9dDXOEnIxgRqLyIn-psk8/exec"; 
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxD5fTymsJRVvfab4WA0fKrtjJBcCfmiXeABVZ0ptsV01GqR-I44WDOk_asoKltl86/exec"; 
         let SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; 
 
         window.onload = async function() {
@@ -356,70 +356,81 @@
 
         // --- NEW METHOD: UPLOAD USERS FROM CSV ---
         async function uploadCSVUsers(sec) {
-            const fileInput = document.getElementById(`csv_file_${sec}`);
-            if (!fileInput.files || fileInput.files.length === 0) {
-                alert("Please select a CSV file first.");
+    const fileInput = document.getElementById(`csv_file_${sec}`);
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        alert("Please select a CSV file first.");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = async function(e) {
+        try {
+            const text = e.target.result;
+            // Handle both Windows (\r\n) and Unix (\n) line endings cleanly
+            const lines = text.split(/\r?\n/);
+            if (lines.length <= 1) {
+                alert("The CSV file seems to be empty or missing data lines.");
                 return;
             }
 
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+            let users = await cloudFetch("Users") || [];
+            let countAdded = 0;
 
-            reader.onload = async function(e) {
-                const text = e.target.result;
-                const lines = text.split(/\r?\n/);
-                if (lines.length <= 1) {
-                    alert("The CSV file seems to be empty or missing data lines.");
-                    return;
+            // Start looping from row index 1 (skipping header)
+            for (let i = 1; i < lines.length; i++) {
+                let line = lines[i].trim();
+                if (!line) continue; // Skip empty trailing rows
+
+                let columns = line.split(",");
+                if (columns.length < 4) continue; 
+
+                // Convert explicitly to String to safely protect numeric usernames/passwords
+                let user = String(columns[0]).trim().toLowerCase();
+                let pass = String(columns[1]).trim();
+                let desig = String(columns[2]).trim();
+                let realName = String(columns[3]).trim();
+
+                if (!user || !pass) continue;
+
+                // Skip duplicates defensively
+                if (users.some(u => u.username && String(u.username).toLowerCase() === user)) {
+                    continue; 
                 }
 
-                let users = await cloudFetch("Users");
-                let countAdded = 0;
+                users.push({ 
+                    username: user, 
+                    password: pass, 
+                    designation: desig, 
+                    name: realName, 
+                    section: sec, 
+                    role: "student" 
+                });
+                countAdded++;
+            }
 
-                // Loop through lines, skipping the header line (index 0)
-                for (let i = 1; i < lines.length; i++) {
-                    let line = lines[i].trim();
-                    if (!line) continue; // skip blank rows
-
-                    // Split line values by comma
-                    let columns = line.split(",");
-                    if (columns.length < 4) continue; // Ensure there are at least 4 fields
-
-                    let user = columns[0].trim().toLowerCase();
-                    let pass = columns[1].trim();
-                    let desig = columns[2].trim();
-                    let realName = columns[3].trim();
-
-                    if (!user || !pass) continue;
-
-                    // Avoid duplicating an existing user
-                    if (users.some(u => u.username && u.username.toLowerCase() === user)) {
-                        continue; 
-                    }
-
-                    users.push({ 
-                        username: user, 
-                        password: pass, 
-                        designation: desig, 
-                        name: realName, 
-                        section: sec, 
-                        role: "student" 
-                    });
-                    countAdded++;
-                }
-
-                if (countAdded > 0) {
-                    await cloudSave("Users", users);
-                    alert(`Successfully imported ${countAdded} users into ${sec} section.`);
-                    fileInput.value = ""; // clear selector
-                    await renderSectionData(sec);
-                } else {
-                    alert("No new or valid users were added from the CSV file.");
-                }
-            };
-
-            reader.readAsText(file);
+            if (countAdded > 0) {
+                // Flash message on screen to confirm transmission initialization
+                const sList = document.getElementById(`studentList_${sec}`);
+                if (sList) sList.innerHTML = "<small style='color:#3b82f6; font-weight:bold;'>🔄 Transmitting CSV batch records to cloud...</small>";
+                
+                await cloudSave("Users", users);
+                alert(`Successfully imported ${countAdded} users into ${sec} section.`);
+                fileInput.value = ""; // Clear file selector input cache
+                await renderSectionData(sec);
+            } else {
+                alert("No new or valid users were added. Check if these users already exist in your database.");
+                await renderSectionData(sec);
+            }
+        } catch (err) {
+            console.error("CSV Processing Error Details:", err);
+            alert("An internal processing script error occurred: " + err.message);
         }
+    };
+
+    reader.readAsText(file);
+}
 
         // --- NEW METHOD: CLEAR ALL USERS FOR SELECTED MODULE IN ONE CLICK ---
         async function clearAllUsers(sec) {
