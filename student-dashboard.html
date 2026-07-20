@@ -1,251 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-      document.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false);
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'F12' || (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j'))) {
-          e.preventDefault();
-        }
-      });
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - CISF ASTI DELHI</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Student Learning Workspace - CISF ASTI</title>
     <style>
-        .search-container { margin-bottom: 33px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2.6px 13px rgba(0,0,0,0.05); }
-        .search-input { width: 100%; padding: 16px 20px; font-size: 21px; border: 2.6px solid #328cc1; border-radius: 5px; box-sizing: border-box; outline: none; }
-        .broadcast-container { background-color: #fffaf0; border-left: 6.5px solid #dd6b20; padding: 20px 26px; border-radius: 8px; margin-bottom: 33px; display: none; }
-        .broadcast-title { font-weight: bold; color: #dd6b20; margin-bottom: 7px; font-size: 18.5px; text-transform: uppercase; }
-        .broadcast-text { font-size: 20px; color: #2d3748; white-space: pre-line; }
-        .master-dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 33px; align-items: start; margin-bottom: 40px; }
-        @media (max-width: 992px) { .master-dashboard-grid { grid-template-columns: 1fr; } }
-        .grid-column-panel { background: #fdfdfd; border: 1.3px solid #e2e8f0; border-radius: 10.5px; padding: 26px; min-height: 520px; }
-        .section-heading { color: #0b3c5d; border-bottom: 4px solid #328cc1; padding-bottom: 10.5px; margin-top: 0; margin-bottom: 26px; font-size: 23.8px; text-transform: uppercase; }
-        .tile-card { background: white; border-radius: 8px; padding: 21px; box-shadow: 0 4px 13px rgba(0,0,0,0.06); margin-bottom: 20px; border-top: 5.3px solid #ccc; display: flex; flex-direction: column; }
-        .tile-card h4 { font-size: 21px; margin-bottom: 11px; }
-        .tile-card p { font-size: 18.5px; margin-bottom: 13px; }
-        .tile-card button { width: 100%; padding: 11px; font-size: 17.2px; cursor: pointer; font-weight: bold; }
-        .loading-overlay { color: #718096; font-style: italic; text-align: center; padding: 26px; font-size: 18.5px; }
+        :root { --brand: #1e3a8a; --accent: #2563eb; --bg: #f1f5f9; --card: #ffffff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .dashboard-container { max-width: 1100px; margin: 0 auto; }
+        .user-header { background: var(--brand); color: white; padding: 24px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .alert-banner { background: #fef3c7; border-left: 6px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 20px 0; color: #92400e; font-weight: 500; }
+        .section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { background: var(--card); border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .card h3 { margin-top: 0; color: var(--brand); display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #f8fafc; padding-bottom: 10px; }
+        .action-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 10px; }
+        .btn { background: var(--accent); color: white; border: none; padding: 8px 14px; border-radius: 5px; font-weight: 600; cursor: pointer; text-decoration: none; font-size: 13px; }
+        .btn-logout { background: #ef4444; }
     </style>
 </head>
 <body>
-    <header><h1>CISF ASTI DELHI EXAM PORTAL</h1></header>
-    <div class="airport-marquee"><div class="marquee-content">✈️ IGI AIRPORT NEW DELHI - CISF ASTI QUIZ PORTAL ✈️</div></div>
 
-    <div class="portal-container">
-        <div style="margin-bottom: 20px; font-weight: bold; color: #4a5568; font-size: 18.5px;"> Active Session: <span id="welcomeUser" style="color:#2ecc71; font-size:21px;">Verifying...</span> 
-            | Designation: <span id="designationLabel" style="color:#e67e22; font-size:21px;">...</span>
-            | Course Stream Assignment: <span id="trackLabel" style="color:#0b3c5d; text-transform:uppercase;">...</span>
+<div class="dashboard-container">
+    <div class="user-header">
+        <div>
+            <h1 id="sName" style="margin:0; font-size: 24px;">Welcome, Trainee</h1>
+            <p id="sMeta" style="margin: 5px 0 0 0; opacity: 0.8; font-size: 14px;">Section: Basic AVSEC</p>
+        </div>
+        <button class="btn btn-logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- LIVE INSTRUCTION BANNER -->
+    <div class="alert-banner" id="instructionBox">
+        🔔 <strong>Notice:</strong> Loading current announcements...
+    </div>
+
+    <div class="section-grid">
+        <!-- QUIZZES -->
+        <div class="card">
+            <h3>📝 Available Quizzes</h3>
+            <div id="quizContainer"><p>Loading...</p></div>
         </div>
 
-        <div id="broadcastBox" class="broadcast-container">
-            <div class="broadcast-title">📢 Notice From Admin Panel</div>
-            <div id="broadcastText" class="broadcast-text"></div>
+        <!-- STUDY MATERIALS -->
+        <div class="card">
+            <h3>📁 Study Materials (Drive)</h3>
+            <div id="materialContainer"><p>Loading...</p></div>
         </div>
 
-        <div class="search-container">
-            <input type="text" id="dashboardSearch" class="search-input" placeholder="🔍 Live search current section contents..." oninput="filterDashboard()">
-        </div>
-
-        <div class="master-dashboard-grid">
-            <div class="grid-column-panel">
-                <h3 class="section-heading">📋 Exam Packages</h3>
-                <div id="studentQuizList"><div class="loading-overlay">Syncing with cloud database...</div></div>
-            </div>
-            <div class="grid-column-panel">
-                <h3 class="section-heading">📝 Google Forms</h3>
-                <div id="studentFormList"><div class="loading-overlay">Syncing with cloud database...</div></div>
-            </div>
-            <div class="grid-column-panel">
-                <h3 class="section-heading">📚 Study Materials</h3>
-                <div id="studentMaterialList"><div class="loading-overlay">Syncing with cloud database...</div></div>
-            </div>
-        </div>
-        <hr>
-        <div style="text-align: right; margin-top: 26px;">
-            <button style="background-color: #4a5568; color: white; font-size: 18.5px;" onclick="logoutStudent()">Log Out / Exit</button>
+        <!-- GOOGLE FORMS -->
+        <div class="card">
+            <h3>📋 Google Forms & Surveys</h3>
+            <div id="formContainer"><p>Loading...</p></div>
         </div>
     </div>
-    <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
+</div>
 
-    <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyp9HFFJ-gwqNCZPFlTJLpc5tJx-gA3o6eOCp15BZFTOEqGLL6Ns88YX_n4SdwNPmJy/exec"; 
-        const SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; 
+<script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkncEilt201u3mulG7EqP5FiaFd_4v4SWwNCt9LFg5ViqGIWFaAYkKIcPzQdfxCrLm/exec";
+    const SPREADSHEET_ID = localStorage.getItem('globalSpreadsheetId') || "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk";
+    const userSection = (localStorage.getItem('studentSectionContext') || 'basic').toLowerCase();
 
-        let studentSectionContext = 'basic';
-        let systemQuizzes = [];
-        let systemForms = [];
-        let systemMaterials = [];
-        let currentStudent = "";
-        let currentUsername = "";
-        let currentDesignation = "";
-        let currentActiveQuizName = "";
+    window.onload = () => {
+        document.getElementById('sName').innerText = localStorage.getItem('currentStudent') || "Trainee";
+        document.getElementById('sMeta').innerText = `Designation: ${localStorage.getItem('currentDesignation') || 'N/A'} | Section: ${userSection.toUpperCase()}`;
+        loadDashboardContent();
+    };
 
-        async function cloudFetch(key) {
-            try {
-                let res = await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "loadData", spreadsheetId: SPREADSHEET_ID, key: key })
-                });
-                return await res.json();
-            } catch(e) { 
-                return [];
-            }
-        }
+    async function apiCall(data) {
+        data.spreadsheetId = SPREADSHEET_ID;
+        let res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+        return await res.json();
+    }
 
-        window.onload = async function() {
-            currentStudent = localStorage.getItem('currentStudent') || "";
-            currentUsername = localStorage.getItem('currentUsername') || "";
-            currentDesignation = localStorage.getItem('currentDesignation') || "Not Assigned";
-            studentSectionContext = localStorage.getItem('studentSectionContext') || "basic";
+    async function loadDashboardContent() {
+        // Load Instructions
+        let instructions = await apiCall({ action: "loadData", key: "Instructions" });
+        let currentInst = instructions.find(i => (i.section || '').toLowerCase() === userSection);
+        document.getElementById('instructionBox').innerHTML = currentInst 
+            ? `📢 <strong>Notice (${currentInst.updatedAt}):</strong> ${currentInst.message}`
+            : `📢 <strong>Notice:</strong> No active announcements.`;
 
-            if (!currentStudent) {
-                window.location.href = "index.html";
-                return;
-            }
+        // Load Quizzes
+        let quizzes = await apiCall({ action: "loadData", key: "Quizzes" });
+        renderItems('quizContainer', quizzes.filter(q => (q.section || 'basic').toLowerCase() === userSection), q => `
+            <div class="action-item">
+                <div><strong>${q.quizTitle}</strong><br><small>${q.durationMinutes || 30} Mins</small></div>
+                <button class="btn" onclick="launchQuiz('${q.quizUrl}', '${q.quizTitle}')">Start Test</button>
+            </div>`);
 
-            document.getElementById('welcomeUser').innerText = currentStudent;
-            document.getElementById('designationLabel').innerText = currentDesignation;
-            document.getElementById('trackLabel').innerText = studentSectionContext === 'basic' ? 'Basic AVSEC' : 'Screener';
-            
-            await loadAndRenderSection();
-        };
+        // Load Drive Materials
+        let materials = await apiCall({ action: "loadData", key: "Materials" });
+        renderItems('materialContainer', materials.filter(m => (m.section || 'basic').toLowerCase() === userSection), m => `
+            <div class="action-item">
+                <div><strong>${m.title}</strong></div>
+                <a href="${m.driveUrl}" target="_blank" class="btn" style="background:#10b981;">Open Drive</a>
+            </div>`);
 
-        async function loadAndRenderSection() {
-            try {
-                const notices = await cloudFetch("Notices");
-                const matchingNotice = notices.find(n => n.targetSection.toLowerCase() === studentSectionContext || n.targetSection === "All Streams");
-                
-                const broadcastBox = document.getElementById('broadcastBox');
-                if (matchingNotice && matchingNotice.details) {
-                    document.getElementById('broadcastText').innerText = matchingNotice.details;
-                    broadcastBox.style.display = "block";
-                } else {
-                    broadcastBox.style.display = "none";
-                }
+        // Load Forms
+        let forms = await apiCall({ action: "loadData", key: "Forms" });
+        renderItems('formContainer', forms.filter(f => (f.section || 'basic').toLowerCase() === userSection), f => `
+            <div class="action-item">
+                <div><strong>${f.formTitle}</strong></div>
+                <a href="${f.formUrl}" target="_blank" class="btn" style="background:#8b5cf6;">Open Form</a>
+            </div>`);
+    }
 
-                let allQuizzes = await cloudFetch("Quizzes");
-                systemQuizzes = allQuizzes.filter(q => q.quizId && q.quizId.includes(studentSectionContext));
+    function renderItems(containerId, list, templateFn) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = list.length ? list.map(templateFn).join('') : '<small>Nothing assigned yet.</small>';
+    }
 
-                let allForms = await cloudFetch("Forms");
-                systemForms = allForms.filter(f => f.targetSection && f.targetSection.toLowerCase() === studentSectionContext);
+    function launchQuiz(url, title) {
+        localStorage.setItem('currentActiveQuizName', title);
+        window.open(url, "_blank");
+    }
 
-                let allMaterials = await cloudFetch("Materials");
-                systemMaterials = allMaterials.filter(m => m.targetSection && m.targetSection.toLowerCase() === studentSectionContext);
-
-                renderGrid(systemQuizzes, systemForms, systemMaterials);
-            } catch (err) {
-                console.error("Dashboard error:", err);
-                renderGrid([], [], []);
-            }
-        }
-
-        function renderGrid(quizzes, forms, materials) {
-            const quizContainer = document.getElementById('studentQuizList');
-            const formContainer = document.getElementById('studentFormList');
-            const matContainer = document.getElementById('studentMaterialList');
-
-            quizContainer.innerHTML = quizzes.length === 0 ? '<p style="color:#aaa; font-size:18.5px;">No quiz configurations found.</p>' : '';
-            quizzes.forEach((quiz) => {
-                quizContainer.innerHTML += `
-                    <div class="tile-card" style="border-top-color: #d9b310;">
-                        <h4>📋 ${quiz.quizTitle}</h4>
-                        <p>Duration: ${quiz.durationMinutes} mins</p>
-                        <button onclick="launchQuiz('${quiz.fileId}', '${quiz.quizTitle}')">Launch Quiz</button>
-                    </div>`;
-            });
-
-            formContainer.innerHTML = forms.length === 0 ? '<p style="color:#aaa; font-size:18.5px;">No active form structures linked.</p>' : '';
-            forms.forEach((form) => {
-                formContainer.innerHTML += `
-                    <div class="tile-card" style="border-top-color: #673ab7;">
-                        <h4>📝 ${form.title}</h4>
-                        <button style="background-color: #673ab7; color: white;" onclick="window.open('${form.urlLink}', '_blank')">Open Form</button>
-                    </div>`;
-            });
-
-            matContainer.innerHTML = materials.length === 0 ? '<p style="color:#aaa; font-size:18.5px;">No study guides available.</p>' : '';
-            materials.forEach((mat) => {
-                matContainer.innerHTML += `
-                    <div class="tile-card" style="border-top-color: #328cc1;">
-                        <h4>📚 ${mat.title}</h4>
-                        <p>${mat.description}</p>
-                        <button style="background-color: #328cc1; color: white;" onclick="window.open('${mat.urlLink}', '_blank')">Open Library</button>
-                    </div>`;
-            });
-        }
-
-        function filterDashboard() {
-            const query = document.getElementById('dashboardSearch').value.toLowerCase().trim();
-            const filteredQuizzes = systemQuizzes.filter(q => q.quizTitle.toLowerCase().includes(query));
-            const filteredForms = systemForms.filter(f => f.title.toLowerCase().includes(query));
-            const filteredMaterials = systemMaterials.filter(m => m.title.toLowerCase().includes(query));
-            renderGrid(filteredQuizzes, filteredForms, filteredMaterials);
-        }
-
-        async function launchQuiz(driveFileId, quizTitle) {
-            currentActiveQuizName = quizTitle; 
-            
-            let res = await fetch(APPS_SCRIPT_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "fetchDriveFile", spreadsheetId: SPREADSHEET_ID, fileId: driveFileId })
-            });
-            let data = await res.json();
-            
-            if (!data || data.status !== "success" || !data.htmlContent) {
-                alert("Unable to fetch quiz data from Drive storage. Verify file mapping settings.");
-                return;
-            }
-            
-            const newWindow = window.open("about:blank", "_blank");
-            if (newWindow) {
-                newWindow.document.open();
-                newWindow.document.write(data.htmlContent);
-                newWindow.document.close();
-
-                newWindow.submitExamResults = function(scoreString) {
-                    window.submitExamResults(scoreString, quizTitle);
-                };
-            } else {
-                alert("Popup blocked! Please allow popups for this portal site.");
-            }
-        }
-
-        window.submitExamResults = async function(scoreString, customTitle) {
-            const finalQuizTitle = customTitle || currentActiveQuizName || "Assessment Pack";
-
-            const payload = {
-                action: "submitScore",
-                spreadsheetId: SPREADSHEET_ID,
-                studentName: currentStudent,
-                username: currentUsername,
-                studentSection: studentSectionContext.toUpperCase(),
-                quizName: finalQuizTitle,
-                designation: currentDesignation,
-                score: scoreString,
-                timestamp: new Date().toLocaleString()
-            };
-
-            try {
-                await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-                alert("Results saved securely to Google Spreadsheet!");
-            } catch (err) {
-                alert("Error sending score telemetry data down to spreadsheet grid.");
-            }
-        };
-
-        function logoutStudent() {
-            localStorage.removeItem('currentStudent');
-            localStorage.removeItem('currentUsername');
-            localStorage.removeItem('currentDesignation');
-            localStorage.removeItem('studentSectionContext');
-            window.location.href = "index.html";
-        }
-    </script>
+    function logout() {
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
+</script>
 </body>
 </html>

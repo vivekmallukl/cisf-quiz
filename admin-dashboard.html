@@ -2,525 +2,210 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Workspace - CISF ASTI DELHI</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Portal - CISF ASTI</title>
     <style>
-        .workspace-nav-bar { display: flex; background: #e2e8f0; padding: 8px; border-radius: 8px; gap: 15px; margin-bottom: 25px; }
-        .nav-toggle-btn { flex: 1; padding: 16px; font-size: 16px; font-weight: bold; background: #fff; color: #4a5568; border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; text-transform: uppercase; }
-        .nav-toggle-btn.active-basic { background: #111827; color: white; border-color: #fbbf24; }
-        .nav-toggle-btn.active-screener { background: #10b981; color: white; border-color: #fbbf24; }
-        .admin-section-wrapper { display: none; }
-        .admin-section-wrapper.active { display: block; }
-        .tiles-container-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 15px; }
-        .tile-card-box { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; justify-content: space-between; }
-        .tile-card-box h4 { margin-top: 0; margin-bottom: 12px; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .management-item { display: flex; justify-content: space-between; align-items: center; background: #f9fafb; padding: 6px 10px; margin-top: 6px; border-radius: 4px; border: 1px solid #e5e7eb; font-size: 13px; }
-        .btn-small { padding: 2px 6px; font-size: 11px; cursor: pointer; }
-        .btn-danger { background-color: #ef4444; color: white; border: none; border-radius: 3px; }
-        .scrollable-list { max-height: 250px; overflow-y: auto; border: 1px solid #e5e7eb; padding: 5px; border-radius: 4px; background: #fff; margin-top: 8px; }
-        textarea.broadcast-input { width: 100%; height: 65px; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; resize: none; box-sizing: border-box; font-family: inherit; font-size: 13px; }
-        .section-header-banner { padding: 12px; color: white; border-radius: 6px; font-weight: bold; font-size: 18px; text-align: center; text-transform: uppercase; margin-bottom: 15px; }
-        .banner-basic { background-color: #111827; border-left: 5px solid #fbbf24; }
-        .banner-screener { background-color: #10b981; border-left: 5px solid #111827; }
+        :root { 
+            --primary: #0f172a; 
+            --accent: #2563eb; 
+            --bg: #f8fafc; 
+            --card: #ffffff; 
+            --text: #1e293b; 
+            --danger: #dc2626;
+            --success: #16a34a;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; padding-bottom: 90px; }
+        .header-bar { background: var(--primary); color: white; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 12px; font-weight: bold; border: none; background: #e2e8f0; color: #475569; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
+        .tab-btn.active { background: var(--accent); color: white; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .card { background: var(--card); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+        .card h3 { margin-top: 0; font-size: 16px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; color: var(--primary); }
+        input, textarea, button { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #cbd5e1; border-radius: 5px; box-sizing: border-box; }
+        button.btn-primary { background: var(--accent); color: white; border: none; font-weight: bold; cursor: pointer; }
+        .scroll-list { max-height: 180px; overflow-y: auto; margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 4px; padding: 5px; }
+        .item-row { display: flex; justify-content: space-between; padding: 6px; background: #f8fafc; margin-bottom: 4px; border-radius: 4px; font-size: 13px; }
         
-        /* New custom CSS for tools */
-        .csv-box { border: 1px dashed #d1d5db; padding: 10px; margin-top: 10px; background-color: #f3f4f6; border-radius: 4px; }
-        .action-btn-group { display: flex; gap: 5px; margin-top: 8px; }
+        /* BOTTOM MOST ACTION FOOTER BAR */
+        .bottom-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-top: 2px solid #e2e8f0;
+            padding: 15px 30px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .btn-save-exit {
+            background-color: var(--danger);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: auto;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease;
+        }
+        .btn-save-exit:hover {
+            background-color: #b91c1c;
+        }
     </style>
 </head>
 <body>
 
-    <header><h1>CISF ASTI DELHI EXAM PORTAL - ADMINISTRATIVE CONSOLE</h1></header>
+<div class="header-bar">
+    <h2>CISF ASTI DELHI - Administrative Control Console</h2>
+    <input type="text" id="globalSpreadsheetId" placeholder="Spreadsheet ID..." style="width: 300px; margin: 0;" onchange="saveSheetId(this.value)">
+</div>
 
-    <div class="portal-container" style="max-width: 96%;">
-        <h2>Control Panel Workspace</h2>
-        <p>Authenticated Admin Profile: <strong>vivek</strong></p>
-        <hr>
+<div class="nav-tabs">
+    <button class="tab-btn active" id="btn-basic" onclick="switchSection('basic')">📚 Basic AVSEC Channel</button>
+    <button class="tab-btn" id="btn-screener" onclick="switchSection('screener')">🛡️ Screener Channel</button>
+</div>
 
-        <div class="workspace-nav-bar">
-            <button class="nav-toggle-btn active-basic" id="tab-basic" onclick="toggleMainWorkspace('basic')">📚 Basic AVSEC Channel</button>
-            <button class="nav-toggle-btn" id="tab-screener" onclick="toggleMainWorkspace('screener')">🛡️ Screener Channel</button>
-        </div>
-
-        <div class="tile-card-box" style="margin-bottom:20px; flex-direction:row; gap:20px;">
-           <div style="flex:1;">
-               <label style="font-size:12px; font-weight:bold;">Core Target Spreadsheet ID:</label>
-               <input type="text" id="globalSpreadsheetId" placeholder="Paste your Google Spreadsheet ID string here..." style="width:100%; padding:6px; margin-top:4px;" onchange="saveSpreadsheetIdContext(this.value)">
-           </div>
-        </div>
-
-        <!-- BASIC MODULE VIEW -->
-        <div id="workspace-basic" class="admin-section-wrapper active">
-            <div class="section-header-banner banner-basic">Active Module View: Basic AVSEC Operations</div>
-            <div class="tiles-container-grid">
-                
-                <div class="tile-card-box">
-                    <div>
-                        <h4>1. Link Drive HTML Quizzes</h4>
-                        <div class="form-group"><input type="text" id="quizDesc_basic" placeholder="Quiz Title" style="padding:6px; font-size:13px; width:100%;"></div>
-                        <div class="form-group"><input type="text" id="quizFileId_basic" placeholder="Google Drive HTML File ID" style="padding:6px; font-size:13px; width:100%;"></div>
-                        <div class="form-group"><input type="number" id="quizTime_basic" placeholder="Duration (Minutes)" style="padding:6px; font-size:13px; width:100%;"></div>
-                    </div>
-                    <button onclick="publishQuiz('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Publish Quiz</button>
-                    <div id="quizList_basic" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>2. Provision Student Users</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:10px; flex-direction: column;">
-                            <input type="text" id="user_basic" placeholder="Username" style="padding:5px; font-size:12px;">
-                            <input type="password" id="pass_basic" placeholder="Password" style="padding:5px; font-size:12px;">
-                            <input type="text" id="desig_basic" placeholder="Designation (e.g. ASTI Inspector)" style="padding:5px; font-size:12px;">
-                            <input type="text" id="name_basic" placeholder="Real Name" style="padding:5px; font-size:12px;">
-                        </div>
-                        <button onclick="addStudentManual('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Save Account</button>
-                        
-                        <div class="csv-box">
-                            <label style="font-size:11px; font-weight:bold; display:block; margin-bottom:4px;">Batch Import via CSV File:</label>
-                            <input type="file" id="csv_file_basic" accept=".csv" style="font-size:11px; width:100%;">
-                            <button onclick="uploadCSVUsers('basic')" style="padding:4px 8px; font-size:11px; width:100%; margin-top:6px; background:#4b5563; color:white; border:none; border-radius:3px; cursor:pointer;">Upload CSV</button>
-                            <small style="font-size:10px; color:#6b7280; display:block; margin-top:4px;">Header format: username,password,designation,name</small>
-                        </div>
-                    </div>
-                    
-                    <div class="action-btn-group">
-                        <button onclick="clearAllUsers('basic')" style="padding:4px 8px; font-size:11px; background-color:#dc2626; color:white; border:none; border-radius:3px; cursor:pointer; width:100%;">⚠️ Clear All Basic Users</button>
-                    </div>
-                    <div id="studentList_basic" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>3. Link Google Forms</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
-                            <input type="text" id="formTitle_basic" placeholder="Form Title" style="padding:5px; font-size:12px;">
-                            <input type="text" id="formUrl_basic" placeholder="Google Form Link URL" style="padding:5px; font-size:12px;">
-                        </div>
-                    </div>
-                    <button onclick="saveForm('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Link Form</button>
-                    <div id="formList_basic" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>4. Reference Materials</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
-                            <input type="text" id="matTitle_basic" placeholder="Document Label" style="padding:5px; font-size:12px;">
-                            <input type="text" id="matUrl_basic" placeholder="Resource/Drive Link URL" style="padding:5px; font-size:12px;">
-                            <input type="text" id="matDesc_basic" placeholder="Short Description" style="padding:5px; font-size:12px;">
-                        </div>
-                    </div>
-                    <button onclick="saveMaterial('basic')" style="padding:6px 12px; font-size:13px; width:100%;">Save Material</button>
-                    <div id="materialList_basic" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>5. Notice Bulletin Broadcast</h4>
-                        <textarea id="broadcast_basic" class="broadcast-input" placeholder="Enter instructions for Basic students..."></textarea>
-                    </div>
-                    <button onclick="saveBroadcast('basic')" style="padding:6px 10px; font-size:12px; width:100%; margin-top:8px;">Publish Notice</button>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- SCREENER MODULE VIEW -->
-        <div id="workspace-screener" class="admin-section-wrapper">
-            <div class="section-header-banner banner-screener">Active Module View: Screener Operations</div>
-            <div class="tiles-container-grid">
-                
-                <div class="tile-card-box">
-                    <div>
-                        <h4>1. Link Drive HTML Quizzes</h4>
-                        <div class="form-group"><input type="text" id="quizDesc_screener" placeholder="Quiz Title" style="padding:6px; font-size:13px; width:100%;"></div>
-                        <div class="form-group"><input type="text" id="quizFileId_screener" placeholder="Google Drive HTML File ID" style="padding:6px; font-size:13px; width:100%;"></div>
-                        <div class="form-group"><input type="number" id="quizTime_screener" placeholder="Duration (Minutes)" style="padding:6px; font-size:13px; width:100%;"></div>
-                    </div>
-                    <button onclick="publishQuiz('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Publish Quiz</button>
-                    <div id="quizList_screener" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>2. Provision Student Users</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:10px; flex-direction: column;">
-                            <input type="text" id="user_screener" placeholder="Username" style="padding:5px; font-size:12px;">
-                            <input type="password" id="pass_screener" placeholder="Password" style="padding:5px; font-size:12px;">
-                            <input type="text" id="desig_screener" placeholder="Designation (e.g. ASTI Inspector)" style="padding:5px; font-size:12px;">
-                            <input type="text" id="name_screener" placeholder="Real Name" style="padding:5px; font-size:12px;">
-                        </div>
-                        <button onclick="addStudentManual('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Save Account</button>
-                        
-                        <div class="csv-box">
-                            <label style="font-size:11px; font-weight:bold; display:block; margin-bottom:4px;">Batch Import via CSV File:</label>
-                            <input type="file" id="csv_file_screener" accept=".csv" style="font-size:11px; width:100%;">
-                            <button onclick="uploadCSVUsers('screener')" style="padding:4px 8px; font-size:11px; width:100%; margin-top:6px; background:#4b5563; color:white; border:none; border-radius:3px; cursor:pointer;">Upload CSV</button>
-                            <small style="font-size:10px; color:#6b7280; display:block; margin-top:4px;">Header format: username,password,designation,name</small>
-                        </div>
-                    </div>
-                    
-                    <div class="action-btn-group">
-                        <button onclick="clearAllUsers('screener')" style="padding:4px 8px; font-size:11px; background-color:#dc2626; color:white; border:none; border-radius:3px; cursor:pointer; width:100%;">⚠️ Clear All Screener Users</button>
-                    </div>
-                    <div id="studentList_screener" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>3. Link Google Forms</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
-                            <input type="text" id="formTitle_screener" placeholder="Form Title" style="padding:5px; font-size:12px;">
-                            <input type="text" id="formUrl_screener" placeholder="Google Form Link URL" style="padding:5px; font-size:12px;">
-                        </div>
-                    </div>
-                    <button onclick="saveForm('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Link Form</button>
-                    <div id="formList_screener" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>4. Reference Materials</h4>
-                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-direction:column;">
-                            <input type="text" id="matTitle_screener" placeholder="Document Label" style="padding:5px; font-size:12px;">
-                            <input type="text" id="matUrl_screener" placeholder="Resource/Drive Link URL" style="padding:5px; font-size:12px;">
-                            <input type="text" id="matDesc_screener" placeholder="Short Description" style="padding:5px; font-size:12px;">
-                        </div>
-                    </div>
-                    <button onclick="saveMaterial('screener')" style="padding:6px 12px; font-size:13px; width:100%;">Save Material</button>
-                    <div id="materialList_screener" class="scrollable-list"></div>
-                </div>
-
-                <div class="tile-card-box">
-                    <div>
-                        <h4>5. Notice Bulletin Broadcast</h4>
-                        <textarea id="broadcast_screener" class="broadcast-input" placeholder="Enter instructions for Screener students..."></textarea>
-                    </div>
-                    <button onclick="saveBroadcast('screener')" style="padding:6px 10px; font-size:12px; width:100%; margin-top:8px;">Publish Notice</button>
-                </div>
-
-            </div>
-        </div>
-
-        <br><br><hr>
-        <div style="text-align: right; margin-top: 20px;">
-            <button style="background-color: #374151; color: white;" onclick="saveAndExit()">Save & Exit Panel</button>
-        </div>
+<div class="grid-container">
+    <!-- BROADCAST INSTRUCTIONS -->
+    <div class="card" style="grid-column: span 2;">
+        <h3>📢 Broadcast Live Instructions to Trainees</h3>
+        <textarea id="instructionText" rows="3" placeholder="Enter important instructions, exam rules, or announcements here..."></textarea>
+        <button class="btn-primary" onclick="broadcastInstruction()">Post Announcement</button>
     </div>
 
-    <footer>created and developed by Vivek R ,ALL RIGHTS RESERVED 2026</footer>
+    <!-- QUIZZES -->
+    <div class="card">
+        <h3>1. GitHub Quizzes</h3>
+        <input type="text" id="qTitle" placeholder="Quiz Title">
+        <input type="text" id="qUrl" placeholder="GitHub Pages URL">
+        <input type="number" id="qTime" placeholder="Duration (Mins)">
+        <button class="btn-primary" onclick="addQuiz()">Publish Quiz</button>
+        <div id="quizList" class="scroll-list"></div>
+    </div>
 
-   <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyp9HFFJ-gwqNCZPFlTJLpc5tJx-gA3o6eOCp15BZFTOEqGLL6Ns88YX_n4SdwNPmJy/exec"; 
-        let SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk"; 
+    <!-- STUDY MATERIALS -->
+    <div class="card">
+        <h3>2. Study Materials (Google Drive)</h3>
+        <input type="text" id="mTitle" placeholder="Document / Module Name">
+        <input type="text" id="mUrl" placeholder="Google Drive Link">
+        <button class="btn-primary" onclick="addMaterial()">Share Material</button>
+        <div id="materialList" class="scroll-list"></div>
+    </div>
 
-        window.onload = async function() {
-            if(localStorage.getItem('globalSpreadsheetId')) {
-                SPREADSHEET_ID = localStorage.getItem('globalSpreadsheetId');
-            }
-            document.getElementById('globalSpreadsheetId').value = SPREADSHEET_ID;
-            await refreshAllViews();
-        };
+    <!-- GOOGLE FORMS -->
+    <div class="card">
+        <h3>3. Google Forms / Surveys</h3>
+        <input type="text" id="fTitle" placeholder="Form Name / Feedback Title">
+        <input type="text" id="fUrl" placeholder="Google Form Link">
+        <button class="btn-primary" onclick="addForm()">Link Form</button>
+        <div id="formList" class="scroll-list"></div>
+    </div>
+</div>
 
-        function saveSpreadsheetIdContext(val) {
-            if(val.trim()) {
-                SPREADSHEET_ID = val.trim();
-                localStorage.setItem('globalSpreadsheetId', SPREADSHEET_ID);
-                refreshAllViews();
-            }
-        }
+<!-- BOTTOM-MOST SAVE & EXIT BAR -->
+<div class="bottom-action-bar">
+    <button class="btn-save-exit" onclick="saveAndExitPortal()">
+        💾 Save & Exit Admin Dashboard
+    </button>
+</div>
 
-        async function refreshAllViews() {
-            await renderSectionData('basic');
-            await renderSectionData('screener');
-        }
+<script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkncEilt201u3mulG7EqP5FiaFd_4v4SWwNCt9LFg5ViqGIWFaAYkKIcPzQdfxCrLm/exec";
+    let SPREADSHEET_ID = localStorage.getItem('globalSpreadsheetId') || "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk";
+    let activeSection = 'basic';
 
-        async function cloudFetch(tabName) {
-            if(!SPREADSHEET_ID) return [];
-            try {
-                let res = await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "loadData", spreadsheetId: SPREADSHEET_ID, key: tabName })
-                });
-                return await res.json();
-            } catch(e) { return []; }
-        }
-
-        async function cloudSave(tabName, updatedArray) {
-            if(!SPREADSHEET_ID) return;
-            try {
-                let res = await fetch(APPS_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "saveData", spreadsheetId: SPREADSHEET_ID, key: tabName, data: updatedArray })
-                });
-                alert(`Successfully updated ${tabName} configuration!`);
-            } catch(e) { 
-                console.error("Sync Failure:", e); 
-                alert("Cloud transmission failed. Verify your Google Sheet connection permissions.");
-            }
-        }
-
-        function toggleMainWorkspace(targetSection) {
-            const basicWrapper = document.getElementById('workspace-basic');
-            const screenerWrapper = document.getElementById('workspace-screener');
-            const tabBasic = document.getElementById('tab-basic');
-            const tabScreener = document.getElementById('tab-screener');
-
-            if (targetSection === 'basic') {
-                basicWrapper.classList.add('active');
-                screenerWrapper.classList.remove('active');
-                tabBasic.className = "nav-toggle-btn active-basic";
-                tabScreener.className = "nav-toggle-btn";
-            } else {
-                basicWrapper.classList.remove('active');
-                screenerWrapper.classList.add('active');
-                tabBasic.className = "nav-toggle-btn";
-                tabScreener.className = "nav-toggle-btn active-screener";
-            }
-        }
-
-        async function renderSectionData(sec) {
-            const qList = document.getElementById(`quizList_${sec}`);
-            let allQuizzes = await cloudFetch("Quizzes");
-            let filteredQuizzes = allQuizzes.filter(q => q.quizId && q.quizId.includes(sec));
-            qList.innerHTML = filteredQuizzes.length === 0 ? "<small style='color:#aaa;'>No quizzes published.</small>" : "";
-            filteredQuizzes.forEach((q) => {
-                qList.innerHTML += `<div class="management-item"><span>${q.quizTitle}</span><button class="btn-small btn-danger" onclick="deleteItem('Quizzes', 'quizId', '${q.quizId}', '${sec}')">✕</button></div>`;
-            });
-
-            const sList = document.getElementById(`studentList_${sec}`);
-            let allUsers = await cloudFetch("Users");
-            let filteredUsers = allUsers.filter(u => u.section === sec && u.role === "student");
-            sList.innerHTML = filteredUsers.length === 0 ? "<small style='color:#aaa;'>No users provisioned.</small>" : "";
-            filteredUsers.forEach((u) => {
-                sList.innerHTML += `<div class="management-item"><span>👤 <strong>${u.username}</strong> - ${u.designation || 'No Desig'} (${u.name})</span><button class="btn-small btn-danger" onclick="deleteItem('Users', 'username', '${u.username}', '${sec}')">✕</button></div>`;
-            });
-
-            const fList = document.getElementById(`formList_${sec}`);
-            let allForms = await cloudFetch("Forms");
-            let filteredForms = allForms.filter(f => f.targetSection === sec);
-            fList.innerHTML = filteredForms.length === 0 ? "<small style='color:#aaa;'>No forms linked.</small>" : "";
-            filteredForms.forEach((f) => {
-                fList.innerHTML += `<div class="management-item"><span>📝 ${f.title}</span><button class="btn-small btn-danger" onclick="deleteItem('Forms', 'title', '${f.title}', '${sec}')">✕</button></div>`;
-            });
-
-            const mList = document.getElementById(`materialList_${sec}`);
-            let allMats = await cloudFetch("Materials");
-            let filteredMats = allMats.filter(m => m.targetSection === sec);
-            mList.innerHTML = filteredMats.length === 0 ? "<small style='color:#aaa;'>No reference assets.</small>" : "";
-            filteredMats.forEach((m) => {
-                mList.innerHTML += `<div class="management-item"><span>📚 ${m.title}</span><button class="btn-small btn-danger" onclick="deleteItem('Materials', 'title', '${m.title}', '${sec}')">✕</button></div>`;
-            });
-
-            let notices = await cloudFetch("Notices");
-            let secNotice = notices.find(n => n.targetSection === sec);
-            if(secNotice) document.getElementById(`broadcast_${sec}`).value = secNotice.details;
-        }
-
-        async function publishQuiz(sec) {
-            const title = document.getElementById(`quizDesc_${sec}`).value.trim();
-            const fId = document.getElementById(`quizFileId_${sec}`).value.trim();
-            const duration = document.getElementById(`quizTime_${sec}`).value.trim();
-            if(!title || !fId || !duration) { alert("Fill all elements."); return; }
-
-            let quizzes = await cloudFetch("Quizzes");
-            quizzes.push({ quizId: `quiz_${sec}_${Date.now()}`, quizTitle: title, fileId: fId, durationMinutes: parseInt(duration) });
-            await cloudSave("Quizzes", quizzes);
-            
-            document.getElementById(`quizDesc_${sec}`).value = "";
-            document.getElementById(`quizFileId_${sec}`).value = "";
-            document.getElementById(`quizTime_${sec}`).value = "";
-            await renderSectionData(sec);
-        }
-
-        async function addStudentManual(sec) {
-            const user = document.getElementById(`user_${sec}`).value.trim();
-            const pass = document.getElementById(`pass_${sec}`).value.trim();
-            const desig = document.getElementById(`desig_${sec}`).value.trim();
-            const realName = document.getElementById(`name_${sec}`).value.trim();
-            if(!user || !pass || !realName || !desig) { alert("Fill all user form slots including designation."); return; }
-
-            let users = await cloudFetch("Users");
-            if(users.some(u => u.username && u.username.toLowerCase() === user.toLowerCase())) { alert("Username already active mapping."); return; }
-
-            users.push({ username: user.toLowerCase(), password: pass, designation: desig, name: realName, section: sec, role: "student" });
-            await cloudSave("Users", users);
-            
-            document.getElementById(`user_${sec}`).value = "";
-            document.getElementById(`pass_${sec}`).value = "";
-            document.getElementById(`desig_${sec}`).value = "";
-            document.getElementById(`name_${sec}`).value = "";
-            await renderSectionData(sec);
-        }
-
-        // --- NEW METHOD: UPLOAD USERS FROM CSV ---
-        async function uploadCSVUsers(sec) {
-    const fileInput = document.getElementById(`csv_file_${sec}`);
-    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-        alert("Please select a CSV file first.");
-        return;
-    }
-
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-
-    reader.onload = async function(e) {
-        try {
-            const text = e.target.result;
-            // Handle both Windows (\r\n) and Unix (\n) line endings cleanly
-            const lines = text.split(/\r?\n/);
-            if (lines.length <= 1) {
-                alert("The CSV file seems to be empty or missing data lines.");
-                return;
-            }
-
-            let users = await cloudFetch("Users") || [];
-            let countAdded = 0;
-
-            // Start looping from row index 1 (skipping header)
-            for (let i = 1; i < lines.length; i++) {
-                let line = lines[i].trim();
-                if (!line) continue; // Skip empty trailing rows
-
-                let columns = line.split(",");
-                if (columns.length < 4) continue; 
-
-                // Convert explicitly to String to safely protect numeric usernames/passwords
-                let user = String(columns[0]).trim().toLowerCase();
-                let pass = String(columns[1]).trim();
-                let desig = String(columns[2]).trim();
-                let realName = String(columns[3]).trim();
-
-                if (!user || !pass) continue;
-
-                // Skip duplicates defensively
-                if (users.some(u => u.username && String(u.username).toLowerCase() === user)) {
-                    continue; 
-                }
-
-                users.push({ 
-                    username: user, 
-                    password: pass, 
-                    designation: desig, 
-                    name: realName, 
-                    section: sec, 
-                    role: "student" 
-                });
-                countAdded++;
-            }
-
-            if (countAdded > 0) {
-                // Flash message on screen to confirm transmission initialization
-                const sList = document.getElementById(`studentList_${sec}`);
-                if (sList) sList.innerHTML = "<small style='color:#3b82f6; font-weight:bold;'>🔄 Transmitting CSV batch records to cloud...</small>";
-                
-                await cloudSave("Users", users);
-                alert(`Successfully imported ${countAdded} users into ${sec} section.`);
-                fileInput.value = ""; // Clear file selector input cache
-                await renderSectionData(sec);
-            } else {
-                alert("No new or valid users were added. Check if these users already exist in your database.");
-                await renderSectionData(sec);
-            }
-        } catch (err) {
-            console.error("CSV Processing Error Details:", err);
-            alert("An internal processing script error occurred: " + err.message);
-        }
+    window.onload = () => {
+        document.getElementById('globalSpreadsheetId').value = SPREADSHEET_ID;
+        loadAllData();
     };
 
-    reader.readAsText(file);
-}
+    function saveSheetId(val) {
+        SPREADSHEET_ID = val.trim();
+        localStorage.setItem('globalSpreadsheetId', SPREADSHEET_ID);
+        loadAllData();
+    }
 
-        // --- NEW METHOD: CLEAR ALL USERS FOR SELECTED MODULE IN ONE CLICK ---
-        async function clearAllUsers(sec) {
-            if (!confirm(`⚠️ CRITICAL WARNING: Are you sure you want to delete ALL student users in the "${sec.toUpperCase()}" channel? This will wipe them completely from the configuration.`)) {
-                return;
-            }
+    function switchSection(sec) {
+        activeSection = sec;
+        document.getElementById('btn-basic').classList.toggle('active', sec === 'basic');
+        document.getElementById('btn-screener').classList.toggle('active', sec === 'screener');
+        loadAllData();
+    }
 
-            // Display temporary status text
-            const sList = document.getElementById(`studentList_${sec}`);
-            if (sList) sList.innerHTML = "<small style='color:#dc2626; font-weight:bold;'>🔄 Clearing all channel profiles...</small>";
+    async function apiCall(data) {
+        data.spreadsheetId = SPREADSHEET_ID;
+        let res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+        return await res.json();
+    }
 
-            let allUsers = await cloudFetch("Users");
-            
-            // Filter out and preserve ONLY users belonging to other categories or admin profiles
-            let remainingUsers = allUsers.filter(u => !(u.section === sec && u.role === "student"));
+    async function loadAllData() {
+        let quizzes = await apiCall({ action: "loadData", key: "Quizzes" });
+        let materials = await apiCall({ action: "loadData", key: "Materials" });
+        let forms = await apiCall({ action: "loadData", key: "Forms" });
 
-            await cloudSave("Users", remainingUsers);
-            await renderSectionData(sec);
+        renderList('quizList', quizzes.filter(x => x.section === activeSection), 'quizTitle');
+        renderList('materialList', materials.filter(x => x.section === activeSection), 'title');
+        renderList('formList', forms.filter(x => x.section === activeSection), 'formTitle');
+    }
+
+    function renderList(elemId, list, key) {
+        document.getElementById(elemId).innerHTML = list.map(i => `<div class="item-row"><span>${i[key]}</span></div>`).join('') || '<small>No records.</small>';
+    }
+
+    async function broadcastInstruction() {
+        let msg = document.getElementById('instructionText').value.trim();
+        if(!msg) return alert("Write an instruction.");
+        await apiCall({ action: "saveInstruction", section: activeSection, message: msg });
+        alert("Instruction posted!");
+        document.getElementById('instructionText').value = "";
+    }
+
+    async function addQuiz() {
+        let quizzes = await apiCall({ action: "loadData", key: "Quizzes" });
+        quizzes.push({ quizId: 'q_' + Date.now(), quizTitle: document.getElementById('qTitle').value, quizUrl: document.getElementById('qUrl').value, durationMinutes: document.getElementById('qTime').value, section: activeSection });
+        await apiCall({ action: "saveData", key: "Quizzes", data: quizzes });
+        loadAllData();
+    }
+
+    async function addMaterial() {
+        let materials = await apiCall({ action: "loadData", key: "Materials" });
+        materials.push({ materialId: 'm_' + Date.now(), title: document.getElementById('mTitle').value, driveUrl: document.getElementById('mUrl').value, section: activeSection });
+        await apiCall({ action: "saveData", key: "Materials", data: materials });
+        loadAllData();
+    }
+
+    async function addForm() {
+        let forms = await apiCall({ action: "loadData", key: "Forms" });
+        forms.push({ formId: 'f_' + Date.now(), formTitle: document.getElementById('fTitle').value, formUrl: document.getElementById('fUrl').value, section: activeSection });
+        await apiCall({ action: "saveData", key: "Forms", data: forms });
+        loadAllData();
+    }
+
+    // SAVE & EXIT HANDLER
+    function saveAndExitPortal() {
+        const currentSheetId = document.getElementById('globalSpreadsheetId').value.trim();
+        if (currentSheetId) {
+            localStorage.setItem('globalSpreadsheetId', currentSheetId);
         }
-
-        async function saveForm(sec) {
-            const title = document.getElementById(`formTitle_${sec}`).value.trim();
-            const url = document.getElementById(`formUrl_${sec}`).value.trim();
-            if(!title || !url) return;
-
-            let forms = await cloudFetch("Forms");
-            forms.push({ title: title, urlLink: url, targetSection: sec });
-            await cloudSave("Forms", forms);
-            
-            document.getElementById(`formTitle_${sec}`).value = "";
-            document.getElementById('formUrl_' + sec).value = "";
-            await renderSectionData(sec);
-        }
-
-        async function saveMaterial(sec) {
-            const title = document.getElementById(`matTitle_${sec}`).value.trim();
-            const url = document.getElementById(`matUrl_${sec}`).value.trim();
-            const desc = document.getElementById(`matDesc_${sec}`).value.trim();
-            if(!title || !url || !desc) return;
-
-            let mats = await cloudFetch("Materials");
-            mats.push({ title: title, urlLink: url, description: desc, targetSection: sec });
-            await cloudSave("Materials", mats);
-            
-            document.getElementById(`matTitle_${sec}`).value = "";
-            document.getElementById(`matUrl_${sec}`).value = "";
-            document.getElementById(`matDesc_${sec}`).value = "";
-            await renderSectionData(sec);
-        }
-
-        async function saveBroadcast(sec) {
-            const text = document.getElementById(`broadcast_${sec}`).value.trim();
-            let notices = await cloudFetch("Notices");
-            notices = notices.filter(n => n.targetSection !== sec); 
-            
-            if(text) {
-                notices.push({ date: new Date().toLocaleDateString(), title: `Notice for ${sec}`, details: text, targetSection: sec });
-            }
-            await cloudSave("Notices", notices);
-            await renderSectionData(sec);
-        }
-
-        async function deleteItem(tabName, matchKey, matchVal, sec) {
-            if(!confirm(`Are you sure you want to delete this item?`)) return;
-
-            let list = await cloudFetch(tabName);
-            
-            list = list.filter(item => {
-                const actualKey = Object.keys(item).find(k => k.toLowerCase().trim() === matchKey.toLowerCase().trim());
-                if (!actualKey) return true;
-                
-                const itemVal = String(item[actualKey]).toLowerCase().trim();
-                const searchVal = String(matchVal).toLowerCase().trim();
-                return itemVal !== searchVal;
-            });
-            
-            const containerId = tabName === 'Users' ? `studentList_${sec}` : 
-                                tabName === 'Quizzes' ? `quizList_${sec}` : 
-                                tabName === 'Forms' ? `formList_${sec}` : `materialList_${sec}`;
-            
-            const container = document.getElementById(containerId);
-            if(container) {
-                container.innerHTML = "<small style='color:#3b82f6; font-weight:bold;'>🔄 Syncing deletion with cloud...</small>";
-            }
-
-            await cloudSave(tabName, list);
-            await renderSectionData(sec);
-        }
-
-        function saveAndExit() { window.location.href = "index.html"; }
-    </script>
+        
+        alert("Configurations saved successfully. Logging out of Admin Workspace...");
+        
+        // Clear admin session variables if any
+        localStorage.removeItem('adminRole');
+        
+        // Redirect to Login Page
+        window.location.href = "index.html";
+    }
+</script>
 </body>
 </html>
