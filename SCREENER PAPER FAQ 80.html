@@ -1439,9 +1439,8 @@ function submitTest() {
     
     const finalScoreString = `${score} / ${TOTAL_QUESTIONS}`;
     
-    // --- SCORE TRANSMISSION LOGIC ---
-    // Direct submission to Google Sheet via Web App API
-    fetch(APPS_SCRIPT_URL, {
+// Direct submission to Google Sheet via Web App API
+fetch(APPS_SCRIPT_URL, {
     method: "POST",
     mode: "cors",
     redirect: "follow",
@@ -1472,33 +1471,9 @@ function submitTest() {
     console.error("Score logging error:", err);
     alert("Failed to submit score. Check internet connection or Web App deployment.");
 });
-    .then(res => res.json())
-    .then(data => {
-        console.log("Score submission response:", data);
-        if(data.status === "success") {
-            alert("Your score (" + finalScoreString + ") has been saved successfully to the database!");
-        } else {
-            alert("Score submission error: " + (data.message || "Unknown error"));
-        }
-    })
-    .catch(err => {
-        console.error("Score logging error:", err);
-        alert("Failed to submit score. Check internet connection or Web App deployment.");
-    });
-}
-
-function filterReview(status) {
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-    
-    document.querySelectorAll('.review-item').forEach(item => {
-        if (status === 'all' || item.getAttribute('data-status') === status) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-}
+// 1. Removed the extra semicolon and broken .then() chain here.
+} // 2. Ensure this closing brace for submitTest() remains.
+   
 
 function displayResults(score, wrongCount, unattemptedCount, detailedHtml) {
     let finalPercentage = (score / TOTAL_QUESTIONS) * 100;
