@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>ASTI Delhi – SCREENER PAPER FAQ 80 (80 Questions | 45 Min)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+  // 1. Disable Right-Click
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  }, false);
+
+  // 2. Disable Keyboard Shortcuts (F12, Ctrl+U, etc.)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || 
+       (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j'))) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+<style>
+/* BASE STYLES */
+body {
+font-family: 'Poppins', sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f4f7f6;
+color: #333;
+overflow-x: hidden;
+}
+/* ------------------------- LAYOUT ------------------------- */
+.header {
+background-color: #004d99; /* Deep Blue */
+color: white;
+padding: 10px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+z-index: 100;
+height: 60px;
+box-sizing: border-box;
+}
+.header .test-title h3 {
+margin: 0;
+font-size: 1.5em;
+}
+
+.header .institute-logo {
+font-size: 1em;
+font-weight: 400;
+opacity: 0.8;
+margin-top: 5px;
+}
+.main-content {
+display: flex;
+padding-top: 60px; /* Space for fixed header */
+}
+.question-area {
+flex: 1;
+/* Increased bottom padding for fixed control panel */
+padding: 20px 20px 140px 20px;
+min-height: calc(100vh - 60px);
+margin-right: 320px; /* Space for fixed sidebar */
+box-sizing: border-box;
+}
+.sidebar {
+width: 300px;
+background-color: #ffffff;
+padding: 20px;
+box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+position: fixed;
+right: 0;
+top: 60px;
+bottom: 0;
+overflow-y: auto;
+z-index: 50;
+border-left: 5px solid #004d99;
+}
+
+/* ------------------------- HEADER ELEMENTS ------------------------- */
+#timer-display {
+font-size: 1.2em;
+font-weight: 700;
+background-color: #ffc107;
+color: #333;
+padding: 5px 10px;
+border-radius: 5px;
+}
+
+.user-info span {
+font-weight: 600;
+margin-right: 15px;
+}
+/* ------------------------- QUESTION STYLING ------------------------- */
+.question-box {
+background-color: #e6f0ff;
+border: 1px solid #cce0ff;
+border-left: 5px solid #004d99;
+padding: 15px 20px;
+margin-bottom: 25px;
+border-radius: 8px;
+min-height: 250px;
+display: none;
+}
+.question-box.active {
+display: block;
+}
+.question-text {
+font-size: 1.2em;
+font-weight: 600;
+margin-bottom: 15px;
+line-height: 1.5;
+color: #1a1a1a;
+}
+/* Options are now just descriptive text within the box */
+.option-text-container {
+margin-top: 20px;
+border-top: 1px solid #ccc;
+padding-top: 10px;
+}
+.option-label {
+display: block;
+margin: 5px 0;
+padding: 5px;
+font-size: 1em;
+}
+
+/* Language Control - UPDATED FOR GLOBAL SCOPE SAVING */
+.hindi-text { display: none; }
+.english-text { display: inline; }
+body.lang-hindi-global .english-text { display: none !important; }
+body.lang-hindi-global .hindi-text { display: inline !important; }
+
+.lang-toggle-container {
+text-align: right;
+margin-bottom: 15px;
+}
+.lang-toggle-btn {
+padding: 8px 15px;
+background-color: #ffc107;
+border: none;
+border-radius: 5px;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* ------------------------- SIDEBAR (PALETTE) ------------------------- */
+.status-legend {
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+margin-bottom: 15px;
+}
+.status-legend div {
+margin-bottom: 8px;
+font-size: 0.9em;
+display: flex;
+align-items: center;
+}
+
+.legend-box {
+display: inline-block;
+width: 15px;
+height: 15px;
+margin-right: 8px;
+border-radius: 3px;
+vertical-align: middle;
+border: 1px solid #666; /* Added border for clarity */
+}
+
+/* --- LEGEND STYLES for 4 states --- */
+
+/* 1: Not Answered (Grey/White - Square) */
+.legend-box.status-1 {
+background-color: #f0f0f0 !important;
+color: #333;
+border-radius: 3px;
+clip-path: none;
+border-color: #ccc;
+}
+
+/* 2: Answered (Green - Pentagon) */
+.legend-box.status-2 {
+clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+border-radius: 0;
+background-color: #28a745 !important;
+border-color: #28a745;
+}
+
+/* 3: Review Not Answered (Yellow - Circle) */
+.legend-box.status-3 {
+border-radius: 50%;
+clip-path: none;
+background-color: #ffc107 !important;
+border-color: #ffc107;
+}
+
+/* 4: Review Answered (Orange - Circle) */
+.legend-box.status-4 {
+border-radius: 50%;
+clip-path: none;
+background-color: #fd7e14 !important;
+border-color: #fd7e14;
+}
+/* --- END LEGEND STYLES --- */
+#question-grid {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 10px;
+margin-top: 20px;
+}
+.q-button {
+height: 40px; /* Make it a square base for shapes */
+width: 40px; /* Make it a square base for shapes */
+line-height: 40px; /* Center text vertically */
+padding: 0; /* Remove base padding */
+border: 1px solid #ccc;
+border-radius: 5px;
+cursor: pointer;
+text-align: center;
+font-weight: 600;
+transition: background-color 0.2s;
+}
+/* Palette Status Colors and Shapes (4 States) */
+
+/* 1: Not Answered (Grey/White) - Square */
+.status-1, .status-0 {
+background-color: #f0f0f0;
+color: #333;
+border-radius: 5px;
+clip-path: none;
+border-color: #ccc; /* Set border color for grey boxes */
+}
+
+/* 2: Answered (Green) - Pentagon */
+.status-2 {
+background-color: #28a745; /* Green */
+color: white;
+/* Clip path for a pentagon */
+clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+border-radius: 0;
+border-color: #28a745;
+}
+
+/* 3: Review Not Answered (Yellow) - Circle */
+.status-3 {
+background-color: #ffc107; /* Yellow */
+color: #333;
+border-radius: 50%; /* Circle */
+clip-path: none;
+border-color: #ffc107;
+}
+
+/* 4: Review Answered (Orange) - Circle */
+.status-4 {
+background-color: #fd7e14; /* Orange */
+color: white;
+border-radius: 50%; /* Circle */
+clip-path: none;
+border-color: #fd7e14;
+}
+/* ------------------------- CONTROL BUTTONS (Footer) ------------------------- */
+.control-panel {
+display: flex;
+flex-direction: column;
+padding: 10px 15px;
+background-color: #ffffff;
+border-top: 2px solid #ccc;
+position: fixed;
+bottom: 0;
+left: 0;
+width: calc(100% - 320px);
+z-index: 90;
+box-sizing: border-box;
+box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+.control-row {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+/* Option Selection Row (Upper Row of Footer) */
+.option-action-row {
+display: flex;
+align-items: center;
+padding: 10px 0;
+border-bottom: 1px solid #ddd;
+margin-bottom: 10px;
+justify-content: space-between;
+}
+.option-buttons-container {
+display: flex;
+gap: 15px;
+margin: 0 20px;
+}
+/* Original Radio Button Styling */
+.btn-option {
+padding: 10px 20px;
+font-size: 1.1em;
+font-weight: 700;
+border: 2px solid #007bff;
+border-radius: 5px;
+cursor: pointer;
+background-color: #e6f0ff;
+color: #007bff;
+transition: background-color 0.2s;
+}
+
+.btn-option.selected {
+background-color: #007bff;
+color: white;
+}
+
+/* Control Action Buttons (Lower Row of Footer and the Action buttons in top row) */
+.btn-control {
+padding: 10px 15px;
+font-size: 1em;
+font-weight: 600;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.2s;
+margin: 0 5px;
+min-width: 100px; /* Ensure buttons are wide enough */
+}
+
+/* Specific Button Styling */
+.btn-mark { background-color: #ffc107; color: #333; margin-left: 0; } 
+.btn-save-next { background-color: #28a745; color: white; } 
+.btn-erase { background-color: #dc3545; color: white; margin-right: 0; } 
+.btn-prev { background-color: #6c757d; color: white; } 
+.btn-next { background-color: #007bff; color: white; } 
+.btn-submit-test {
+background-color: #004d99;
+color: white;
+padding: 10px 25px;
+font-size: 1.1em;
+font-weight: 700;
+}
+
+.btn-control:hover { filter: brightness(1.1); }
+
+/* Alignment for bottom row */
+.navigation-row {
+display: flex;
+justify-content: space-between;
+}
+/* ------------------------- RESULT STYLING ------------------------- */
+#result-display {
+padding: 30px 20px 20px 20px;
+background-color: #e6f0ff;
+border: 2px solid #004d99;
+border-radius: 10px;
+margin: 20px auto;
+max-width: 1200px;
+display: none;
+box-sizing: border-box;
+}
+
+.result-question {
+padding: 15px;
+border: 1px solid #ddd;
+border-radius: 5px;
+margin-bottom: 15px;
+background-color: white;
+}
+
+.result-option {
+padding: 8px;
+margin-bottom: 5px;
+border-radius: 3px;
+}
+
+.result-option.correct {
+background-color: #d4edda;
+color: #155724;
+border: 1px solid #c3e6cb;
+}
+
+.result-option.wrong {
+background-color: #f8d7da;
+color: #721c24;
+border: 1px solid #f5c6cb;
+}
+
+/* Filter controls bar styling */
+.filter-container {
+display: flex;
+justify-content: center;
+gap: 10px;
+margin: 20px 0;
+flex-wrap: wrap;
+}
+.filter-btn {
+padding: 10px 20px;
+font-size: 1em;
+font-weight: 600;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: opacity 0.2s;
+color: white;
+}
+.filter-btn.active {
+outline: 3px solid #000;
+box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+/* Initial Setup Overlay */
+#initial-setup {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+z-index: 200;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+#setup-box {
+background-color: white;
+padding: 30px;
+border-radius: 10px;
+text-align: center;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+font-family: 'Poppins', sans-serif;
+min-width: 300px;
+}
+#setup-box h2 { color: #004d99; }
+#setup-box input {
+padding: 10px;
+margin: 10px 0 20px 0;
+width: 80%;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 1em;
+}
+#start-btn {
+background-color: #28a745;
+color: white;
+padding: 10px 20px;
+border: none;
+border-radius: 5px;
+font-weight: 600;
+cursor: pointer;
+}
+
+.zoom-controls{position:fixed;top:70px;left:10px;z-index:9999;display:none;flex-direction:row;gap:8px}
+.zoom-controls button{padding:6px 12px;background:#004d99;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer}
+.question-zoom{font-size:1em}
+
+@media (max-width:768px){
+.header{flex-wrap:wrap;height:auto;padding:8px 10px;position: relative;}
+.main-content{display:block!important;padding-top:10px; padding-bottom: 260px !important;}
+.question-area{margin-right:0!important;padding:10px 10px 20px 10px!important;min-height:auto; width: 100%;}
+.sidebar{position:relative!important;top:0!important;right:auto!important;width:100%!important;height:auto!important;border-left:none!important;box-shadow:none!important;padding: 10px; box-sizing: border-box; margin-bottom: 0px !important;}
+.control-panel{width:100%!important;left:0!important;position: fixed; bottom: 0;}
+.option-action-row,.control-row,.navigation-row{flex-wrap:wrap;gap:8px;justify-content:center}
+.option-buttons-container{flex-wrap:wrap;justify-content:center;margin:0}
+.btn-control{min-width:120px}
+.zoom-controls{position: static; margin: 10px; display: flex;}
+.question-text,.option-label{word-break:break-word}
+#question-grid {grid-template-columns: repeat(8, 1fr);}
+}
+
+</style>
+</head>
+<body><div class='zoom-controls'><button onclick='setQuestionZoom(0.1)'>A+</button><button onclick='setQuestionZoom(-0.1)'>A-</button></div>
+<div id="initial-setup">
+<div id="setup-box">
+<h2 style="margin-bottom: 5px;">ASTI Delhi</h2>
+<p style="font-weight: 600; color: #333; margin-top: 0;">SCREENER PAPER FAQ 80</p>
+<p>Total Questions: 80 | Total Time: 45 Minutes</p>
+<p>Please Enter Your Name:</p>
+<input type="text" id="user-name-input" placeholder="Your Name" required>
+<button id="start-btn">Start Test</button>
+</div>
+</div>
+<div class="header" style="display: none;" id="main-header">
+<div class="test-title">
+<h3 style="font-size: 1.5em;">SCREENER PAPER FAQ 80</h3>
+<div class="institute-logo">ASTI Delhi</div>
+</div>
+<div class="user-info">
+<span id="header-user-name">Candidate: N/A</span>
+<span id="timer-display">45:00</span>
+</div>
+</div>
+<div class="main-content" style="display: none;" id="main-test-area">
+
+<div class="question-area">
+
+<div class="lang-toggle-container">
+<button type="button" class="lang-toggle-btn" id="lang-toggle-local">
+Toggle Hindi / English
+</button>
+</div>
+
+<div id="questions-container">
+</div>
+
+<div class="control-panel" id="exam-control-panel">
+
+<div class="option-action-row">
+
+<button type="button" class="btn-control btn-mark" onclick="markQuestion()">Mark for Review</button>
+
+<div class="option-buttons-container" id="option-buttons">
+<button type="button" class="btn-option" data-value="1" onclick="selectOption(1)">A</button>
+<button type="button" class="btn-option" data-value="2" onclick="selectOption(2)">B</button>
+<button type="button" class="btn-option" data-value="3" onclick="selectOption(3)">C</button>
+<button type="button" class="btn-option" data-value="4" onclick="selectOption(4)">D</button>
+</div>
+
+<div style="display: flex; gap: 5px;">
+<button type="button" class="btn-control btn-save-next" onclick="saveAndNext()">Save & Next</button>
+<button type="button" class="btn-control btn-erase" onclick="eraseAnswer()">Erase Answer</button>
+</div>
+</div>
+
+<div class="control-row navigation-row">
+<div style="display: flex; gap: 5px;">
+<button type="button" class="btn-control btn-prev" onclick="navigateQuestion(-1)">Previous</button>
+<button type="button" class="btn-control btn-next" onclick="navigateQuestion(1)">Next</button>
+</div>
+
+<button type="button" class="btn-control btn-submit-test" onclick="confirmSubmit()">Submit Exam</button>
+</div>
+</div>
+
+</div>
+<div class="sidebar">
+<h3>Question Palette / प्रश्न पैलेट</h3>
+
+<div class="status-legend">
+<div><span class="legend-box status-2"></span> Question Answered (उत्तर दिया - Pentagon)</div>
+<div><span class="legend-box status-1"></span> Not Answered (उत्तर नहीं दिया - Square)</div>
+<div><span class="legend-box status-4"></span> Review Answered (समीक्षा + उत्तर दिया - Circle)</div>
+<div><span class="legend-box status-3"></span> Review Not Answered (समीक्षा + उत्तर नहीं दिया - Circle)</div>
+</div>
+<div id="question-grid">
+</div>
+</div>
+
+</div>
+<div class="question-area" id="result-display" style="margin-right: 0; display: none; padding-bottom: 20px;">
+</div>
+<script>
+// --- CONFIGURATION ---
+const APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
+
+const TOTAL_QUESTIONS = 80;
+const TOTAL_TIME_SECONDS = 45 * 60; 
+
+const questionData =[
+[1,4,"How many categories of restricted articles are there?","प्रतिबंधित लेखों की कितनी श्रेणियां हैं?",
+["3","3"],
+["8","8"],
+["6","6"],
+["4","4"]],
+
+[2,3,"Kirpan in hand baggage of female passenger","महिला यात्री के हैंड बैगेज में कृपाण",
+["Allowed in hand baggage","हाथ के सामान में अनुमति है"],
+["Allowed on body","शरीर पर अनुमत"],
+["Not allowed in hand baggage","हाथ के सामान में ले जाने की अनुमति नहीं है"],
+["None of the above","इनमें से कोई नहीं"]],
+
+[3,3,"Catering security is","खानपान सुरक्षा है",
+["Anti hijacking","अपहरण विरोधी"],
+["Anti sabotage","तोड़फोड़ विरोधी"],
+["Anti hijacking and anti sabotage","अपहरण विरोधी और तोड़फोड़ विरोधी"],
+["None of these","इनमें से कोई नहीं"]],
+
+[4,4,"Which equipment works on NIJ standard?","कौन सा उपकरण NIJ मानक पर काम करता है?",
+["HHMD","एचएचएमडी"],
+["Body Scanner","बॉडी स्कैनर"],
+["CTX","सीटीएक्स"],
+["DFMD","डीएफएमडी"]],
+
+[5,4,"As per BCAS guidelines, passengers are required to remove their shoes while passing through DFMD","बीसीएएस के दिशा-निर्देशों के अनुसार यात्रियों को डीएफएमडी से गुजरते समय जूते उतारने होंगे",
+["Big","बड़ा"],
+["Small","छोटा"],
+["Large","बड़ा"],
+["Screener discretion","स्क्रीनर के विवेक अनुसार"]],
+
+[6,1,"Which strip is used for simple penetration test?","सरल प्रवेश परीक्षण के लिए किस पट्टी का उपयोग किया जाता है?",
+["Lead","सीसा"],
+["Steel","इस्पात"],
+["Copper","ताँबा"],
+["Aluminium","एल्यूमीनियम"]],
+
+[7,4,"In which color is a plastic detonator seen in XBIS?","XBIS में प्लास्टिक डेटोनेटर किस रंग में दिखाई देता है?",
+["Black","काला"],
+["Green","हरा"],
+["Blue","नीला"],
+["Orange","नारंगी"]],
+
+[8,2,"Which technology gives the 3D dimension in XBIS?","कौन सी तकनीक XBIS में 3D आयाम देती है?",
+["XBIS","एक्सबीआईएस"],
+["CTX","सीटीएक्स"],
+["DFMD","डीएफएमडी"],
+["None of the above","इनमें से कोई नहीं"]],
+
+[9,2,"What distance should be maintained between HHMD and passenger's body during screening?","स्क्रीनिंग के दौरान एचएचएमडी और यात्री के शरीर के बीच कितनी दूरी रखी जानी चाहिए?",
+["2.5 meter","2.5 मीटर"],
+["1 inch / 2.5 cm","1 इंच / 2.5 सेमी"],
+["2.5 inch","2.5 इंच"],
+["1 cm","1 सेमी"]],
+
+[10,3,"Which committee sits at the airport when an unlawful seizure takes place?","जब कोई गैरकानूनी जब्ती होती है तो हवाई अड्डे पर कौन सी समिति बैठती है?",
+["CCS","सीसीएस"],
+["COSAH","कोसाह"],
+["AC","एसी"],
+["CC","सीसी"]],
+
+[11,1,"To transport prisoners prior permission is required from","कैदियों को ले जाने के लिए पूर्व अनुमति किससे आवश्यक है?",
+["BCAS","बीसीएएस"],
+["DGCA","डीजीसीए"],
+["Concerned airlines","संबंधित एयरलाइंस"],
+["Local police","स्थानीय पुलिस"]],
+
+[12,3,"Which of the following is the inbuilt safety feature of X-BIS?","निम्नलिखित में से कौन सी X-BIS की अंतर्निहित सुरक्षा विशेषता है?",
+["Lead curtains only","केवल सीसे के पर्दे"],
+["Lead shielding only","केवल सीसा परिरक्षण"],
+["Lead curtains and lead shielding","सीसे के पर्दे और सीसा परिरक्षण"],
+["Lead curtains or lead shielding","सीसे के पर्दे या सीसा परिरक्षण"]],
+
+[13,2,"PESC is which type of counter measure?","PESC किस प्रकार का प्रति उपाय है?",
+["Anti sabotage","तोड़फोड़ विरोधी"],
+["Anti hijacking","अपहरण विरोधी"],
+["Security of personnel","कर्मियों की सुरक्षा"],
+["Anti terrorist","आतंकवाद विरोधी"]],
+
+[14,2,"HRCM stands for","HRCM का पूर्ण रूप क्या है?",
+["Highly rated cargo","हाइली रेटेड कार्गो"],
+["High risk cargo and mail","हाई रिस्क कार्गो एंड मेल"],
+["High risk courier and mail","हाई रिस्क कूरियर एंड मेल"],
+["None of these","इनमें से कोई नहीं"]],
+
+[15,4,"Safety fuse comes under which type of restricted article?","सुरक्षा फ्यूज किस प्रकार के प्रतिबंधित लेख के अंतर्गत आता है?",
+["Dangerous article","खतरनाक वस्तु"],
+["Dangerous substance","खतरनाक पदार्थ"],
+["Weapon","हथियार"],
+["Explosive","विस्फोटक"]],
+
+[16,3,"What is the sensitivity of HHMD?","एचएचएमडी की संवेदनशीलता क्या है?",
+["05 gm","05 ग्राम"],
+["10 gm","10 ग्राम"],
+["0.5 gm","0.5 ग्राम"],
+["15 gm","15 ग्राम"]],
+
+[17,4,"Which of the following item is not allowed in carry-on baggage?","निम्नलिखित में से कौन सी वस्तु कैरी-ऑन सामान में ले जाने की अनुमति नहीं है?",
+["Mobile","मोबाइल"],
+["Laptop","लैपटॉप"],
+["Camera","कैमरा"],
+["Knitting needle","बुनाई की सुई"]],
+
+[18,4,"Baggage of passenger making direct connection between two different flights is called","दो अलग-अलग उड़ानों के बीच सीधा संपर्क बनाने वाले यात्री का सामान कहलाता है",
+["Transit baggage","पारगमन सामान"],
+["Interline baggage","इंटरलाइन सामान"],
+["Mishandled baggage","गलत तरीके से संभाला गया सामान"],
+["Transfer baggage","स्थानांतरण सामान"]],
+
+[19,4,"Which item is not allowed in check-in baggage?","निम्नलिखित में से कौन सी वस्तु चेक-इन बैगेज में ले जाने की अनुमति नहीं है?",
+["Scissor","कैंची"],
+["Knife","चाकू"],
+["Blade","ब्लेड"],
+["Power bank","पावर बैंक"]],
+
+[20,2,"LTPE stands for","LTPE का पूर्ण रूप क्या है?",
+["Low time plastic examination","लो टाइम प्लास्टिक एग्जामिनेशन"],
+["Low temperature plastic explosive","लो टेम्परेचर प्लास्टिक एक्सप्लोसिव"],
+["Limited time power explosive","लिमिटेड टाइम पावर एक्सप्लोसिव"],
+["None of these","इनमें से कोई नहीं"]],
+
+[21,1,"Re-certification of screeners mentioned in which circular/order?","स्क्रीनर्स का पुनः प्रमाणन किस परिपत्र/आदेश में उल्लेखित है?",
+["A.CIR 16/2006","ए.सीआईआर 16/2006"],
+["A.CIR 23/2005","ए.सीआईआर 23/2005"],
+["A.ORDER 16/2006","ए.ऑर्डर 16/2006"],
+["A.CIR 25/2004","ए.सीआईआर 25/2004"]],
+
+[22,4,"Aircraft security check and search is mentioned in which circular/order?","विमान सुरक्षा जांच और तलाशी का उल्लेख किस परिपत्र/आदेश में किया गया है?",
+["A.CIR 10/2020","ए.सीआईआर 10/2020"],
+["A.CIR 11/2017","ए.सीआईआर 11/2017"],
+["A.CIR 06/2015","ए.सीआईआर 06/2015"],
+["A.ORDER 09/2018","ए.ऑर्डर 09/2018"]],
+
+[23,1,"Physical check for cargo baggage will be","कार्गो सामान की भौतिक जांच होगी",
+["05% in each shift","प्रत्येक शिफ्ट में 05%"],
+["10% in each shift","प्रत्येक शिफ्ट में 10%"],
+["15% in each shift","प्रत्येक शिफ्ट में 15%"],
+["20% in each shift","प्रत्येक शिफ्ट में 20%"]],
+
+[24,4,"Which image display key cancels entries and returns to parent menu?","प्रविष्टियाँ रद्द कर मूल मेनू पर लौटने के लिए कौन सी कुंजी उपयोग होती है?",
+["P1","पी1"],
+["O2","ओ2"],
+["M2","एम2"],
+["P2","पी2"]],
+
+[25,3,"Which committee ensures infrastructure and facilities in BTCP?","बीटीसीपी में बुनियादी ढांचा और सुविधाएं कौन सुनिश्चित करता है?",
+["AC","एसी"],
+["BTAC","बीटीएसी"],
+["BTRC","बीटीआरसी"],
+["APSC","एपीएससी"]],
+
+[26,3,"Catering security is responsibility of","खानपान सुरक्षा की जिम्मेदारी किसकी है",
+["Ground handling agency","ग्राउंड हैंडलिंग एजेंसी"],
+["Airport operator","एयरपोर्ट ऑपरेटर"],
+["Airline operator","एयरलाइन संचालक"],
+["ASG/APSU","एएसजी/एपीएसयू"]],
+
+[27,4,"Which document defines that passenger and hand baggage will be screened while entering SRA?","कौन सा दस्तावेज बताता है कि एसआरए में प्रवेश करते समय यात्री और हैंड बैगेज की जांच होगी?",
+["A.O 16/2006","ए.ओ 16/2006"],
+["A.O 23/2005","ए.ओ 23/2005"],
+["A.O 04/2005","ए.ओ 04/2005"],
+["A.CIR 23/2005","ए.सीआईआर 23/2005"]],
+
+[28,1,"Provision for carriage of prohibited items is defined in which rule of Aircraft Rules 1937?","विमान नियम 1937 में निषिद्ध वस्तुओं के परिवहन का प्रावधान किस नियम में है?",
+["Rule 08","नियम 08"],
+["Rule 08A","नियम 08A"],
+["Rule 30","नियम 30"],
+["Rule 32","नियम 32"]],
+
+[29,3,"BTAC meeting will be conducted","बीटीएसी बैठक आयोजित होगी",
+["Every month","प्रत्येक माह"],
+["Weekly","साप्ताहिक"],
+["As per requirement","आवश्यकतानुसार"],
+["In three months","तीन महीने में"]],
+
+[30,1,"BTRC committee will meet","बीटीआरसी समिति की बैठक होगी",
+["In 03 months","03 महीनों में"],
+["Every month","प्रत्येक माह"],
+["In 06 months","06 महीनों में"],
+["All of the above","उपरोक्त सभी"]],
+
+[31,2,"Which IED mechanism is victim operated?","कौन सा IED तंत्र पीड़ित द्वारा संचालित होता है?",
+["Ambient","एम्बिएंट"],
+["Anti-handling","एंटी-हैंडलिंग"],
+["Remote control","रिमोट कंट्रोल"],
+["Time delay","टाइम डिले"]],
+
+[32,3,"SMUS stands for","SMUS का अर्थ है",
+["Small undersize sheet","स्मॉल अंडरसाइज़ शीट"],
+["Small under shipment","स्मॉल अंडर शिपमेंट"],
+["Small undersize shipment","स्मॉल अंडरसाइज़ शिपमेंट"],
+["None of these","इनमें से कोई नहीं"]],
+
+[33,2,"ASCO stands for","ASCO का पूर्ण रूप",
+["Aviation Safety Compliance Officer","एविएशन सेफ्टी कंप्लायंस ऑफिसर"],
+["Aviation Security Compliance Officer","एविएशन सिक्योरिटी कंप्लायंस ऑफिसर"],
+["Aviation Security Officer","एविएशन सिक्योरिटी ऑफिसर"],
+["Airport Security Officer","एयरपोर्ट सिक्योरिटी ऑफिसर"]],
+
+[34,3,"Information meant only for specific use of authorized individual is called","विशिष्ट उपयोग के लिए सीमित जानकारी कहलाती है",
+["Nice to know","जानकर खुशी हुई"],
+["Security culture","सुरक्षा संस्कृति"],
+["Need to know","जानने की आवश्यकता"],
+["Security control","सुरक्षा नियंत्रण"]],
+
+[35,2,"An announced or unannounced examination of security measures effectiveness is","सुरक्षा उपायों की प्रभावशीलता की घोषित या अघोषित जांच कहलाती है",
+["Security audit","सुरक्षा ऑडिट"],
+["Security inspection","सुरक्षा निरीक्षण"],
+["Security test","सुरक्षा परीक्षण"],
+["None","कोई नहीं"]],
+
+[36,4,"Additional screening will be done by","अतिरिक्त स्क्रीनिंग की जाएगी",
+["HHMD","हैंडहेल्ड मेटल डिटेक्टर"],
+["Pat down search","पैट डाउन सर्च"],
+["Combination of both","दोनों का संयोजन"],
+["All of the above","सभी विकल्प"]],
+
+[37,1,"Equipment calibration can be done","उपकरण अंशांकन किया जा सकता है",
+["As required","आवश्यकतानुसार"],
+["Each shift","प्रत्येक पारी"],
+["Weekly","साप्ताहिक"],
+["All options correct","सभी सही"]],
+
+[38,3,"Which statement is not true regarding high explosive?","उच्च विस्फोटक के बारे में कौन सा कथन सही नहीं है?",
+["Easy to handle","संभालना आसान"],
+["Requires detonator","डेटोनेटर आवश्यक"],
+["Does not require detonator","डेटोनेटर आवश्यक नहीं"],
+["All correct","सभी सही"]],
+
+[39,4,"B N Kirpal commission was set up after which incident?","बी एन कृपाल आयोग किस घटना के बाद बना?",
+["IC-814","आईसी-814"],
+["First hijacking","पहली हाईजैकिंग"],
+["Second hijacking","दूसरी हाईजैकिंग"],
+["Kanishka tragedy","कनिष्क त्रासदी"]],
+
+[40,2,"How much dry ice allowed in baggage on medical ground?","चिकित्सा आधार पर कितनी ड्राई आइस की अनुमति है?",
+["02 kg","02 किग्रा"],
+["2.5 kg","2.5 किग्रा"],
+["10 kg","10 किग्रा"],
+["05 kg","05 किग्रा"]],
+
+[41,1,"SLPC started in year","SLPC की शुरुआत किस वर्ष हुई",
+["2000","2000"],
+["1999","1999"],
+["1998","1998"],
+["2001","2001"]],
+
+[42,3,"Anti hijacking task force in India","भारत में अपहरण विरोधी टास्क फोर्स",
+["CISF","सीआईएसएफ"],
+["SPG","एसपीजी"],
+["NSG","एनएसजी"],
+["ATS","एटीएस"]],
+
+[43,1,"Plastic detonator colour in XBIS","XBIS में प्लास्टिक डेटोनेटर का रंग",
+["Orange","नारंगी"],
+["Blue","नीला"],
+["Green","हरा"],
+["Black","काला"]],
+
+[44,3,"BTCP is outcome of which incident?","बीटीसीपी किस घटना का परिणाम है?",
+["IC-814","आईसी-814"],
+["Kanishka tragedy","कनिष्क त्रासदी"],
+["Chennai airport attack","चेन्नई एयरपोर्ट हमला"],
+["Colombo attack","कोलंबो हमला"]],
+
+[45,3,"Land side security became standard practice after","लैंड साइड सुरक्षा मानक कब बनी",
+["IC-814 1999","आईसी-814 1999"],
+["Chennai attack 1984","चेन्नई हमला 1984"],
+["Ataturk attack 2016","अतातुर्क हमला 2016"],
+["Colombo attack 2001","कोलंबो हमला 2001"]],
+
+[46,3,"Anti hijacking act 2016 is legal back of which convention","एंटी हाईजैकिंग एक्ट 2016 किस कन्वेंशन से जुड़ा है",
+["Tokyo convention","टोक्यो कन्वेंशन"],
+["Montreal convention","मॉन्ट्रियल कन्वेंशन"],
+["Hague convention","हेग कन्वेंशन"],
+["Chicago convention","शिकागो कन्वेंशन"]],
+
+[47,2,"Who ensures alarm system in X-BIS works properly","X-BIS अलार्म सिस्टम सही काम करे यह कौन सुनिश्चित करेगा",
+["Screener","स्क्रीनर"],
+["Supervisor","पर्यवेक्षक"],
+["Airport operator","एयरपोर्ट ऑपरेटर"],
+["Manufacturer","निर्माता"]],
+
+[48,3,"Selection for physical check of baggage will be","भौतिक जांच के लिए चयन होगा",
+["Systematic","व्यवस्थित"],
+["Random","यादृच्छिक"],
+["Reasoned","तर्कपूर्ण"],
+["All of the above","उपरोक्त सभी"]],
+
+[49,1,"Each X-BIS equipped with","प्रत्येक X-BIS सुसज्जित होगा",
+["Individual dual generator","अलग दो जनरेटर"],
+["Different dual","भिन्न दो"],
+["Same single","समान एक"],
+["Individual single","अलग एक"]],
+
+[50,3,"Physical form of Gelatine","जिलेटिन का भौतिक रूप",
+["Slurry","स्लरी"],
+["Granular","दानेदार"],
+["Stick","स्टिक"],
+["Block","ब्लॉक"]],
+
+[51,3,"Color of explosive ANFO","ANFO विस्फोटक का रंग",
+["Blue","नीला"],
+["Black","काला"],
+["Greenish","हरा"],
+["White","सफेद"]],
+
+[52,4,"Color of RDX in X-BIS","X-BIS में RDX का रंग",
+["Green","हरा"],
+["Black opaque","काला"],
+["White","सफेद"],
+["Orange","नारंगी"]],
+
+[53,2,"Covert or overt trial simulating unlawful act is","अवैध कार्य का अनुकरण करने वाला परीक्षण कहलाता है",
+["Dummy check","डमी चेक"],
+["Security test","सिक्योरिटी टेस्ट"],
+["Security check","सिक्योरिटी चेक"],
+["Decoy check","डिकॉय चेक"]],
+
+[54,4,"Regulatory authority of civil aviation security in India","भारत में नागरिक उड्डयन सुरक्षा का नियामक प्राधिकरण",
+["DG BCAS","डीजी बीसीएएस"],
+["DGCA","डीजीसीए"],
+["Airport operator","एयरपोर्ट ऑपरेटर"],
+["BCAS","बीसीएएस"]],
+
+[55,1,"EDD stands for","EDD का अर्थ",
+["Explosive Detection Dogs","विस्फोटक खोजी कुत्ते"],
+["Explosive Device Digs","एक्सप्लोसिव डिवाइस डिग्स"],
+["Expert Detection Dog","एक्सपर्ट डिटेक्शन डॉग"],
+["None","कोई नहीं"]],
+
+[56,4,"ASTP stands for","ASTP का पूर्ण रूप",
+["Aviation Security Training Programme","एविएशन सिक्योरिटी ट्रेनिंग प्रोग्राम"],
+["Airport Security Training Package","एयरपोर्ट सिक्योरिटी ट्रेनिंग पैकेज"],
+["Aviation Safety Training Package","एविएशन सेफ्टी ट्रेनिंग पैकेज"],
+["Aviation Security Training Package","एविएशन सिक्योरिटी ट्रेनिंग पैकेज"]],
+
+[57,1,"FBO stands for","FBO का पूर्ण रूप",
+["Fixed Based Operator","फिक्स्ड बेस्ड ऑपरेटर"],
+["Fixed Bharat Operator","फिक्स्ड भारत ऑपरेटर"],
+["Fine Based Operator","फाइन बेस्ड ऑपरेटर"],
+["None","कोई नहीं"]],
+
+[58,3,"AERB stands for","AERB का पूर्ण रूप",
+["Atomic Energy Regularly Board","एटॉमिक एनर्जी रेगुलरली बोर्ड"],
+["Atomic Energy Regularity Base","एटॉमिक एनर्जी रेगुलैरिटी बेस"],
+["Atomic Energy Regulatory Board","एटॉमिक एनर्जी रेगुलेटरी बोर्ड"],
+["Amar Energy Regular Board","अमर एनर्जी रेगुलर बोर्ड"]],
+
+[59,4,"BIOM stands for","BIOM का अर्थ",
+["Bio Metric Space","बायो मेट्रिक स्पेस"],
+["Bureau Medical Sample","ब्यूरो मेडिकल सैंपल"],
+["Bio Mechanical Sample","बायो मैकेनिकल सैंपल"],
+["Bio Medical Samples","बायो मेडिकल सैंपल्स"]],
+
+[60,1,"CO-MAIL stands for","CO-MAIL का अर्थ",
+["Company Mail","कंपनी मेल"],
+["Company Material","कंपनी मैटेरियल"],
+["Company Store","कंपनी स्टोर"],
+["Company Mechanism","कंपनी मेकैनिज्म"]],
+
+[61,4,"Aviation security is responsibility of","विमानन सुरक्षा की जिम्मेदारी",
+["BCAS","बीसीएएस"],
+["ASG/APSU","एएसजी/एपीएसयू"],
+["DGCA","डीजीसीए"],
+["Everyone","सभी की"]],
+
+[62,3,"Deployment of QRT comes under","QRT की तैनाती आती है",
+["Anti hijacking","अपहरण विरोधी"],
+["Anti sabotage","तोड़फोड़ विरोधी"],
+["Anti terrorist","आतंकवाद विरोधी"],
+["Security personnel","कर्मचारी सुरक्षा"]],
+
+[63,2,"CTX stands for","CTX का पूर्ण रूप",
+["Computer Tomography X-ray","कंप्यूटर टोमोग्राफी एक्स-रे"],
+["Computed Tomography X-ray","कम्प्यूटेड टोमोग्राफी एक्स-रे"],
+["Common Testing X-BIS","कॉमन टेस्टिंग एक्सबीआईएस"],
+["All of above","उपरोक्त सभी"]],
+
+[64,1,"BWAF stands for","BWAF का पूर्ण रूप",
+["Bomb Warning Assessment Form","बॉम्ब वार्निंग असेसमेंट फॉर्म"],
+["Bomb Warning Agreement Form","बॉम्ब वार्निंग एग्रीमेंट फॉर्म"],
+["Bomb Warning Assumption Form","बॉम्ब वार्निंग असम्प्शन फॉर्म"],
+["None","कोई नहीं"]],
+
+[65,2,"Colour of gun powder","बारूद का रंग",
+["Yellow","पीला"],
+["Black","काला"],
+["Green","हरा"],
+["Pale yellow","हल्का पीला"]],
+
+[66,3,"Who will check interior of aircraft","विमान का अंदरूनी भाग कौन जांचेगा",
+["BCAS","बीसीएएस"],
+["AWO DGCA","एडब्ल्यूओ डीजीसीए"],
+["Airline security","एयरलाइन सुरक्षा"],
+["Airline engineer","एयरलाइन इंजीनियर"]],
+
+[67,3,"Calibration of X-BIS checked","X-BIS अंशांकन जांच होगी",
+["Once a day","दिन में एक बार"],
+["Weekly","साप्ताहिक"],
+["Each shift","प्रत्येक पारी"],
+["All above","सभी"]],
+
+[68,1,"Which is not new emerging threat","नया उभरता खतरा नहीं है",
+["Hijacking","हाईजैकिंग"],
+["Aircraft as missile","मिसाइल के रूप में विमान"],
+["MANPADS","MANPADS"],
+["Cyber attack","साइबर हमला"]],
+
+[69,2,"After which incident land side security standard practice","किस घटना के बाद लैंड साइड सुरक्षा मानक बनी",
+["Colombo attack 2001","कोलंबो हमला 2001"],
+["Ataturk attack 2016","अतातुर्क हमला 2016"],
+["Kanishka incident","कनिष्क घटना"],
+["US attack","अमेरिकी हमला"]],
+
+[70,3,"Liquid aerosols gels not allowed in hand baggage will be","अनुमति नहीं वाले तरल/जेल का क्या होगा",
+["Disposed by airline staff","एयरलाइन स्टाफ द्वारा निपटान"],
+["Disposed by ASG/APSU","एएसजी द्वारा निपटान"],
+["Disposed separate dustbin","अलग डस्टबिन में"],
+["All options","सभी"]],
+
+[71,3,"Which is high explosive","उच्च विस्फोटक कौन सा है",
+["Gun powder","गन पाउडर"],
+["Pyrotechnic","आतिशबाजी"],
+["RDX","आरडीएक्स"],
+["Match box","माचिस"]],
+
+[72,2,"COE stands for","COE का अर्थ",
+["Counter of explosive","काउंटर ऑफ एक्सप्लोसिव"],
+["Controller of explosive","कंट्रोलर ऑफ एक्सप्लोसिव"],
+["Count of experiment","काउंट ऑफ एक्सपेरिमेंट"],
+["Chemical of explosive","केमिकल ऑफ एक्सप्लोसिव"]],
+
+[73,2,"Which will not affect screener performance","कौन स्क्रीनर के प्रदर्शन को प्रभावित नहीं करेगा",
+["Incooperative passenger","असहयोगी यात्री"],
+["Presence of supervisor","पर्यवेक्षक की उपस्थिति"],
+["Long duty hours","लंबे ड्यूटी घंटे"],
+["Long queues","लंबी कतारें"]],
+
+[74,2,"Images in TIP library","TIP लाइब्रेरी में छवियां",
+["250","250"],
+["200","200"],
+["300","300"],
+["400","400"]],
+
+[75,2,"How detect non metallic IED components","गैर धातु IED का पता कैसे",
+["X-BIS","एक्सबीआईएस"],
+["All options correct","सभी सही"],
+["Physical check","भौतिक जांच"],
+["ETD/EVD","ईटीडी/ईवीडी"]],
+
+[76,1,"Computer based passenger profiling system","कंप्यूटर आधारित यात्री प्रोफाइलिंग प्रणाली",
+["Know passenger details before check-in","चेक-इन से पहले जानकारी"],
+["Know flight data","उड़ान डेटा"],
+["All options correct","सभी सही"],
+["Check passenger IQ","आईक्यू जांच"]],
+
+[77,1,"Who ensures e-gates anti tailgating solutions","ई-गेट एंटी टेलगेटिंग कौन सुनिश्चित करेगा",
+["Airport operator","एयरपोर्ट ऑपरेटर"],
+["Aircraft operator","एयरक्राफ्ट ऑपरेटर"],
+["BCAS","बीसीएएस"],
+["DGCA","डीजीसीए"]],
+
+[78,2,"System detecting explosive device in baggage","सामान में विस्फोटक पहचान प्रणाली",
+["BDDS","बीडीडीएस"],
+["EDDS","ईडीडीएस"],
+["EDS","ईडीएस"],
+["Both EDDS BDDS","दोनों"]],
+
+[79,4,"Measures to prevent tailgating","टेलगेटिंग रोकने के उपाय",
+["Anti tailgating solutions","एंटी टेलगेटिंग"],
+["Record maintain","रिकॉर्ड बनाए रखना"],
+["Guarding by ASG","एएसजी सुरक्षा"],
+["All options","सभी विकल्प"]],
+
+[80,2,"As per CIR 23/2005 staff required at screening point","CIR 23/2005 के अनुसार स्क्रीनिंग प्वाइंट पर स्टाफ",
+["05","05"],
+["04","04"],
+["03","03"],
+["02","02"]]
+];
+
+let questionStatus = new Array(TOTAL_QUESTIONS).fill(1); 
+let currentQuestionIndex = 0; 
+let userName = 'Candidate'; 
+let timeLeft = TOTAL_TIME_SECONDS; 
+let timerInterval; 
+let tempSelectedOption = null; 
+let savedAnswers = new Array(TOTAL_QUESTIONS).fill(null); 
+let isHindiLocal = false;
+let isExamSubmitted = false; 
+let currentZoomLevel = 1.0;
+
+const questionsContainer = document.getElementById('questions-container'); 
+const questionGrid = document.getElementById('question-grid');
+const optionButtonsContainer = document.getElementById('option-buttons'); 
+const timerDisplay = document.getElementById('timer-display'); 
+const resultDisplay = document.getElementById('result-display');
+const controlPanel = document.getElementById('exam-control-panel');
+
+window.addEventListener('load', () => {
+    const sessionUser = localStorage.getItem('currentStudent');
+    if(sessionUser) {
+        document.getElementById('user-name-input').value = sessionUser;
+    }
+});
+
+document.getElementById('start-btn').addEventListener('click', () => { 
+    const nameInput = document.getElementById('user-name-input').value.trim(); 
+    if (nameInput) { 
+        userName = nameInput; 
+        document.getElementById('header-user-name').textContent = `Candidate: ${userName}`; 
+        document.getElementById('initial-setup').style.display = 'none'; 
+        document.getElementById('main-header').style.display = 'flex'; 
+        document.getElementById('main-test-area').style.display = 'flex'; 
+        
+        document.querySelector('.zoom-controls').style.display = 'flex'; 
+
+        shuffleArray(questionData);
+        generateQuestions(); 
+        generateQuestionGrid(); 
+        displayQuestion(0); 
+        startTimer(); 
+    }
+});
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function generateQuestions() {
+    questionsContainer.innerHTML = ''; 
+    const optionLabels = ['A', 'B', 'C', 'D']; 
+    questionData.forEach((q, index) => { 
+        const qId = q[0]; 
+        const qEn = q[2]; 
+        const qHi = q[3]; 
+        const options = q.slice(4); 
+        let optionsHtml = '<div class="option-text-container">'; 
+        options.forEach((opt, optIndex) => { 
+            const optValue = optIndex + 1; 
+            const label = optionLabels[optIndex]; 
+            optionsHtml += ` 
+                <div class="option-label" data-option-id="${optValue}"> 
+                    <strong class="english-text">${label}.</strong> <span class="english-text">${opt[0]}</span><br> 
+                    <strong class="hindi-text">${label}.</strong> <span class="hindi-text">${opt[1]}</span> 
+                </div> 
+            `; 
+        }); 
+        optionsHtml += '</div>'; 
+        const qHtml = ` 
+            <div class="question-box" id="q${qId}" data-correct-answer="${q[1]}"> 
+                <p style="font-size: 1.5em; font-weight: 700;">Question ${index + 1} of ${TOTAL_QUESTIONS}</p> 
+                <div class="question-text"> 
+                    <span class="english-text">${qEn}</span> 
+                    <span class="hindi-text">${qHi}</span> 
+                </div> 
+                ${optionsHtml} 
+            </div> 
+        `; 
+        questionsContainer.innerHTML += qHtml; 
+    });
+}
+
+function displayQuestion(index) { 
+    if (isExamSubmitted || index < 0 || index >= TOTAL_QUESTIONS) return;
+
+    document.querySelectorAll('.question-box').forEach(qBox => qBox.classList.remove('active')); 
+    
+    const questionId = questionData[index][0]; 
+    const currentQBox = document.getElementById(`q${questionId}`); 
+    
+    if (currentQBox) { 
+        currentQBox.classList.add('active'); 
+        currentQuestionIndex = index; 
+
+        tempSelectedOption = savedAnswers[index];
+        updateOptionButtonVisual(); 
+        updateLocalLanguage();
+        applyZoom();
+    }
+}
+
+function setQuestionZoom(step) {
+    currentZoomLevel += step;
+    if (currentZoomLevel < 0.7) currentZoomLevel = 0.7;
+    if (currentZoomLevel > 2.0) currentZoomLevel = 2.0;
+    applyZoom();
+}
+
+function applyZoom() {
+    document.querySelectorAll('.question-text, .option-label').forEach(el => {
+        el.style.fontSize = currentZoomLevel + 'em';
+    });
+}
+
+function updateOptionButtonVisual() {
+    document.querySelectorAll('.btn-option').forEach(btn => {
+        btn.classList.remove('selected');
+        if (tempSelectedOption !== null && parseInt(btn.dataset.value) === tempSelectedOption) {
+            btn.classList.add('selected');
+        }
+    });
+}
+
+function selectOption(value) {
+    if (isExamSubmitted) return;
+    tempSelectedOption = value;
+    updateOptionButtonVisual();
+}
+
+function eraseAnswer() {
+    if (isExamSubmitted) return;
+    tempSelectedOption = null;
+    savedAnswers[currentQuestionIndex] = null; 
+    questionStatus[currentQuestionIndex] = (questionStatus[currentQuestionIndex] === 4) ? 3 : 1; 
+    updateOptionButtonVisual();
+    updateQuestionGridButton(currentQuestionIndex); 
+}
+
+function markQuestion() {
+    if (isExamSubmitted) return;
+    const index = currentQuestionIndex;
+    const currentStatus = questionStatus[index];
+    const isAnswered = savedAnswers[index] !== null || tempSelectedOption !== null;
+
+    if (currentStatus === 3 || currentStatus === 4) {
+        questionStatus[index] = isAnswered ? 2 : 1; 
+    } else {
+        questionStatus[index] = isAnswered ? 4 : 3; 
+    }
+    updateQuestionGridButton(index);
+}
+
+function saveAndNext() {
+    if (isExamSubmitted) return;
+    const index = currentQuestionIndex;
+    savedAnswers[index] = tempSelectedOption;
+
+    const isCurrentlyMarked = (questionStatus[index] === 3 || questionStatus[index] === 4);
+    const isAnswered = savedAnswers[index] !== null;
+
+    if (isAnswered) {
+        questionStatus[index] = isCurrentlyMarked ? 4 : 2; 
+    } else {
+        questionStatus[index] = isCurrentlyMarked ? 3 : 1; 
+    }
+    
+    updateQuestionGridButton(index);
+    navigateQuestion(1);
+}
+
+function navigateQuestion(step) {
+    if (isExamSubmitted) return;
+    const nextIndex = currentQuestionIndex + step;
+    displayQuestion(nextIndex);
+}
+
+function generateQuestionGrid() {
+    questionGrid.innerHTML = '';
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const button = document.createElement('button');
+        button.className = 'q-button status-1'; 
+        button.textContent = i + 1;
+        button.setAttribute('data-index', i);
+        button.onclick = () => {
+            if (isExamSubmitted || i === currentQuestionIndex) return;
+
+            if (tempSelectedOption !== null && savedAnswers[currentQuestionIndex] !== tempSelectedOption) {
+                 saveAndNext(); 
+                 displayQuestion(i);
+            } else {
+                displayQuestion(i);
+            }
+        };
+        questionGrid.appendChild(button);
+    }
+}
+
+function updateQuestionGridButton(index) {
+    const button = questionGrid.querySelector(`[data-index="${index}"]`);
+    if (button) {
+        button.className = 'q-button';
+        button.classList.add(`status-${questionStatus[index]}`);
+    }
+}
+
+function updateLocalLanguage() {
+    if (isHindiLocal) {
+        document.body.classList.add('lang-hindi-global');
+    } else {
+        document.body.classList.remove('lang-hindi-global');
+    }
+}
+
+document.getElementById('lang-toggle-local').addEventListener('click', toggleLanguageHandler);
+
+function toggleLanguageHandler() {
+    isHindiLocal = !isHindiLocal;
+    updateLocalLanguage();
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = formatTime(timeLeft);
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Time's up! The exam will now be submitted automatically.");
+            submitTest();
+        }
+        if (timeLeft <= 5 * 60) {
+            timerDisplay.style.backgroundColor = '#dc3545'; 
+            timerDisplay.style.color = 'white';
+        }
+    }, 1000);
+}
+
+function formatTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+}
+
+function getSummary() {
+    let answered = 0; 
+    let notAnswered = 0; 
+    let reviewNotAnswered = 0; 
+    let reviewAnswered = 0; 
+
+    questionStatus.forEach(status => {
+        if (status === 2) answered++;
+        else if (status === 1) notAnswered++;
+        else if (status === 3) reviewNotAnswered++;
+        else if (status === 4) reviewAnswered++;
+    });
+
+    return { 
+        totalAnswered: answered + reviewAnswered, 
+        totalMarked: reviewNotAnswered + reviewAnswered, 
+        totalUnattempted: notAnswered + reviewNotAnswered, 
+        answeredCount: answered, 
+        reviewAnsweredCount: reviewAnswered 
+    };
+}
+
+function confirmSubmit() {
+    if (isExamSubmitted) return;
+
+    if (tempSelectedOption !== null && savedAnswers[currentQuestionIndex] !== tempSelectedOption) {
+        const saveConfirm = confirm("You have an unsaved option selected for the current question. Press OK to Save and then Submit, or Cancel to review the unsaved question.");
+        if (saveConfirm) {
+            saveAndNext(); 
+        } else {
+            return; 
+        }
+    }
+
+    const summary = getSummary();
+    const confirmationMessage = `Test Summary / परीक्षा सारांश:\n` + 
+        `Total Questions / कुल प्रश्न: ${TOTAL_QUESTIONS}\n` + 
+        `Answered / उत्तर दिया: ${summary.totalAnswered}\n` + 
+        `Marked for Review / समीक्षा के लिए चिह्नित: ${summary.totalMarked}\n` + 
+        `Not Answered / प्रयास नहीं किया: ${TOTAL_QUESTIONS - summary.totalAnswered}\n\n` + 
+        `Do you want to submit the test? / क्या आप परीक्षा जमा करना चाहते हैं?`;
+    
+    if (confirm(confirmationMessage)) {
+        submitTest();
+    }
+}
+
+function submitTest() {
+    if (isExamSubmitted) return;
+    isExamSubmitted = true;
+    
+    const mainHeader = document.getElementById('main-header');
+    if (mainHeader) {
+        mainHeader.style.setProperty('display', 'none', 'important');
+    }
+
+    if (controlPanel) {
+        controlPanel.style.setProperty('display', 'none', 'important');
+    }
+    
+    clearInterval(timerInterval);
+    document.querySelector('.zoom-controls').style.display = 'none';
+    let score = 0;
+    let wrongCount = 0;
+    let unattemptedCount = 0;
+    let detailedResultsHtml = '';
+    const optionLabels = ['A', 'B', 'C', 'D']; 
+
+    questionData.forEach((q, index) => {
+        const qId = q[0];
+        const qEn = q[2];
+        const qHi = q[3];
+        const options = q.slice(4); 
+
+        const selectedValue = savedAnswers[index] ? savedAnswers[index].toString() : null;
+        const correctAnswerValue = q[1].toString();
+
+        let resultClass = 'unattempted';
+        let statusText = 'Not Attempted / प्रयास नहीं किया';
+
+        if (selectedValue !== null) {
+            if (selectedValue === correctAnswerValue) {
+                score++;
+                resultClass = 'correct';
+                statusText = 'Correct / सही उत्तर';
+            } else {
+                wrongCount++;
+                resultClass = 'wrong';
+                statusText = 'Incorrect / गलत उत्तर';
+            }
+        } else {
+            unattemptedCount++;
+        }
+
+        let optionsHtml = '';
+        options.forEach((opt, optIndex) => {
+            const optValue = (optIndex + 1).toString();
+            const label = optionLabels[optIndex];
+            let optionClass = '';
+
+            if (optValue === correctAnswerValue) {
+                optionClass = 'correct';
+            } else if (optValue === selectedValue) {
+                optionClass = 'wrong';
+            }
+            
+            let remark = "";
+
+            if (optValue === selectedValue && selectedValue === correctAnswerValue) {
+                remark = `<span style="font-weight:bold;color:#ffffff;background:#006400;padding:3px 10px;border-radius:5px;margin-left:10px;">Your Answer - It is Correct ✓</span>`;
+            } else if (optValue === selectedValue && selectedValue !== correctAnswerValue) {
+                remark = `<span style="font-weight:bold;color:#ffffff;background:#8B0000;padding:3px 10px;border-radius:5px;margin-left:10px;">Your Answer - This is Wrong ✗</span>`;
+            } else if (optValue === correctAnswerValue) {
+                remark = `<span style="font-weight:bold;color:#ffffff;background:#006400;padding:3px 10px;border-radius:5px;margin-left:10px;">Correct Answer ✓</span>`;
+            }
+
+            optionsHtml += `
+            <div class="result-option ${optionClass}">
+                ${label}. <span class="english-text">${opt[0]}</span>
+                <span class="hindi-text">${opt[1]}</span>
+                ${remark}
+            </div>
+            `;
+        });
+
+        detailedResultsHtml += ` 
+            <div class="result-question review-item" data-status="${resultClass}">
+                <p>Q${index + 1}: <span class="english-text">${qEn}</span> <span class="hindi-text">${qHi}</span> </p>
+                <p style="font-weight: bold;">Status: ${statusText}</p>
+                ${optionsHtml}
+            </div>
+        `;
+    });
+
+    displayResults(score, wrongCount, unattemptedCount, detailedResultsHtml);
+    
+    const finalScoreString = `${score} / ${TOTAL_QUESTIONS}`;
+    
+    // --- SCORE TRANSMISSION LOGIC ---
+    if (window.opener && !window.opener.closed) {
+        // Send score back to student dashboard window via postMessage
+        window.opener.postMessage({
+            type: "SUBMIT_QUIZ_SCORE",
+            score: finalScoreString
+        }, "*");
+    } else {
+        // Direct backup submission to Google Sheet if running standalone
+        fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                action: "submitScore",
+                spreadsheetId: SPREADSHEET_ID,
+                studentName: userName || "Trainee User",
+                username: userName.toLowerCase().replace(/\s+/g, ''),
+                studentSection: "SCREENER",
+                quizName: "SCREENER PAPER FAQ 80",
+                designation: "Trainee",
+                score: finalScoreString,
+                timestamp: new Date().toLocaleString()
+            })
+        }).catch(err => console.error("Score logging error:", err));
+    }
+}
+
+function filterReview(status) {
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    document.querySelectorAll('.review-item').forEach(item => {
+        if (status === 'all' || item.getAttribute('data-status') === status) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+function displayResults(score, wrongCount, unattemptedCount, detailedHtml) {
+    let finalPercentage = (score / TOTAL_QUESTIONS) * 100;
+    let resultStatusHtml = '';
+    
+    if (finalPercentage >= 80) {
+        resultStatusHtml = `<p><strong>Result Status:</strong> <span style="font-size:1.3em; color:#28a745; font-weight:bold;">PASS - Congratulations!</span></p>`;
+    } else {
+        resultStatusHtml = `<p><strong>Result Status:</strong> <span style="font-size:1.3em; color:#dc3545; font-weight:bold;">FAIL</span></p>`;
+    }
+
+    resultDisplay.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; padding: 10px 0;">
+            <h2 style="margin: 0; font-size: 1.8em; color: #004d99; flex: 1; min-width: 280px;">Exam Review & Performance Metrics</h2>
+            <button type="button" class="lang-toggle-btn" id="lang-toggle-review" onclick="toggleLanguageHandler()">
+                Toggle Hindi / English
+            </button>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #ccc; margin-bottom: 20px;">
+        <div style="background:#fff; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #ccc;">
+            <p><strong>Candidate Name:</strong> ${userName}</p>
+            <p><strong>Final Score (Marks Earned):</strong> <span style="font-size:1.3em; color:#004d99;">${score} / ${TOTAL_QUESTIONS}</span></p>
+            ${resultStatusHtml}
+            <p><strong>Accuracy / Percentage:</strong> ${finalPercentage.toFixed(1)}%</p>
+        </div>
+        
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterReview('all')" style="background-color:#007bff;">All (${TOTAL_QUESTIONS})</button>
+            <button class="filter-btn" onclick="filterReview('correct')" style="background-color:#28a745;">Correct (${score})</button>
+            <button class="filter-btn" onclick="filterReview('wrong')" style="background-color:#dc3545;">Wrong (${wrongCount})</button>
+            <button class="filter-btn" onclick="filterReview('unattempted')" style="background-color:#6c757d;">Unattempted (${unattemptedCount})</button>
+        </div>
+
+        <h3>Detailed Question Analysis:</h3>
+        <div id="filtered-questions-box">
+            ${detailedHtml}
+        </div>
+        <br>
+        <button onclick="window.close();" class="btn-control btn-submit-test" style="width:100%; text-align:center;">CLOSE & EXIT</button>
+    `;
+    
+    document.getElementById('main-test-area').style.display = 'none';
+    resultDisplay.style.display = 'block';
+    
+    updateLocalLanguage();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
