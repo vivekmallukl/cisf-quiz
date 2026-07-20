@@ -557,7 +557,7 @@ Toggle Hindi / English
 </div>
 <script>
 // --- CONFIGURATION ---
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKzFvakLLkSPxizHOemrkAaFfKDAYz9OwBWj9LRtx5x9FIiD7wrjqC-Ux8aiKyx4z5/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkncEilt201u3mulG7EqP5FiaFd_4v4SWwNCt9LFg5ViqGIWFaAYkKIcPzQdfxCrLm/exec";
 const SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk";
 
 const TOTAL_QUESTIONS = 80;
@@ -1064,12 +1064,23 @@ const resultDisplay = document.getElementById('result-display');
 const controlPanel = document.getElementById('exam-control-panel');
 
 window.addEventListener('load', () => {
-    const sessionUser = localStorage.getItem('currentStudent');
-    if(sessionUser) {
-        document.getElementById('user-name-input').value = sessionUser;
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const urlStudentName = urlParams.get('studentName');
+    const urlUsername = urlParams.get('username');
+    const urlDesignation = urlParams.get('designation');
+    const urlSection = urlParams.get('section');
+
+    if (urlStudentName) localStorage.setItem('currentStudent', urlStudentName);
+    if (urlUsername) localStorage.setItem('currentUsername', urlUsername);
+    if (urlDesignation) localStorage.setItem('currentDesignation', urlDesignation);
+    if (urlSection) localStorage.setItem('studentSectionContext', urlSection);
+
+    const activeUser = urlStudentName || localStorage.getItem('currentStudent');
+    if (activeUser) {
+        document.getElementById('user-name-input').value = activeUser;
     }
 });
-
 document.getElementById('start-btn').addEventListener('click', () => { 
     const nameInput = document.getElementById('user-name-input').value.trim(); 
     if (nameInput) { 
@@ -1429,29 +1440,51 @@ function submitTest() {
     const finalScoreString = `${score} / ${TOTAL_QUESTIONS}`;
     
     // --- SCORE TRANSMISSION LOGIC ---
-    if (window.opener && !window.opener.closed) {
-        // Send score back to student dashboard window via postMessage
-        window.opener.postMessage({
-            type: "SUBMIT_QUIZ_SCORE",
-            score: finalScoreString
-        }, "*");
+    // Direct submission to Google Sheet via Web App API
+    fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    mode: "cors",
+    redirect: "follow",
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+        action: "submitScore",
+        spreadsheetId: SPREADSHEET_ID,
+        studentName: userName || localStorage.getItem('currentStudent') || "Trainee User",
+        username: localStorage.getItem('currentUsername') || "trainee",
+        studentSection: localStorage.getItem('studentSectionContext') || "SCREENER",
+        designation: localStorage.getItem('currentDesignation') || "Trainee",
+        quizName: "SCREENER PAPER FAQ 80",
+        score: finalScoreString,
+        timestamp: new Date().toLocaleString()
+    })
+})
+.then(res => res.json())
+.then(data => {
+    if(data.status === "success") {
+        alert("Your score (" + finalScoreString + ") has been saved successfully!");
     } else {
-        // Direct backup submission to Google Sheet if running standalone
-        fetch(APPS_SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({
-                action: "submitScore",
-                spreadsheetId: SPREADSHEET_ID,
-                studentName: userName || "Trainee User",
-                username: userName.toLowerCase().replace(/\s+/g, ''),
-                studentSection: "SCREENER",
-                quizName: "SCREENER PAPER FAQ 80",
-                designation: "Trainee",
-                score: finalScoreString,
-                timestamp: new Date().toLocaleString()
-            })
-        }).catch(err => console.error("Score logging error:", err));
+        alert("Score submission error: " + (data.message || "Unknown error"));
     }
+})
+.catch(err => {
+    console.error("Score logging error:", err);
+    alert("Failed to submit score. Check internet connection or Web App deployment.");
+});
+    .then(res => res.json())
+    .then(data => {
+        console.log("Score submission response:", data);
+        if(data.status === "success") {
+            alert("Your score (" + finalScoreString + ") has been saved successfully to the database!");
+        } else {
+            alert("Score submission error: " + (data.message || "Unknown error"));
+        }
+    })
+    .catch(err => {
+        console.error("Score logging error:", err);
+        alert("Failed to submit score. Check internet connection or Web App deployment.");
+    });
 }
 
 function filterReview(status) {
