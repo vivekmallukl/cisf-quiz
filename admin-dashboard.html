@@ -2,80 +2,267 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Portal - CISF ASTI</title>
     <style>
         :root { 
-            --primary: #0f172a; 
-            --accent: #2563eb; 
-            --bg: #f8fafc; 
-            --card: #ffffff; 
-            --text: #1e293b; 
-            --danger: #dc2626;
-            --success: #16a34a;
+            --bg-main: #0a0a0a;
+            --card-bg: #141414;
+            --card-border: #262626;
+            --text-primary: #f5f5f5;
+            --text-muted: #a3a3a3;
+            --accent-yellow: #f59e0b;
+            --accent-yellow-hover: #d97706;
+            --accent-red: #ef4444;
+            --accent-red-hover: #dc2626;
+            --accent-red-dark: #991b1b;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; padding-bottom: 90px; }
-        .header-bar { background: var(--primary); color: white; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 12px; font-weight: bold; border: none; background: #e2e8f0; color: #475569; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
-        .tab-btn.active { background: var(--accent); color: white; }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .card { background: var(--card); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
-        .card h3 { margin-top: 0; font-size: 16px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; color: var(--primary); }
-        input, textarea, button { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #cbd5e1; border-radius: 5px; box-sizing: border-box; }
-        button.btn-primary { background: var(--accent); color: white; border: none; font-weight: bold; cursor: pointer; }
-        .scroll-list { max-height: 180px; overflow-y: auto; margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 4px; padding: 5px; }
-        .item-row { display: flex; justify-content: space-between; padding: 6px; background: #f8fafc; margin-bottom: 4px; border-radius: 4px; font-size: 13px; }
-        
-        /* BOTTOM MOST ACTION FOOTER BAR */
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--bg-main); 
+            color: var(--text-primary); 
+            margin: 0; 
+            padding: 20px; 
+            padding-bottom: 100px; 
+        }
+
+        /* HEADER BAR */
+        .header-bar { 
+            background: #000000; 
+            border: 1px solid var(--accent-yellow); 
+            color: var(--accent-yellow); 
+            padding: 20px; 
+            border-radius: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+        }
+
+        .header-bar h2 {
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* NAVIGATION TABS */
+        .nav-tabs { 
+            display: flex; 
+            gap: 12px; 
+            margin-bottom: 20px; 
+        }
+
+        .tab-btn { 
+            flex: 1; 
+            padding: 14px; 
+            font-weight: bold; 
+            border: 2px solid var(--card-border); 
+            background: var(--card-bg); 
+            color: var(--text-muted); 
+            border-radius: 8px; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent-yellow);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active { 
+            background: var(--accent-yellow); 
+            color: #000000; 
+            border-color: var(--accent-yellow);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+        }
+
+        /* GRID LAYOUT */
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+            border: 1px solid var(--card-border); 
+        }
+
+        .card h3 { 
+            margin-top: 0; 
+            font-size: 16px; 
+            border-bottom: 2px solid var(--accent-yellow); 
+            padding-bottom: 8px; 
+            color: var(--accent-yellow); 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* INPUTS & BUTTONS */
+        input, textarea, select { 
+            width: 100%; 
+            padding: 10px; 
+            margin-top: 8px; 
+            background-color: #1a1a1a;
+            color: var(--text-primary);
+            border: 1px solid var(--card-border); 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-yellow);
+        }
+
+        button {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button.btn-primary { 
+            background: var(--accent-yellow); 
+            color: #000000; 
+            border: none; 
+            font-weight: bold; 
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        button.btn-primary:hover {
+            background: var(--accent-yellow-hover);
+        }
+
+        button.btn-danger {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            font-weight: bold;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        button.btn-danger:hover {
+            background: var(--accent-red-hover);
+        }
+
+        .scroll-list { 
+            max-height: 180px; 
+            overflow-y: auto; 
+            margin-top: 10px; 
+            border: 1px solid var(--card-border); 
+            border-radius: 4px; 
+            padding: 5px; 
+            background: #0d0d0d;
+        }
+
+        .item-row { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 8px; 
+            background: #181818; 
+            margin-bottom: 4px; 
+            border-radius: 4px; 
+            font-size: 13px; 
+            border-left: 3px solid var(--accent-yellow);
+        }
+
+        /* BOTTOM BAR */
         .bottom-action-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: #ffffff;
-            border-top: 2px solid #e2e8f0;
+            background: #000000;
+            border-top: 2px solid var(--accent-red);
             padding: 15px 30px;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.8);
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
             z-index: 1000;
         }
+
         .btn-save-exit {
-            background-color: var(--danger);
+            background-color: var(--accent-red);
             color: white;
             font-size: 15px;
             font-weight: bold;
             padding: 12px 28px;
             border: none;
             border-radius: 6px;
-            cursor: pointer;
             width: auto;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background-color 0.2s ease;
         }
+
         .btn-save-exit:hover {
-            background-color: #b91c1c;
+            background-color: var(--accent-red-hover);
         }
     </style>
 </head>
 <body>
 
 <div class="header-bar">
-    <h2>CISF ASTI DELHI - Administrative Control Console</h2>
+    <h2>⚡ CISF ASTI DELHI - Admin Control Center</h2>
     <input type="text" id="globalSpreadsheetId" placeholder="Spreadsheet ID..." style="width: 300px; margin: 0;" onchange="saveSheetId(this.value)">
 </div>
 
+<!-- SECTION TAB SWITCHER -->
 <div class="nav-tabs">
     <button class="tab-btn active" id="btn-basic" onclick="switchSection('basic')">📚 Basic AVSEC Channel</button>
     <button class="tab-btn" id="btn-screener" onclick="switchSection('screener')">🛡️ Screener Channel</button>
 </div>
 
 <div class="grid-container">
+
+    <!-- USER MANAGEMENT SECTION -->
+    <div class="card" style="grid-column: span 2;">
+        <h3>👥 User Management (<span id="userSectionLabel" style="color: white;">BASIC</span>)</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            
+            <!-- ADD SINGLE USER -->
+            <div style="border-right: 1px solid var(--card-border); padding-right: 15px;">
+                <h4 style="margin: 0 0 10px 0; color: var(--text-muted);">Add Single User</h4>
+                <input type="text" id="uUsername" placeholder="Username / Service No.">
+                <input type="password" id="uPassword" placeholder="Password">
+                <input type="text" id="uName" placeholder="Full Name">
+                <input type="text" id="uDesignation" placeholder="Designation (e.g., Inspector)">
+                <button class="btn-primary" onclick="addSingleUser()">Add User</button>
+            </div>
+
+            <!-- CSV IMPORT & CLEAR USERS -->
+            <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h4 style="margin: 0 0 10px 0; color: var(--text-muted);">Bulk CSV Upload</h4>
+                    <small style="color: var(--text-muted);">Format: username, password, name, designation, section</small>
+                    <input type="file" id="csvFileInput" accept=".csv" style="margin-top: 10px;">
+                    <button class="btn-primary" onclick="uploadCSVUsers()">Upload CSV Data</button>
+                </div>
+                
+                <div style="margin-top: 15px; border-top: 1px dashed var(--accent-red); padding-top: 10px;">
+                    <button class="btn-danger" onclick="clearAllUsers()">⚠️ Clear All Users</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- BROADCAST INSTRUCTIONS -->
     <div class="card" style="grid-column: span 2;">
         <h3>📢 Broadcast Live Instructions to Trainees</h3>
@@ -110,10 +297,12 @@
         <button class="btn-primary" onclick="addForm()">Link Form</button>
         <div id="formList" class="scroll-list"></div>
     </div>
+
 </div>
 
-<!-- BOTTOM-MOST SAVE & EXIT BAR -->
+<!-- BOTTOM SAVE & EXIT BAR -->
 <div class="bottom-action-bar">
+    <span style="color: var(--text-muted); font-size: 14px;">ASTI Dashboard System Active</span>
     <button class="btn-save-exit" onclick="saveAndExitPortal()">
         💾 Save & Exit Admin Dashboard
     </button>
@@ -139,6 +328,7 @@
         activeSection = sec;
         document.getElementById('btn-basic').classList.toggle('active', sec === 'basic');
         document.getElementById('btn-screener').classList.toggle('active', sec === 'screener');
+        document.getElementById('userSectionLabel').innerText = sec.toUpperCase();
         loadAllData();
     }
 
@@ -153,15 +343,89 @@
         let materials = await apiCall({ action: "loadData", key: "Materials" });
         let forms = await apiCall({ action: "loadData", key: "Forms" });
 
-        renderList('quizList', quizzes.filter(x => x.section === activeSection), 'quizTitle');
-        renderList('materialList', materials.filter(x => x.section === activeSection), 'title');
-        renderList('formList', forms.filter(x => x.section === activeSection), 'formTitle');
+        renderList('quizList', (quizzes || []).filter(x => (x.section || 'basic').toLowerCase() === activeSection), 'quizTitle');
+        renderList('materialList', (materials || []).filter(x => (x.section || 'basic').toLowerCase() === activeSection), 'title');
+        renderList('formList', (forms || []).filter(x => (x.section || 'basic').toLowerCase() === activeSection), 'formTitle');
     }
 
     function renderList(elemId, list, key) {
-        document.getElementById(elemId).innerHTML = list.map(i => `<div class="item-row"><span>${i[key]}</span></div>`).join('') || '<small>No records.</small>';
+        document.getElementById(elemId).innerHTML = list.map(i => `<div class="item-row"><span>${i[key]}</span></div>`).join('') || '<small style="color:var(--text-muted)">No records found.</small>';
     }
 
+    /* USER MANAGEMENT ACTIONS */
+    async function addSingleUser() {
+        let username = document.getElementById('uUsername').value.trim();
+        let password = document.getElementById('uPassword').value.trim();
+        let name = document.getElementById('uName').value.trim();
+        let designation = document.getElementById('uDesignation').value.trim();
+
+        if (!username || !password) return alert("Username and Password are required.");
+
+        let existingUsers = await apiCall({ action: "loadData", key: "Users" });
+        if (!Array.isArray(existingUsers)) existingUsers = [];
+
+        existingUsers.push({
+            username: username,
+            password: password,
+            name: name,
+            designation: designation,
+            section: activeSection
+        });
+
+        await apiCall({ action: "saveData", key: "Users", data: existingUsers });
+        alert("User added successfully!");
+        
+        document.getElementById('uUsername').value = "";
+        document.getElementById('uPassword').value = "";
+        document.getElementById('uName').value = "";
+        document.getElementById('uDesignation').value = "";
+    }
+
+    function uploadCSVUsers() {
+        let fileInput = document.getElementById('csvFileInput');
+        let file = fileInput.files[0];
+        if (!file) return alert("Please select a CSV file first.");
+
+        let reader = new FileReader();
+        reader.onload = async function(e) {
+            let text = e.target.result;
+            let rows = text.split('\n').map(r => r.trim()).filter(r => r.length > 0);
+            
+            let newUsers = [];
+            rows.forEach((row, idx) => {
+                let cols = row.split(',').map(c => c.trim());
+                if (cols.length >= 2) {
+                    newUsers.push({
+                        username: cols[0],
+                        password: cols[1],
+                        name: cols[2] || "Trainee",
+                        designation: cols[3] || "N/A",
+                        section: cols[4] || activeSection
+                    });
+                }
+            });
+
+            if (newUsers.length === 0) return alert("No valid rows found in CSV.");
+
+            let existingUsers = await apiCall({ action: "loadData", key: "Users" });
+            if (!Array.isArray(existingUsers)) existingUsers = [];
+
+            let combinedUsers = existingUsers.concat(newUsers);
+            await apiCall({ action: "saveData", key: "Users", data: combinedUsers });
+            alert(`${newUsers.length} Users imported successfully!`);
+            fileInput.value = "";
+        };
+        reader.readAsText(file);
+    }
+
+    async function clearAllUsers() {
+        if (confirm("Are you sure you want to delete ALL users from the database?")) {
+            await apiCall({ action: "saveData", key: "Users", data: [] });
+            alert("All users have been cleared.");
+        }
+    }
+
+    /* CONTENT MANAGEMENT ACTIONS */
     async function broadcastInstruction() {
         let msg = document.getElementById('instructionText').value.trim();
         if(!msg) return alert("Write an instruction.");
@@ -172,6 +436,7 @@
 
     async function addQuiz() {
         let quizzes = await apiCall({ action: "loadData", key: "Quizzes" });
+        if(!Array.isArray(quizzes)) quizzes = [];
         quizzes.push({ quizId: 'q_' + Date.now(), quizTitle: document.getElementById('qTitle').value, quizUrl: document.getElementById('qUrl').value, durationMinutes: document.getElementById('qTime').value, section: activeSection });
         await apiCall({ action: "saveData", key: "Quizzes", data: quizzes });
         loadAllData();
@@ -179,6 +444,7 @@
 
     async function addMaterial() {
         let materials = await apiCall({ action: "loadData", key: "Materials" });
+        if(!Array.isArray(materials)) materials = [];
         materials.push({ materialId: 'm_' + Date.now(), title: document.getElementById('mTitle').value, driveUrl: document.getElementById('mUrl').value, section: activeSection });
         await apiCall({ action: "saveData", key: "Materials", data: materials });
         loadAllData();
@@ -186,24 +452,19 @@
 
     async function addForm() {
         let forms = await apiCall({ action: "loadData", key: "Forms" });
+        if(!Array.isArray(forms)) forms = [];
         forms.push({ formId: 'f_' + Date.now(), formTitle: document.getElementById('fTitle').value, formUrl: document.getElementById('fUrl').value, section: activeSection });
         await apiCall({ action: "saveData", key: "Forms", data: forms });
         loadAllData();
     }
 
-    // SAVE & EXIT HANDLER
     function saveAndExitPortal() {
         const currentSheetId = document.getElementById('globalSpreadsheetId').value.trim();
         if (currentSheetId) {
             localStorage.setItem('globalSpreadsheetId', currentSheetId);
         }
-        
         alert("Configurations saved successfully. Logging out of Admin Workspace...");
-        
-        // Clear admin session variables if any
         localStorage.removeItem('adminRole');
-        
-        // Redirect to Login Page
         window.location.href = "index.html";
     }
 </script>
