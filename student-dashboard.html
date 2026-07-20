@@ -56,7 +56,7 @@
 </div>
 
 <script>
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkncEilt201u3mulG7EqP5FiaFd_4v4SWwNCt9LFg5ViqGIWFaAYkKIcPzQdfxCrLm/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM0OSqbAQpuLJqVbQFPw6c-AgJtZdOWMR9wkrn5CY8uvfgt87O9kF-xt0fFu8AYO0w/exec";
     const SPREADSHEET_ID = localStorage.getItem('globalSpreadsheetId') || "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk";
     const userSection = (localStorage.getItem('studentSectionContext') || 'basic').toLowerCase();
 
@@ -73,37 +73,36 @@
     }
 
     async function loadDashboardContent() {
-        // Load Instructions
-        let instructions = await apiCall({ action: "loadData", key: "Instructions" });
-        let currentInst = instructions.find(i => (i.section || '').toLowerCase() === userSection);
-        document.getElementById('instructionBox').innerHTML = currentInst 
-            ? `📢 <strong>Notice (${currentInst.updatedAt}):</strong> ${currentInst.message}`
-            : `📢 <strong>Notice:</strong> No active announcements.`;
+    // 1 Single API Call instead of 4 sequential calls
+    let data = await apiCall({ action: "loadDashboardData" });
 
-        // Load Quizzes
-        let quizzes = await apiCall({ action: "loadData", key: "Quizzes" });
-        renderItems('quizContainer', quizzes.filter(q => (q.section || 'basic').toLowerCase() === userSection), q => `
-            <div class="action-item">
-                <div><strong>${q.quizTitle}</strong><br><small>${q.durationMinutes || 30} Mins</small></div>
-                <button class="btn" onclick="launchQuiz('${q.quizUrl}', '${q.quizTitle}')">Start Test</button>
-            </div>`);
+    // 1. Render Instructions
+    let currentInst = (data.instructions || []).find(i => (i.section || '').toLowerCase() === userSection);
+    document.getElementById('instructionBox').innerHTML = currentInst 
+        ? `📢 <strong>Notice (${currentInst.updatedAt}):</strong> ${currentInst.message}`
+        : `📢 <strong>Notice:</strong> No active announcements.`;
 
-        // Load Drive Materials
-        let materials = await apiCall({ action: "loadData", key: "Materials" });
-        renderItems('materialContainer', materials.filter(m => (m.section || 'basic').toLowerCase() === userSection), m => `
-            <div class="action-item">
-                <div><strong>${m.title}</strong></div>
-                <a href="${m.driveUrl}" target="_blank" class="btn" style="background:#10b981;">Open Drive</a>
-            </div>`);
+    // 2. Render Quizzes
+    renderItems('quizContainer', (data.quizzes || []).filter(q => (q.section || 'basic').toLowerCase() === userSection), q => `
+        <div class="action-item">
+            <div><strong>${q.quizTitle}</strong><br><small>${q.durationMinutes || 30} Mins</small></div>
+            <button class="btn" onclick="launchQuiz('${q.quizUrl}', '${q.quizTitle}')">Start Test</button>
+        </div>`);
 
-        // Load Forms
-        let forms = await apiCall({ action: "loadData", key: "Forms" });
-        renderItems('formContainer', forms.filter(f => (f.section || 'basic').toLowerCase() === userSection), f => `
-            <div class="action-item">
-                <div><strong>${f.formTitle}</strong></div>
-                <a href="${f.formUrl}" target="_blank" class="btn" style="background:#8b5cf6;">Open Form</a>
-            </div>`);
-    }
+    // 3. Render Drive Materials
+    renderItems('materialContainer', (data.materials || []).filter(m => (m.section || 'basic').toLowerCase() === userSection), m => `
+        <div class="action-item">
+            <div><strong>${m.title}</strong></div>
+            <a href="${m.driveUrl}" target="_blank" class="btn" style="background:#10b981;">Open Drive</a>
+        </div>`);
+
+    // 4. Render Forms
+    renderItems('formContainer', (data.forms || []).filter(f => (f.section || 'basic').toLowerCase() === userSection), f => `
+        <div class="action-item">
+            <div><strong>${f.formTitle}</strong></div>
+            <a href="${f.formUrl}" target="_blank" class="btn" style="background:#8b5cf6;">Open Form</a>
+        </div>`);
+}
 
     function renderItems(containerId, list, templateFn) {
         const container = document.getElementById(containerId);
@@ -111,9 +110,14 @@
     }
 
     function launchQuiz(url, title) {
-        localStorage.setItem('currentActiveQuizName', title);
-        window.open(url, "_blank");
-    }
+    const username = encodeURIComponent(localStorage.getItem('currentUsername') || '');
+    const studentName = encodeURIComponent(localStorage.getItem('currentStudent') || '');
+    const designation = encodeURIComponent(localStorage.getItem('currentDesignation') || '');
+    const section = encodeURIComponent(localStorage.getItem('studentSectionContext') || '');
+
+    const fullUrl = `${url}?username=${username}&studentName=${studentName}&designation=${designation}&section=${section}`;
+    window.open(fullUrl, "_blank");
+}
 
     function logout() {
         localStorage.clear();
