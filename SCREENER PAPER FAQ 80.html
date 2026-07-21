@@ -1521,6 +1521,31 @@ function displayResults(score, wrongCount, unattemptedCount, detailedHtml) {
     updateLocalLanguage();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+function filterReview(filterType) {
+    // 1. Get all questions in the detailed review
+    const reviewItems = document.querySelectorAll('.review-item');
+    
+    // 2. Show or hide items based on the filter selected
+    reviewItems.forEach(item => {
+        const itemStatus = item.getAttribute('data-status');
+        if (filterType === 'all' || itemStatus === filterType) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    // 3. Update the visual active state of the filter buttons
+    const filterButtons = document.querySelectorAll('.filter-container .filter-btn');
+    filterButtons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Highlight the button that was clicked
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+}
 </script>
 </body>
 </html>
