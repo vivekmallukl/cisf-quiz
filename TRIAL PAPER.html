@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>ASTI Delhi – TRIAL PAPER (10 Questions | 45 Min)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+  // 1. Disable Right-Click
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  }, false);
+
+  // 2. Disable Keyboard Shortcuts (F12, Ctrl+U, etc.)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || 
+       (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j'))) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+<style>
+/* BASE STYLES */
+body {
+font-family: 'Poppins', sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f4f7f6;
+color: #333;
+overflow-x: hidden;
+}
+/* ------------------------- LAYOUT ------------------------- */
+.header {
+background-color: #004d99; /* Deep Blue */
+color: white;
+padding: 10px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+z-index: 100;
+height: 60px;
+box-sizing: border-box;
+}
+.header .test-title h3 {
+margin: 0;
+font-size: 1.5em;
+}
+
+.header .institute-logo {
+font-size: 1em;
+font-weight: 400;
+opacity: 0.8;
+margin-top: 5px;
+}
+.main-content {
+display: flex;
+padding-top: 60px; /* Space for fixed header */
+}
+.question-area {
+flex: 1;
+/* Increased bottom padding for fixed control panel */
+padding: 20px 20px 140px 20px;
+min-height: calc(100vh - 60px);
+margin-right: 320px; /* Space for fixed sidebar */
+box-sizing: border-box;
+}
+.sidebar {
+width: 300px;
+background-color: #ffffff;
+padding: 20px;
+box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+position: fixed;
+right: 0;
+top: 60px;
+bottom: 0;
+overflow-y: auto;
+z-index: 50;
+border-left: 5px solid #004d99;
+}
+
+/* ------------------------- HEADER ELEMENTS ------------------------- */
+#timer-display {
+font-size: 1.2em;
+font-weight: 700;
+background-color: #ffc107;
+color: #333;
+padding: 5px 10px;
+border-radius: 5px;
+}
+
+.user-info span {
+font-weight: 600;
+margin-right: 15px;
+}
+/* ------------------------- QUESTION STYLING ------------------------- */
+.question-box {
+background-color: #e6f0ff;
+border: 1px solid #cce0ff;
+border-left: 5px solid #004d99;
+padding: 15px 20px;
+margin-bottom: 25px;
+border-radius: 8px;
+min-height: 250px;
+display: none;
+}
+.question-box.active {
+display: block;
+}
+.question-text {
+font-size: 1.2em;
+font-weight: 600;
+margin-bottom: 15px;
+line-height: 1.5;
+color: #1a1a1a;
+}
+/* Options are now just descriptive text within the box */
+.option-text-container {
+margin-top: 20px;
+border-top: 1px solid #ccc;
+padding-top: 10px;
+}
+.option-label {
+display: block;
+margin: 5px 0;
+padding: 5px;
+font-size: 1em;
+}
+
+/* Language Control - UPDATED FOR GLOBAL SCOPE SAVING */
+.hindi-text { display: none; }
+.english-text { display: inline; }
+body.lang-hindi-global .english-text { display: none !important; }
+body.lang-hindi-global .hindi-text { display: inline !important; }
+
+.lang-toggle-container {
+text-align: right;
+margin-bottom: 15px;
+}
+.lang-toggle-btn {
+padding: 8px 15px;
+background-color: #ffc107;
+border: none;
+border-radius: 5px;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* ------------------------- SIDEBAR (PALETTE) ------------------------- */
+.status-legend {
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+margin-bottom: 15px;
+}
+.status-legend div {
+margin-bottom: 8px;
+font-size: 0.9em;
+display: flex;
+align-items: center;
+}
+
+.legend-box {
+display: inline-block;
+width: 15px;
+height: 15px;
+margin-right: 8px;
+border-radius: 3px;
+vertical-align: middle;
+border: 1px solid #666; /* Added border for clarity */
+}
+
+/* --- LEGEND STYLES for 4 states --- */
+
+/* 1: Not Answered (Grey/White - Square) */
+.legend-box.status-1 {
+background-color: #f0f0f0 !important;
+color: #333;
+border-radius: 3px;
+clip-path: none;
+border-color: #ccc;
+}
+
+/* 2: Answered (Green - Pentagon) */
+.legend-box.status-2 {
+clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+border-radius: 0;
+background-color: #28a745 !important;
+border-color: #28a745;
+}
+
+/* 3: Review Not Answered (Yellow - Circle) */
+.legend-box.status-3 {
+border-radius: 50%;
+clip-path: none;
+background-color: #ffc107 !important;
+border-color: #ffc107;
+}
+
+/* 4: Review Answered (Orange - Circle) */
+.legend-box.status-4 {
+border-radius: 50%;
+clip-path: none;
+background-color: #fd7e14 !important;
+border-color: #fd7e14;
+}
+/* --- END LEGEND STYLES --- */
+#question-grid {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 10px;
+margin-top: 20px;
+}
+.q-button {
+height: 40px; /* Make it a square base for shapes */
+width: 40px; /* Make it a square base for shapes */
+line-height: 40px; /* Center text vertically */
+padding: 0; /* Remove base padding */
+border: 1px solid #ccc;
+border-radius: 5px;
+cursor: pointer;
+text-align: center;
+font-weight: 600;
+transition: background-color 0.2s;
+}
+/* Palette Status Colors and Shapes (4 States) */
+
+/* 1: Not Answered (Grey/White) - Square */
+.status-1, .status-0 {
+background-color: #f0f0f0;
+color: #333;
+border-radius: 5px;
+clip-path: none;
+border-color: #ccc; /* Set border color for grey boxes */
+}
+
+/* 2: Answered (Green) - Pentagon */
+.status-2 {
+background-color: #28a745; /* Green */
+color: white;
+/* Clip path for a pentagon */
+clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+border-radius: 0;
+border-color: #28a745;
+}
+
+/* 3: Review Not Answered (Yellow) - Circle */
+.status-3 {
+background-color: #ffc107; /* Yellow */
+color: #333;
+border-radius: 50%; /* Circle */
+clip-path: none;
+border-color: #ffc107;
+}
+
+/* 4: Review Answered (Orange) - Circle */
+.status-4 {
+background-color: #fd7e14; /* Orange */
+color: white;
+border-radius: 50%; /* Circle */
+clip-path: none;
+border-color: #fd7e14;
+}
+/* ------------------------- CONTROL BUTTONS (Footer) ------------------------- */
+.control-panel {
+display: flex;
+flex-direction: column;
+padding: 10px 15px;
+background-color: #ffffff;
+border-top: 2px solid #ccc;
+position: fixed;
+bottom: 0;
+left: 0;
+width: calc(100% - 320px);
+z-index: 90;
+box-sizing: border-box;
+box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+.control-row {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+/* Option Selection Row (Upper Row of Footer) */
+.option-action-row {
+display: flex;
+align-items: center;
+padding: 10px 0;
+border-bottom: 1px solid #ddd;
+margin-bottom: 10px;
+justify-content: space-between;
+}
+.option-buttons-container {
+display: flex;
+gap: 15px;
+margin: 0 20px;
+}
+/* Original Radio Button Styling */
+.btn-option {
+padding: 10px 20px;
+font-size: 1.1em;
+font-weight: 700;
+border: 2px solid #007bff;
+border-radius: 5px;
+cursor: pointer;
+background-color: #e6f0ff;
+color: #007bff;
+transition: background-color 0.2s;
+}
+
+.btn-option.selected {
+background-color: #007bff;
+color: white;
+}
+
+/* Control Action Buttons (Lower Row of Footer and the Action buttons in top row) */
+.btn-control {
+padding: 10px 15px;
+font-size: 1em;
+font-weight: 600;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.2s;
+margin: 0 5px;
+min-width: 100px; /* Ensure buttons are wide enough */
+}
+
+/* Specific Button Styling */
+.btn-mark { background-color: #ffc107; color: #333; margin-left: 0; } 
+.btn-save-next { background-color: #28a745; color: white; } 
+.btn-erase { background-color: #dc3545; color: white; margin-right: 0; } 
+.btn-prev { background-color: #6c757d; color: white; } 
+.btn-next { background-color: #007bff; color: white; } 
+.btn-submit-test {
+background-color: #004d99;
+color: white;
+padding: 10px 25px;
+font-size: 1.1em;
+font-weight: 700;
+}
+
+.btn-control:hover { filter: brightness(1.1); }
+
+/* Alignment for bottom row */
+.navigation-row {
+display: flex;
+justify-content: space-between;
+}
+/* ------------------------- RESULT STYLING ------------------------- */
+#result-display {
+padding: 30px 20px 20px 20px;
+background-color: #e6f0ff;
+border: 2px solid #004d99;
+border-radius: 10px;
+margin: 20px auto;
+max-width: 1200px;
+display: none;
+box-sizing: border-box;
+}
+
+.result-question {
+padding: 15px;
+border: 1px solid #ddd;
+border-radius: 5px;
+margin-bottom: 15px;
+background-color: white;
+}
+
+.result-option {
+padding: 8px;
+margin-bottom: 5px;
+border-radius: 3px;
+}
+
+.result-option.correct {
+background-color: #d4edda;
+color: #155724;
+border: 1px solid #c3e6cb;
+}
+
+.result-option.wrong {
+background-color: #f8d7da;
+color: #721c24;
+border: 1px solid #f5c6cb;
+}
+
+/* Filter controls bar styling */
+.filter-container {
+display: flex;
+justify-content: center;
+gap: 10px;
+margin: 20px 0;
+flex-wrap: wrap;
+}
+.filter-btn {
+padding: 10px 20px;
+font-size: 1em;
+font-weight: 600;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: opacity 0.2s;
+color: white;
+}
+.filter-btn.active {
+outline: 3px solid #000;
+box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+/* Initial Setup Overlay */
+#initial-setup {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+z-index: 200;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+#setup-box {
+background-color: white;
+padding: 30px;
+border-radius: 10px;
+text-align: center;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+font-family: 'Poppins', sans-serif;
+min-width: 300px;
+}
+#setup-box h2 { color: #004d99; }
+#setup-box input {
+padding: 10px;
+margin: 10px 0 20px 0;
+width: 80%;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 1em;
+}
+#start-btn {
+background-color: #28a745;
+color: white;
+padding: 10px 20px;
+border: none;
+border-radius: 5px;
+font-weight: 600;
+cursor: pointer;
+}
+
+.zoom-controls{position:fixed;top:70px;left:10px;z-index:9999;display:none;flex-direction:row;gap:8px}
+.zoom-controls button{padding:6px 12px;background:#004d99;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer}
+.question-zoom{font-size:1em}
+
+@media (max-width:768px){
+.header{flex-wrap:wrap;height:auto;padding:8px 10px;position: relative;}
+.main-content{display:block!important;padding-top:10px; padding-bottom: 260px !important;}
+.question-area{margin-right:0!important;padding:10px 10px 20px 10px!important;min-height:auto; width: 100%;}
+.sidebar{position:relative!important;top:0!important;right:auto!important;width:100%!important;height:auto!important;border-left:none!important;box-shadow:none!important;padding: 10px; box-sizing: border-box; margin-bottom: 0px !important;}
+.control-panel{width:100%!important;left:0!important;position: fixed; bottom: 0;}
+.option-action-row,.control-row,.navigation-row{flex-wrap:wrap;gap:8px;justify-content:center}
+.option-buttons-container{flex-wrap:wrap;justify-content:center;margin:0}
+.btn-control{min-width:120px}
+.zoom-controls{position: static; margin: 10px; display: flex;}
+.question-text,.option-label{word-break:break-word}
+#question-grid {grid-template-columns: repeat(8, 1fr);}
+}
+
+</style>
+</head>
+<body><div class='zoom-controls'><button onclick='setQuestionZoom(0.1)'>A+</button><button onclick='setQuestionZoom(-0.1)'>A-</button></div>
+<div id="initial-setup">
+<div id="setup-box">
+<h2 style="margin-bottom: 5px;">ASTI Delhi</h2>
+<p style="font-weight: 600; color: #333; margin-top: 0;">TRIAL PAPER</p>
+<p>Total Questions:10 | Total Time: 45 Minutes</p>
+<p>Please Enter Your Name:</p>
+<input type="text" id="user-name-input" placeholder="Your Name" required>
+<button id="start-btn">Start Test</button>
+</div>
+</div>
+<div class="header" style="display: none;" id="main-header">
+<div class="test-title">
+<h3 style="font-size: 1.5em;">TRIAL PAPER</h3>
+<div class="institute-logo">ASTI Delhi</div>
+</div>
+<div class="user-info">
+<span id="header-user-name">Candidate: N/A</span>
+<span id="timer-display">45:00</span>
+</div>
+</div>
+<div class="main-content" style="display: none;" id="main-test-area">
+
+<div class="question-area">
+
+<div class="lang-toggle-container">
+<button type="button" class="lang-toggle-btn" id="lang-toggle-local">
+Toggle Hindi / English
+</button>
+</div>
+
+<div id="questions-container">
+</div>
+
+<div class="control-panel" id="exam-control-panel">
+
+<div class="option-action-row">
+
+<button type="button" class="btn-control btn-mark" onclick="markQuestion()">Mark for Review</button>
+
+<div class="option-buttons-container" id="option-buttons">
+<button type="button" class="btn-option" data-value="1" onclick="selectOption(1)">A</button>
+<button type="button" class="btn-option" data-value="2" onclick="selectOption(2)">B</button>
+<button type="button" class="btn-option" data-value="3" onclick="selectOption(3)">C</button>
+<button type="button" class="btn-option" data-value="4" onclick="selectOption(4)">D</button>
+</div>
+
+<div style="display: flex; gap: 5px;">
+<button type="button" class="btn-control btn-save-next" onclick="saveAndNext()">Save & Next</button>
+<button type="button" class="btn-control btn-erase" onclick="eraseAnswer()">Erase Answer</button>
+</div>
+</div>
+
+<div class="control-row navigation-row">
+<div style="display: flex; gap: 5px;">
+<button type="button" class="btn-control btn-prev" onclick="navigateQuestion(-1)">Previous</button>
+<button type="button" class="btn-control btn-next" onclick="navigateQuestion(1)">Next</button>
+</div>
+
+<button type="button" class="btn-control btn-submit-test" onclick="confirmSubmit()">Submit Exam</button>
+</div>
+</div>
+
+</div>
+<div class="sidebar">
+<h3>Question Palette / प्रश्न पैलेट</h3>
+
+<div class="status-legend">
+<div><span class="legend-box status-2"></span> Question Answered (उत्तर दिया - Pentagon)</div>
+<div><span class="legend-box status-1"></span> Not Answered (उत्तर नहीं दिया - Square)</div>
+<div><span class="legend-box status-4"></span> Review Answered (समीक्षा + उत्तर दिया - Circle)</div>
+<div><span class="legend-box status-3"></span> Review Not Answered (समीक्षा + उत्तर नहीं दिया - Circle)</div>
+</div>
+<div id="question-grid">
+</div>
+</div>
+
+</div>
+<div class="question-area" id="result-display" style="margin-right: 0; display: none; padding-bottom: 20px;">
+</div>
+<script>
+// --- CONFIGURATION ---
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM0OSqbAQpuLJqVbQFPw6c-AgJtZdOWMR9wkrn5CY8uvfgt87O9kF-xt0fFu8AYO0w/exec";
+const SPREADSHEET_ID = "1q94opoGzIWQGcRz1fD1BJz1HODEE1_wUh3KxGTQtArk";
+
+const TOTAL_QUESTIONS = 10;
+const TOTAL_TIME_SECONDS = 45 * 60; 
+
+const questionData =[
+[1,4,"How many categories of restricted articles are there?","प्रतिबंधित लेखों की कितनी श्रेणियां हैं?",
+["3","3"],
+["8","8"],
+["6","6"],
+["4","4"]],
+
+[2,3,"Kirpan in hand baggage of female passenger","महिला यात्री के हैंड बैगेज में कृपाण",
+["Allowed in hand baggage","हाथ के सामान में अनुमति है"],
+["Allowed on body","शरीर पर अनुमत"],
+["Not allowed in hand baggage","हाथ के सामान में ले जाने की अनुमति नहीं है"],
+["None of the above","इनमें से कोई नहीं"]],
+
+[3,3,"Catering security is","खानपान सुरक्षा है",
+["Anti hijacking","अपहरण विरोधी"],
+["Anti sabotage","तोड़फोड़ विरोधी"],
+["Anti hijacking and anti sabotage","अपहरण विरोधी और तोड़फोड़ विरोधी"],
+["None of these","इनमें से कोई नहीं"]],
+
+[4,4,"Which equipment works on NIJ standard?","कौन सा उपकरण NIJ मानक पर काम करता है?",
+["HHMD","एचएचएमडी"],
+["Body Scanner","बॉडी स्कैनर"],
+["CTX","सीटीएक्स"],
+["DFMD","डीएफएमडी"]],
+
+[5,4,"As per BCAS guidelines, passengers are required to remove their shoes while passing through DFMD","बीसीएएस के दिशा-निर्देशों के अनुसार यात्रियों को डीएफएमडी से गुजरते समय जूते उतारने होंगे",
+["Big","बड़ा"],
+["Small","छोटा"],
+["Large","बड़ा"],
+["Screener discretion","स्क्रीनर के विवेक अनुसार"]],
+
+[6,1,"Which strip is used for simple penetration test?","सरल प्रवेश परीक्षण के लिए किस पट्टी का उपयोग किया जाता है?",
+["Lead","सीसा"],
+["Steel","इस्पात"],
+["Copper","ताँबा"],
+["Aluminium","एल्यूमीनियम"]],
+
+[7,4,"In which color is a plastic detonator seen in XBIS?","XBIS में प्लास्टिक डेटोनेटर किस रंग में दिखाई देता है?",
+["Black","काला"],
+["Green","हरा"],
+["Blue","नीला"],
+["Orange","नारंगी"]],
+
+[8,2,"Which technology gives the 3D dimension in XBIS?","कौन सी तकनीक XBIS में 3D आयाम देती है?",
+["XBIS","एक्सबीआईएस"],
+["CTX","सीटीएक्स"],
+["DFMD","डीएफएमडी"],
+["None of the above","इनमें से कोई नहीं"]],
+
+[9,2,"What distance should be maintained between HHMD and passenger's body during screening?","स्क्रीनिंग के दौरान एचएचएमडी और यात्री के शरीर के बीच कितनी दूरी रखी जानी चाहिए?",
+["2.5 meter","2.5 मीटर"],
+["1 inch / 2.5 cm","1 इंच / 2.5 सेमी"],
+["2.5 inch","2.5 इंच"],
+["1 cm","1 सेमी"]],
+
+[10,3,"Which committee sits at the airport when an unlawful seizure takes place?","जब कोई गैरकानूनी जब्ती होती है तो हवाई अड्डे पर कौन सी समिति बैठती है?",
+["CCS","सीसीएस"],
+["COSAH","कोसाह"],
+["AC","एसी"],
+["CC","सीसी"]]
+
+];
+
+let questionStatus = new Array(TOTAL_QUESTIONS).fill(1); 
+let currentQuestionIndex = 0; 
+let userName = 'Candidate'; 
+let timeLeft = TOTAL_TIME_SECONDS; 
+let timerInterval; 
+let tempSelectedOption = null; 
+let savedAnswers = new Array(TOTAL_QUESTIONS).fill(null); 
+let isHindiLocal = false;
+let isExamSubmitted = false; 
+let currentZoomLevel = 1.0;
+
+const questionsContainer = document.getElementById('questions-container'); 
+const questionGrid = document.getElementById('question-grid');
+const optionButtonsContainer = document.getElementById('option-buttons'); 
+const timerDisplay = document.getElementById('timer-display'); 
+const resultDisplay = document.getElementById('result-display');
+const controlPanel = document.getElementById('exam-control-panel');
+
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const urlStudentName = urlParams.get('studentName');
+    const urlUsername = urlParams.get('username');
+    const urlDesignation = urlParams.get('designation');
+    const urlSection = urlParams.get('section');
+
+    if (urlStudentName) localStorage.setItem('currentStudent', urlStudentName);
+    if (urlUsername) localStorage.setItem('currentUsername', urlUsername);
+    if (urlDesignation) localStorage.setItem('currentDesignation', urlDesignation);
+    if (urlSection) localStorage.setItem('studentSectionContext', urlSection);
+
+    const activeUser = urlStudentName || localStorage.getItem('currentStudent');
+    if (activeUser) {
+        document.getElementById('user-name-input').value = activeUser;
+    }
+});
+document.getElementById('start-btn').addEventListener('click', () => { 
+    const nameInput = document.getElementById('user-name-input').value.trim(); 
+    if (nameInput) { 
+        userName = nameInput; 
+        document.getElementById('header-user-name').textContent = `Candidate: ${userName}`; 
+        document.getElementById('initial-setup').style.display = 'none'; 
+        document.getElementById('main-header').style.display = 'flex'; 
+        document.getElementById('main-test-area').style.display = 'flex'; 
+        
+        document.querySelector('.zoom-controls').style.display = 'flex'; 
+
+        shuffleArray(questionData);
+        generateQuestions(); 
+        generateQuestionGrid(); 
+        displayQuestion(0); 
+        startTimer(); 
+    }
+});
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function generateQuestions() {
+    questionsContainer.innerHTML = ''; 
+    const optionLabels = ['A', 'B', 'C', 'D']; 
+    questionData.forEach((q, index) => { 
+        const qId = q[0]; 
+        const qEn = q[2]; 
+        const qHi = q[3]; 
+        const options = q.slice(4); 
+        let optionsHtml = '<div class="option-text-container">'; 
+        options.forEach((opt, optIndex) => { 
+            const optValue = optIndex + 1; 
+            const label = optionLabels[optIndex]; 
+            optionsHtml += ` 
+                <div class="option-label" data-option-id="${optValue}"> 
+                    <strong class="english-text">${label}.</strong> <span class="english-text">${opt[0]}</span><br> 
+                    <strong class="hindi-text">${label}.</strong> <span class="hindi-text">${opt[1]}</span> 
+                </div> 
+            `; 
+        }); 
+        optionsHtml += '</div>'; 
+        const qHtml = ` 
+            <div class="question-box" id="q${qId}" data-correct-answer="${q[1]}"> 
+                <p style="font-size: 1.5em; font-weight: 700;">Question ${index + 1} of ${TOTAL_QUESTIONS}</p> 
+                <div class="question-text"> 
+                    <span class="english-text">${qEn}</span> 
+                    <span class="hindi-text">${qHi}</span> 
+                </div> 
+                ${optionsHtml} 
+            </div> 
+        `; 
+        questionsContainer.innerHTML += qHtml; 
+    });
+}
+
+function displayQuestion(index) { 
+    if (isExamSubmitted || index < 0 || index >= TOTAL_QUESTIONS) return;
+
+    document.querySelectorAll('.question-box').forEach(qBox => qBox.classList.remove('active')); 
+    
+    const questionId = questionData[index][0]; 
+    const currentQBox = document.getElementById(`q${questionId}`); 
+    
+    if (currentQBox) { 
+        currentQBox.classList.add('active'); 
+        currentQuestionIndex = index; 
+
+        tempSelectedOption = savedAnswers[index];
+        updateOptionButtonVisual(); 
+        updateLocalLanguage();
+        applyZoom();
+    }
+}
+
+function setQuestionZoom(step) {
+    currentZoomLevel += step;
+    if (currentZoomLevel < 0.7) currentZoomLevel = 0.7;
+    if (currentZoomLevel > 2.0) currentZoomLevel = 2.0;
+    applyZoom();
+}
+
+function applyZoom() {
+    document.querySelectorAll('.question-text, .option-label').forEach(el => {
+        el.style.fontSize = currentZoomLevel + 'em';
+    });
+}
+
+function updateOptionButtonVisual() {
+    document.querySelectorAll('.btn-option').forEach(btn => {
+        btn.classList.remove('selected');
+        if (tempSelectedOption !== null && parseInt(btn.dataset.value) === tempSelectedOption) {
+            btn.classList.add('selected');
+        }
+    });
+}
+
+function selectOption(value) {
+    if (isExamSubmitted) return;
+    tempSelectedOption = value;
+    updateOptionButtonVisual();
+}
+
+function eraseAnswer() {
+    if (isExamSubmitted) return;
+    tempSelectedOption = null;
+    savedAnswers[currentQuestionIndex] = null; 
+    questionStatus[currentQuestionIndex] = (questionStatus[currentQuestionIndex] === 4) ? 3 : 1; 
+    updateOptionButtonVisual();
+    updateQuestionGridButton(currentQuestionIndex); 
+}
+
+function markQuestion() {
+    if (isExamSubmitted) return;
+    const index = currentQuestionIndex;
+    const currentStatus = questionStatus[index];
+    const isAnswered = savedAnswers[index] !== null || tempSelectedOption !== null;
+
+    if (currentStatus === 3 || currentStatus === 4) {
+        questionStatus[index] = isAnswered ? 2 : 1; 
+    } else {
+        questionStatus[index] = isAnswered ? 4 : 3; 
+    }
+    updateQuestionGridButton(index);
+}
+
+function saveAndNext() {
+    if (isExamSubmitted) return;
+    const index = currentQuestionIndex;
+    savedAnswers[index] = tempSelectedOption;
+
+    const isCurrentlyMarked = (questionStatus[index] === 3 || questionStatus[index] === 4);
+    const isAnswered = savedAnswers[index] !== null;
+
+    if (isAnswered) {
+        questionStatus[index] = isCurrentlyMarked ? 4 : 2; 
+    } else {
+        questionStatus[index] = isCurrentlyMarked ? 3 : 1; 
+    }
+    
+    updateQuestionGridButton(index);
+    navigateQuestion(1);
+}
+
+function navigateQuestion(step) {
+    if (isExamSubmitted) return;
+    const nextIndex = currentQuestionIndex + step;
+    displayQuestion(nextIndex);
+}
+
+function generateQuestionGrid() {
+    questionGrid.innerHTML = '';
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const button = document.createElement('button');
+        button.className = 'q-button status-1'; 
+        button.textContent = i + 1;
+        button.setAttribute('data-index', i);
+        button.onclick = () => {
+            if (isExamSubmitted || i === currentQuestionIndex) return;
+
+            if (tempSelectedOption !== null && savedAnswers[currentQuestionIndex] !== tempSelectedOption) {
+                 saveAndNext(); 
+                 displayQuestion(i);
+            } else {
+                displayQuestion(i);
+            }
+        };
+        questionGrid.appendChild(button);
+    }
+}
+
+function updateQuestionGridButton(index) {
+    const button = questionGrid.querySelector(`[data-index="${index}"]`);
+    if (button) {
+        button.className = 'q-button';
+        button.classList.add(`status-${questionStatus[index]}`);
+    }
+}
+
+function updateLocalLanguage() {
+    if (isHindiLocal) {
+        document.body.classList.add('lang-hindi-global');
+    } else {
+        document.body.classList.remove('lang-hindi-global');
+    }
+}
+
+document.getElementById('lang-toggle-local').addEventListener('click', toggleLanguageHandler);
+
+function toggleLanguageHandler() {
+    isHindiLocal = !isHindiLocal;
+    updateLocalLanguage();
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = formatTime(timeLeft);
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Time's up! The exam will now be submitted automatically.");
+            submitTest();
+        }
+        if (timeLeft <= 5 * 60) {
+            timerDisplay.style.backgroundColor = '#dc3545'; 
+            timerDisplay.style.color = 'white';
+        }
+    }, 1000);
+}
+
+function formatTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+}
+
+function getSummary() {
+    let answered = 0; 
+    let notAnswered = 0; 
+    let reviewNotAnswered = 0; 
+    let reviewAnswered = 0; 
+
+    questionStatus.forEach(status => {
+        if (status === 2) answered++;
+        else if (status === 1) notAnswered++;
+        else if (status === 3) reviewNotAnswered++;
+        else if (status === 4) reviewAnswered++;
+    });
+
+    return { 
+        totalAnswered: answered + reviewAnswered, 
+        totalMarked: reviewNotAnswered + reviewAnswered, 
+        totalUnattempted: notAnswered + reviewNotAnswered, 
+        answeredCount: answered, 
+        reviewAnsweredCount: reviewAnswered 
+    };
+}
+
+function confirmSubmit() {
+    if (isExamSubmitted) return;
+
+    if (tempSelectedOption !== null && savedAnswers[currentQuestionIndex] !== tempSelectedOption) {
+        const saveConfirm = confirm("You have an unsaved option selected for the current question. Press OK to Save and then Submit, or Cancel to review the unsaved question.");
+        if (saveConfirm) {
+            saveAndNext(); 
+        } else {
+            return; 
+        }
+    }
+
+    const summary = getSummary();
+    const confirmationMessage = `Test Summary / परीक्षा सारांश:\n` + 
+        `Total Questions / कुल प्रश्न: ${TOTAL_QUESTIONS}\n` + 
+        `Answered / उत्तर दिया: ${summary.totalAnswered}\n` + 
+        `Marked for Review / समीक्षा के लिए चिह्नित: ${summary.totalMarked}\n` + 
+        `Not Answered / प्रयास नहीं किया: ${TOTAL_QUESTIONS - summary.totalAnswered}\n\n` + 
+        `Do you want to submit the test? / क्या आप परीक्षा जमा करना चाहते हैं?`;
+    
+    if (confirm(confirmationMessage)) {
+        submitTest();
+    }
+}
+
+function submitTest() {
+    if (isExamSubmitted) return;
+    isExamSubmitted = true;
+    
+    const mainHeader = document.getElementById('main-header');
+    if (mainHeader) {
+        mainHeader.style.setProperty('display', 'none', 'important');
+    }
+
+    if (controlPanel) {
+        controlPanel.style.setProperty('display', 'none', 'important');
+    }
+    
+    clearInterval(timerInterval);
+    document.querySelector('.zoom-controls').style.display = 'none';
+    let score = 0;
+    let wrongCount = 0;
+    let unattemptedCount = 0;
+    let detailedResultsHtml = '';
+    const optionLabels = ['A', 'B', 'C', 'D']; 
+
+    questionData.forEach((q, index) => {
+        const qId = q[0];
+        const qEn = q[2];
+        const qHi = q[3];
+        const options = q.slice(4); 
+
+        const selectedValue = savedAnswers[index] ? savedAnswers[index].toString() : null;
+        const correctAnswerValue = q[1].toString();
+
+        let resultClass = 'unattempted';
+        let statusText = 'Not Attempted / प्रयास नहीं किया';
+
+        if (selectedValue !== null) {
+            if (selectedValue === correctAnswerValue) {
+                score++;
+                resultClass = 'correct';
+                statusText = 'Correct / सही उत्तर';
+            } else {
+                wrongCount++;
+                resultClass = 'wrong';
+                statusText = 'Incorrect / गलत उत्तर';
+            }
+        } else {    
+            unattemptedCount++;
+        }
+
+        let optionsHtml = '';
+        options.forEach((opt, optIndex) => {
+            const optValue = (optIndex + 1).toString();
+            const label = optionLabels[optIndex];
+            let optionClass = '';
+
+            if (optValue === correctAnswerValue) {
+                optionClass = 'correct';
+            } else if (optValue === selectedValue) {
+                optionClass = 'wrong';
+            }
+            
+            let remark = "";
+
+            if (optValue === selectedValue && selectedValue === correctAnswerValue) {
+                remark = `<span style="font-weight:bold;color:#ffffff;background:#006400;padding:3px 10px;border-radius:5px;margin-left:10px;">Your Answer - It is Correct ✓</span>`;
+            } else if (optValue === selectedValue && selectedValue !== correctAnswerValue) {
+                remark = `<span style="font-weight:bold;color:#ffffff;background:#8B0000;padding:3px 10px;border-radius:5px;margin-left:10px;">Your Answer - This is Wrong ✗</span>`;
+            } else if (optValue === correctAnswerValue) {
+                remark = `<span style="font-weight:bold;color:#ffffff;background:#006400;padding:3px 10px;border-radius:5px;margin-left:10px;">Correct Answer ✓</span>`;
+            }
+
+            optionsHtml += `
+            <div class="result-option ${optionClass}">
+                ${label}. <span class="english-text">${opt[0]}</span>
+                <span class="hindi-text">${opt[1]}</span>
+                ${remark}
+            </div>
+            `;
+        });
+
+        detailedResultsHtml += ` 
+            <div class="result-question review-item" data-status="${resultClass}">
+                <p>Q${index + 1}: <span class="english-text">${qEn}</span> <span class="hindi-text">${qHi}</span> </p>
+                <p style="font-weight: bold;">Status: ${statusText}</p>
+                ${optionsHtml}
+            </div>
+        `;
+    });
+
+    displayResults(score, wrongCount, unattemptedCount, detailedResultsHtml);
+    
+    const finalScoreString = `${score} / ${TOTAL_QUESTIONS}`;
+    
+// Direct submission to Google Sheet via Web App API
+fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    mode: "cors",
+    redirect: "follow",
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+        action: "submitScore",
+        spreadsheetId: SPREADSHEET_ID,
+        studentName: userName || localStorage.getItem('currentStudent') || "Trainee User",
+        username: localStorage.getItem('currentUsername') || "trainee",
+        studentSection: localStorage.getItem('studentSectionContext') || "SCREENER",
+        designation: localStorage.getItem('currentDesignation') || "Trainee",
+        quizName: "TRIAL PAPER",
+        score: finalScoreString,
+        timestamp: new Date().toLocaleString()
+    })
+})
+.then(res => res.json())
+.then(data => {
+    if(data.status === "success") {
+        alert("Your score (" + finalScoreString + ") has been saved successfully!");
+    } else {
+        alert("Score submission error: " + (data.message || "Unknown error"));
+    }
+})
+.catch(err => {
+    console.error("Score logging error:", err);
+    alert("Failed to submit score. Check internet connection or Web App deployment.");
+});
+// 1. Removed the extra semicolon and broken .then() chain here.
+} // 2. Ensure this closing brace for submitTest() remains.
+   
+
+function displayResults(score, wrongCount, unattemptedCount, detailedHtml) {
+    let finalPercentage = (score / TOTAL_QUESTIONS) * 100;
+    let resultStatusHtml = '';
+    
+    if (finalPercentage >= 80) {
+        resultStatusHtml = `<p><strong>Result Status:</strong> <span style="font-size:1.3em; color:#28a745; font-weight:bold;">PASS - Congratulations!</span></p>`;
+    } else {
+        resultStatusHtml = `<p><strong>Result Status:</strong> <span style="font-size:1.3em; color:#dc3545; font-weight:bold;">FAIL</span></p>`;
+    }
+
+    resultDisplay.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; padding: 10px 0;">
+            <h2 style="margin: 0; font-size: 1.8em; color: #004d99; flex: 1; min-width: 280px;">Exam Review & Performance Metrics</h2>
+            <button type="button" class="lang-toggle-btn" id="lang-toggle-review" onclick="toggleLanguageHandler()">
+                Toggle Hindi / English
+            </button>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #ccc; margin-bottom: 20px;">
+        <div style="background:#fff; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #ccc;">
+            <p><strong>Candidate Name:</strong> ${userName}</p>
+            <p><strong>Final Score (Marks Earned):</strong> <span style="font-size:1.3em; color:#004d99;">${score} / ${TOTAL_QUESTIONS}</span></p>
+            ${resultStatusHtml}
+            <p><strong>Accuracy / Percentage:</strong> ${finalPercentage.toFixed(1)}%</p>
+        </div>
+        
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterReview('all')" style="background-color:#007bff;">All (${TOTAL_QUESTIONS})</button>
+            <button class="filter-btn" onclick="filterReview('correct')" style="background-color:#28a745;">Correct (${score})</button>
+            <button class="filter-btn" onclick="filterReview('wrong')" style="background-color:#dc3545;">Wrong (${wrongCount})</button>
+            <button class="filter-btn" onclick="filterReview('unattempted')" style="background-color:#6c757d;">Unattempted (${unattemptedCount})</button>
+        </div>
+
+        <h3>Detailed Question Analysis:</h3>
+        <div id="filtered-questions-box">
+            ${detailedHtml}
+        </div>
+        <br>
+        <button onclick="window.close();" class="btn-control btn-submit-test" style="width:100%; text-align:center;">CLOSE & EXIT</button>
+    `;
+    
+    document.getElementById('main-test-area').style.display = 'none';
+    resultDisplay.style.display = 'block';
+    
+    updateLocalLanguage();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function filterReview(filterType) {
+    // 1. Get all questions in the detailed review
+    const reviewItems = document.querySelectorAll('.review-item');
+    
+    // 2. Show or hide items based on the filter selected
+    reviewItems.forEach(item => {
+        const itemStatus = item.getAttribute('data-status');
+        if (filterType === 'all' || itemStatus === filterType) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    // 3. Update the visual active state of the filter buttons
+    const filterButtons = document.querySelectorAll('.filter-container .filter-btn');
+    filterButtons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Highlight the button that was clicked
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+}
+</script>
+</body>
+</html>
