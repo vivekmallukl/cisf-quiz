@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+      // 1. Disable Right-Click
+      document.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false);
+      // 2. Disable Keyboard Shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j'))) {
+          e.preventDefault();
+        }
+      });
+    </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CASO ASTI Interface</title>
