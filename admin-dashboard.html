@@ -172,6 +172,7 @@
         .item-row { 
             display: flex; 
             justify-content: space-between; 
+            align-items: center;
             padding: 8px; 
             background: #181818; 
             margin-bottom: 4px; 
@@ -247,7 +248,7 @@
                 <button class="btn-primary" onclick="addSingleUser()">Add User</button>
             </div>
 
-            <!-- CSV IMPORT & CLEAR USERS -->
+            <!-- CSV IMPORT, USER LIST & CLEAR USERS -->
             <div style="display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                     <h4 style="margin: 0 0 10px 0; color: var(--text-muted);">Bulk CSV Upload</h4>
@@ -260,6 +261,12 @@
                     <button class="btn-danger" onclick="clearAllUsers()">⚠️ Clear All Users</button>
                 </div>
             </div>
+        </div>
+
+        <!-- USER LIST DISPLAY WITH DELETE SINGLE USER ACTION -->
+        <div style="margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 15px;">
+            <h4 style="margin: 0 0 10px 0; color: var(--text-muted);">Registered Users List</h4>
+            <div id="userList" class="scroll-list" style="max-height: 220px;"></div>
         </div>
     </div>
 
@@ -339,10 +346,12 @@
     }
 
     async function loadAllData() {
+        let users = await apiCall({ action: "loadData", key: "Users" });
         let quizzes = await apiCall({ action: "loadData", key: "Quizzes" });
         let materials = await apiCall({ action: "loadData", key: "Materials" });
         let forms = await apiCall({ action: "loadData", key: "Forms" });
 
+        renderUserList((users || []).filter(x => (x.section || 'basic').toLowerCase() === activeSection));
         renderList('quizList', (quizzes || []).filter(x => (x.section || 'basic').toLowerCase() === activeSection), 'quizTitle');
         renderList('materialList', (materials || []).filter(x => (x.section || 'basic').toLowerCase() === activeSection), 'title');
         renderList('formList', (forms || []).filter(x => (x.section || 'basic').toLowerCase() === activeSection), 'formTitle');
@@ -350,6 +359,26 @@
 
     function renderList(elemId, list, key) {
         document.getElementById(elemId).innerHTML = list.map(i => `<div class="item-row"><span>${i[key]}</span></div>`).join('') || '<small style="color:var(--text-muted)">No records found.</small>';
+    }
+
+    function renderUserList(users) {
+        const userContainer = document.getElementById('userList');
+        if (!users || users.length === 0) {
+            userContainer.innerHTML = '<small style="color:var(--text-muted)">No users found in this section.</small>';
+            return;
+        }
+
+        userContainer.innerHTML = users.map(u => `
+            <div class="item-row">
+                <div>
+                    <strong>${u.name || u.username}</strong> 
+                    <small style="color: var(--text-muted);">(${u.username}${u.designation ? ' - ' + u.designation : ''})</small>
+                </div>
+                <button class="btn-danger" style="width: auto; margin: 0; padding: 4px 10px; font-size: 11px;" onclick="deleteSingleUser('${u.username}')">
+                    🗑️ Delete
+                </button>
+            </div>
+        `).join('');
     }
 
     /* USER MANAGEMENT ACTIONS */
@@ -379,6 +408,24 @@
         document.getElementById('uPassword').value = "";
         document.getElementById('uName').value = "";
         document.getElementById('uDesignation').value = "";
+        loadAllData();
+    }
+
+    async function deleteSingleUser(username) {
+        if (!confirm(`Are you sure you want to delete user "${username}"?`)) return;
+
+        let existingUsers = await apiCall({ action: "loadData", key: "Users" });
+        if (!Array.isArray(existingUsers)) return;
+
+        // Filter out the requested user matching username and section
+        let updatedUsers = existingUsers.filter(u => 
+            !(String(u.username).trim().toLowerCase() === String(username).trim().toLowerCase() && 
+              (u.section || 'basic').toLowerCase() === activeSection)
+        );
+
+        await apiCall({ action: "saveData", key: "Users", data: updatedUsers });
+        alert(`User "${username}" deleted successfully.`);
+        loadAllData();
     }
 
     function uploadCSVUsers() {
@@ -414,6 +461,7 @@
             await apiCall({ action: "saveData", key: "Users", data: combinedUsers });
             alert(`${newUsers.length} Users imported successfully!`);
             fileInput.value = "";
+            loadAllData();
         };
         reader.readAsText(file);
     }
@@ -422,6 +470,7 @@
         if (confirm("Are you sure you want to delete ALL users from the database?")) {
             await apiCall({ action: "saveData", key: "Users", data: [] });
             alert("All users have been cleared.");
+            loadAllData();
         }
     }
 
