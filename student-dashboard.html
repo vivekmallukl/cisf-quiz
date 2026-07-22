@@ -86,10 +86,11 @@
         let data = await apiCall({ action: "loadDashboardData" });
 
         // 1. Render Instructions
-        let currentInst = (data.instructions || []).find(i => (i.section || '').toLowerCase() === userSection);
-        document.getElementById('instructionBox').innerHTML = currentInst 
-            ? `📢 <strong>Notice (${currentInst.updatedAt}):</strong> ${currentInst.message}`
-            : `📢 <strong>Notice:</strong> No active announcements.`;
+        // 1. Render Instructions
+let currentInst = (data.instructions || []).find(i => (i.section || '').toLowerCase() === userSection);
+document.getElementById('instructionBox').innerHTML = currentInst 
+    ? `📢 <strong>Notice:</strong> ${currentInst.message || currentInst.instruction || currentInst.text || 'No message content'}`
+    : `📢 <strong>Notice:</strong> No active announcements.`;
 
         // 2. Render Quizzes
         renderItems('quizContainer', (data.quizzes || []).filter(q => (q.section || 'basic').toLowerCase() === userSection), q => `
